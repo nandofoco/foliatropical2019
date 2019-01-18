@@ -372,6 +372,7 @@ if(sqlsrv_num_rows($sql_relatorio_dias) > 0) $ar_relatorio_dias = sqlsrv_fetch_a
 					<tr>
 						<th>Lote/Valor</th>
 						<th>Vendidos</th>
+						<th>Reservas</th>
 						<th>Estoque</th>
 						<th>Total</th>
 					</tr>
@@ -389,7 +390,9 @@ if(sqlsrv_num_rows($sql_relatorio_dias) > 0) $ar_relatorio_dias = sqlsrv_fetch_a
 						$total = $ar_compras['TOTAL'];
 
 						$sql_comprados = sqlsrv_query($conexao, "SELECT 
-						SUM(CASE WHEN lo.LO_PAGO='1' AND lo.LO_FORMA_PAGAMENTO NOT IN (5,8,9,14,2013) THEN 1 ELSE 0 END) AS qtde_pagos
+						SUM(CASE WHEN lo.LO_PAGO='1' AND lo.LO_FORMA_PAGAMENTO NOT IN (5,8,9,14,2013) THEN 1 ELSE 0 END) AS qtde_pagos,
+						SUM(CASE WHEN lo.LO_FORMA_PAGAMENTO='5' THEN 1 ELSE 0 END) AS qtde_reservas, 
+						SUM(CASE WHEN lo.LO_PAGO='0' AND lo.LO_FORMA_PAGAMENTO NOT IN (5,6,8,9,14,2013) THEN 1 ELSE 0 END) AS qtde_aguardando
  						FROM loja_itens li, vendas ve, loja lo 
  						WHERE lo.LO_COD=li.LI_COMPRA AND li.D_E_L_E_T_='0' AND lo.LO_BLOCK='0' AND lo.D_E_L_E_T_='0' AND li.LI_INGRESSO=ve.VE_COD 
 						AND li.LI_VALOR_TABELA='$compra_valor' AND ve.VE_EVENTO='$evento' AND ve.VE_DIA='$dia_evento' AND ve.VE_BLOCK='0' AND ve.D_E_L_E_T_='0' AND lo.LO_EVENTO='$evento' AND ( VE_TIPO='$tipo_cod' )", $conexao_params, $conexao_options);
@@ -397,12 +400,14 @@ if(sqlsrv_num_rows($sql_relatorio_dias) > 0) $ar_relatorio_dias = sqlsrv_fetch_a
 						if(sqlsrv_num_rows($sql_comprados) > 0) $ar_comprados = sqlsrv_fetch_array($sql_comprados);
 
 						$qtde_comprado = $ar_comprados['qtde_pagos'];
+						$qtde_reserva = $ar_comprados['qtde_reservas']+$ar_comprados['qtde_aguardando'];
 					
 					?>
 						<tr>
 							<td class="first <? if($i == $n_compras) echo 'last'; ?>">R$ <? echo $compra_valor_f; ?></td>
 							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo $qtde_comprado; ?></td>
-							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo ($total-$qtde_comprado); ?></td>
+							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo $qtde_reserva; ?></td>
+							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo ($total-$qtde_comprado-$qtde_reserva); ?></td>
 							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo $total; ?></td>
 							
 						</tr>
