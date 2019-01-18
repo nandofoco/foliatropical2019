@@ -1,0 +1,291 @@
+<?
+
+//Incluir funções básicas
+include("include/includes.php");
+
+//Conexão com o banco de dados da Sankhya
+include("conn/conn-sankhya.php");
+
+//-----------------------------------------------------------------//
+
+if(!checklogado()){
+?>
+<script type="text/javascript">
+	location.href='<? echo SITE.$link_lang; ?>';
+</script>
+<?
+	exit();
+}
+
+if ($_SESSION['atualizacao_dados'] == false)
+{ 
+    echo '<script type="text/javascript">location.href="'.SITE.$link_lang.'atualiza-dados/";</script>';
+}
+
+//busca paises
+$sql_paises= sqlsrv_query($conexao_sankhya, "SELECT * FROM pais", $conexao_params, $conexao_options);
+$paises=array();
+while($linha = sqlsrv_fetch_array($sql_paises)){
+	array_push($paises, $linha);
+}
+
+$cliente = $_SESSION['usuario-cod'];
+
+// Selecionar dados do cliente
+$sql_cliente = sqlsrv_query($conexao_sankhya, "SELECT TOP 1 *, CONVERT(CHAR, DTNASC, 103) AS DATA FROM TGFPAR WHERE CODPARC='$cliente' AND CLIENTE='S' AND BLOQUEAR='N' ORDER BY NOMEPARC ASC", $conexao_params, $conexao_options);
+if(sqlsrv_num_rows($sql_cliente) > 0) {
+	
+	$ar_cliente = sqlsrv_fetch_array($sql_cliente);
+
+	$cliente_cod = utf8_encode(trim($ar_cliente['CODPARC']));
+	$cliente_nome = utf8_encode(trim($ar_cliente['NOMEPARC']));
+	$cliente_razao = utf8_encode(trim($ar_cliente['RAZAOSOCIAL']));
+	$cliente_pessoa = utf8_encode(trim($ar_cliente['TIPPESSOA']));
+	$cliente_ddi = trim($ar_cliente['DDI']);
+	$cliente_ddd = trim($ar_cliente['DDD']);
+	$cliente_telefone = trim($ar_cliente['TELEFONE']);
+	$cliente_email = utf8_encode(trim($ar_cliente['EMAIL']));
+	$cliente_data_nascimento = utf8_encode(trim($ar_cliente['DATA']));
+	$cliente_cpf_cnpj = trim($ar_cliente['CGC_CPF']);
+	$cliente_passaporte = trim($ar_cliente['AD_IDENTIFICACAO']);
+	$cliente_pais = trim($ar_cliente['PAIS_SIGLA']);
+	$cliente_sexo = trim($ar_cliente['SEXO']);
+
+	// if(!empty($cliente_passaporte)) $session_language = 'US';
+	$session_language = (!empty($cliente_passaporte)) ? 'US' : 'BR';
+	setcookie('ftropsitelang', $session_language, time()+(3600*24*30*12*5), '/');
+	$lg = $lang[$session_language];
+	
+	//-----------------------------------------------------------------------------//
+
+	$cliente_cpf_cnpj = formatCPFCNPJ(trim($ar_cliente['CGC_CPF']));
+
+	//Canonical
+	$meta_canonical = SITE.$link_lang."meus-dados/";
+
+	//arquivos de layout
+	include("include/head.php");
+	include("include/header.php");
+
+	//-----------------------------------------------------------------------------//
+
+
+	?>
+	<input type="hidden" id="page" value="edit-account">
+	<section id="conteudo">
+
+		<div id="breadcrumb" itemprop="breadcrumb"> 
+			<a href="<? echo SITE.$link_lang; ?>"><? echo $lg['menu_inicio']; ?></a> &rsaquo; <? echo $lg['menu_meus_dados']; ?>
+		</div>
+
+		<section id="principal">
+			<section id="cadastro">			
+			
+				<header>
+					<h1><? echo $lg['meus_dados_alterar']; ?></h1>
+					<!-- <p><? echo $lg['cadastro_descricao']; ?></p> -->
+				</header>
+				
+				<form name="cadastro" class="editar" method="post" action="<? echo SITE.$link_lang; ?>meus-dados/alterar/">
+					<input type="hidden" name="cod" value="<? echo $cliente_cod; ?>" />
+					<section id="cadastro-pessoa" class="radio infield big" style="display: none;">
+						<ul>
+							<li><label class="item"><input type="radio" name="pessoa" value="F" /><? echo $lg['cadastro_pessoa_fisica']; ?></label></li>
+							<li><label class="item"><input type="radio" name="pessoa" value="J" /><? echo $lg['cadastro_pessoa_juridica']; ?></label></li>
+						</ul>
+						<div class="clear"></div>
+					</section>
+
+					<input type="hidden" name="legendas" value='<? echo json_encode(array('nome' => $lg['cadastro_nome'], 'nomefantasia' => $lg['cadastro_nome_fantasia'], 'cpf' => $lg['cadastro_cpf'], 'passaporte' => $lg['cadastro_passaporte'], 'cnpj' => $lg['cadastro_cnpj'], 'datanascimento' => $lg['cadastro_data_nascimento'], 'datafundacao' => $lg['cadastro_data_fundacao'])); ?>' />
+
+					<div class="clear"></div>
+					<p id="cadastro-pais-box">
+						<label for="cadastro-pais"><? echo $lg['cadastro_pais']; ?>: <?php echo $cliente_pais ?></label>
+					</p>
+					<p id="cadastro-nome-box">
+						<label for="cadastro-nome"><? echo $lg['cadastro_nome']; ?>:</label>
+						<input type="text" name="nome" class="input" id="cadastro-nome" value="<? echo $cliente_nome; ?>" />
+					</p>
+					<p id="cadastro-razao-box">
+						<label for="cadastro-razao"><? echo $lg['cadastro_razao_social']; ?>:</label>
+						<input type="text" name="razao" class="input" id="cadastro-razao" disabled="disabled" value="<? echo $cliente_razao; ?>" />
+					</p>
+					<p>
+						<label for="cadastro-email"><? echo $lg['cadastro_email']; ?>:</label>
+						<input type="text" name="email" class="input" id="cadastro-email" value="<? echo $cliente_email; ?>">
+					</p>
+					<p id="cadastro-cpfcnpj-box">
+						<?php if(($cliente_pais == 'BR'&&(!empty($cliente_cpf_cnpj)&&($cliente_pessoa=="F"&&validaCPF($cliente_cpf_cnpj))||($cliente_pessoa=="J"&&validaCNPJ($cliente_cpf_cnpj))))){ ?>
+						<p style="font: 700 18px/1.5em 'Open Sans Condensed', sans-serif;color: #b9b9b9;"><?php echo ($session_language == 'BR') ? $cliente_cpf_cnpj : $cliente_passaporte; ?></p>
+						<?php }else{ ?>
+						<label for="<? echo ($cliente_pais == 'BR') ? 'cadastro-cpfcnpj' : 'cadastro-passaporte'; ?>"><? echo ($cliente_pais == 'BR') ? $lg['cadastro_cpf'] : $lg['cadastro_passaporte']; ?></label>
+						<input type="text" name="<? echo ($cliente_pais == 'BR') ? 'cpfcnpj' : 'passaporte'; ?>" class="input" id="cadastro-<? echo ($cliente_pais == 'BR') ? 'cpfcnpj' : 'passaporte'; ?>" value="<? echo ($cliente_pais == 'BR') ? $cliente_cpf_cnpj : $cliente_passaporte; ?>">
+						<?php } ?>
+					</p>
+					<section id="cadastro-sexo" class="radio infield big">
+						<ul>
+							<li><label class="item"><input type="radio" name="sexo" value="M" /><? echo $lg['cadastro_masculino']; ?></label></li>
+							<li><label class="item"><input type="radio" name="sexo" value="F" /><? echo $lg['cadastro_feminino']; ?></label></li>
+						</ul>
+						<div class="clear"></div>
+					</section>
+
+					<div class="coluna">
+						<p class="first" id="cadastro-data-nascimento-box">
+							<label for="cadastro-data-nascimento"><? echo $lg['cadastro_data_nascimento']; ?>:</label>
+							<input type="text" name="data-nascimento" class="input pequeno" id="cadastro-data-nascimento" value="<? echo $cliente_data_nascimento; ?>" />
+						</p>
+						<div class="clear"></div>
+					</div>
+					<div class="coluna">
+						<section class="selectbox ddi pequeno" id="ddi">
+							<p><label for="cadastro-ddd">DDI:</label></p>
+							<select name="ddi" class="drop" style="width: 190px;">
+								<option value=""></option>
+								<?php foreach ($paises as $key => $pais) { ?>
+									<option value="<?php echo $pais['PAIS_SIGLA'] ?>" <?php echo $pais['PAIS_SIGLA']==$cliente_ddi?"selected":"" ?>><?php echo $pais['PAIS_NOME']." +".$pais['PAIS_PHONECODE'] ?></option>
+								<? } ?>
+							</select>
+						</section>
+						<p class="first">
+							<label for="cadastro-ddd">DDD:</label>
+							<input type="text" name="ddd" min="0" maxlength="2" class="input pequeno" id="cadastro-ddd" value="<? echo (int) $cliente_ddd; ?>" />
+						</p>
+						<p>
+							<label for="cadastro-telefone"><? echo $lg['cadastro_telefone']; ?>:</label>
+							<input type="text" name="telefone" min="0" class="input pequeno" id="cadastro-telefone" value="<? echo $cliente_telefone; ?>" />
+						</p>
+						<div class="clear"></div>
+					</div>
+					<p>
+						<label for="cadastro-senha"><? echo $lg['cadastro_senha']; ?>:</label>
+						<input type="password" name="senha" class="input" id="cadastro-senha" />
+					</p>
+					<p>
+						<label for="cadastro-csenha"><? echo $lg['cadastro_csenha']; ?>:</label>
+						<input type="password" name="csenha" class="input" id="cadastro-csenha" />
+					</p>
+
+					<p class="submit"><input type="submit" class="submit" value="<? echo $lg['cadastro_enviar']; ?>" /></p>
+				</form>
+				<script type="text/javascript">
+					$(document).ready(function(){
+						$("section#cadastro-pessoa.radio input[name='pessoa']").radioSel('<? echo $cliente_pessoa; ?>');
+						$("section#cadastro-sexo.radio input[name='sexo']").radioSel('<? echo $cliente_sexo; ?>');											
+					});
+				</script>
+				
+			</section>
+		</section>
+		
+		<aside>
+
+			<section id="aside-atendimento">
+				<!-- <section class="chat-online">
+					<h2><? echo $lg['atendimento_chat_online']; ?></h2>
+					<a href="javascript:void(window.open('<? echo SITE.$link_lang; ?>chat/chat.php','','width=590,height=610,left=0,top=0,resizable=yes,menubar=no,location=no,status=yes,scrollbars=yes'))" class="chat"><? echo $lg['atendimento_acesse_chat']; ?></a>
+				</section> -->
+
+				<section class="horario-atendimento">
+					<h2><? echo $lg['atendimento_horario_atendimento']; ?></h2>
+					<p><? echo $lg['atendimento_horario_atendimento_texto']; ?></p>
+				</section>
+
+			</section>
+
+			<section id="aside-televendas">
+				<h2><? echo $lg['atendimento_televendas']; ?></h2>
+				<p><? echo $lg['atendimento_televendas_texto']; ?></p>
+				<strong><? echo $lg['atendimento_televendas_tel']; ?></strong>
+			</section>
+
+			<section id="facebook" class="atendimento">				
+				<div class="wrap"><div class="fb-like-box" data-href="https://www.facebook.com/CamaroteFoliaTropical" data-width="302" data-height="552" data-border-color="#ffffff" data-show-faces="true" data-stream="false" data-header="false"></div></div>
+			</section>
+
+		</aside>
+
+		<div class="clear"></div>
+	</section>
+	<?
+
+	/*include('include/escolha-lugar.php');
+
+
+	// Blog
+	$sql_blog = mysql_query("SELECT a.*, DATE_FORMAT(a.AR_DATA, '%d') AS DIA, DATE_FORMAT(a.AR_DATA, '%m') AS MES, DATE_FORMAT(a.AR_DATA, '%Y') AS ANO, c.* FROM artigos a, blog_categorias c WHERE a.AR_TIPO='blog' AND a.AR_CAT=c.CA_COD AND c.CA_BLOCK<>'*' AND c.D_E_L_E_T_<>'*' AND a.AR_BLOCK<>'*' AND a.D_E_L_E_T_<>'*' ORDER BY a.AR_DATA DESC LIMIT 4");
+	$n_blog = mysql_num_rows($sql_blog);
+
+	if($n_blog > 0) {
+
+	?>
+	<section id="blog" class="interno parallaxouter">
+		<section class="outer">
+			<section class="wrapper">
+
+				<section class="inside">
+				
+					<header>
+						<h3><? echo $lg['blog_titulo']; ?></h3>
+					</header>
+
+					<ul>
+						<?
+
+						$iblog = 1;
+						while ($blog = mysql_fetch_array($sql_blog)) {
+
+							$blog_cod = $blog['AR_COD'];
+					        $blog_titulo = utf8_encode($blog['AR_TITULO_BR']);
+					        $blog_titulo_url = toAscii($blog_titulo);
+					        $blog_thumb = utf8_encode($blog['AR_THUMB']);
+					        $blog_categoria = utf8_encode($blog['CA_ABREV']);
+
+					        $blog_first = ($iblog == 1);
+
+						    ?>
+					        <li>
+					    		<a href="<? echo SITE.$link_lang; ?>noticias-carnaval/<? echo $blog_categoria; ?>/<? echo $blog_titulo_url; ?>/<? echo $blog_cod; ?>/">
+					    			<div class="thumb">
+					    				<img src="<? echo SITE; ?>img/posts/thumb/<? echo $blog_thumb; ?>" alt="<? echo $blog_titulo; ?>" />
+					    				<span></span>
+					    			</div>
+					    			
+					    			<h4><? echo $blog_titulo; ?></h4>
+					    			<span class="ler"><? echo $lg['blog_ler']; ?></span>
+					    		</a>
+					    	</li>
+						    <?
+							
+					        $iblog++;
+						}
+
+						?>
+					</ul>
+				</section>
+				
+				<section class="parallax">
+					<div class="splash"></div>
+				</section>
+
+			</section>
+		</section>
+	</section>
+	<?
+	}*/?>
+	<script>
+	$(document).ready(function(){
+		$('section#conteudo section#cadastro form select[name="ddi"]').select2().trigger('change');
+	});
+	</script>
+	<?
+	//-----------------------------------------------------------------//
+
+	include('include/footer.php');
+
+}
+
+//fechar conexao com o banco
+include("conn/close.php");
+
+?>

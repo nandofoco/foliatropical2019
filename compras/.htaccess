@@ -1,0 +1,45 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    #se comentar uma das duas linhas abaixo vai da problema no on line
+    #RewriteCond %{SERVER_PORT} 80
+	#RewriteRule ^(.*)$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
+    
+	#RewriteCond %{REQUEST_FILENAME} !-d
+	#RewriteCond %{REQUEST_FILENAME} !-f
+	#RewriteCond %{REQUEST_FILENAME} !-l
+
+	#------------------------------------------------------------------------------------------------------#
+
+    RewriteRule ^(br|us)/?$ index.php?lang=$1 [QSA,NC,L]
+
+    RewriteRule  ^(br|us)/candybox/?$ index.php?lang=$1&tipo=candybox [NC]
+
+    RewriteRule  ^candybox/?$ index.php?tipo=candybox [NC]
+
+    RewriteRule  ^(br|us)/carrinho/selecionar/?$ inc/carrinho/selecionar.php?lang=$1 [NC]
+    RewriteRule  ^(br|us)/carrinho/adicionar/?$ inc/carrinho/adicionar.php?lang=$1 [QSA,NC]
+    RewriteRule  ^carrinho/adicionar/?$ inc/carrinho/adicionar.php?lang=$1 [QSA,NC]
+    RewriteRule  ^carrinho/cupom/?$ inc/carrinho/cupom.php [QSA,NC]
+    RewriteRule  ^(br|us)/carrinho/endereco/?$ inc/carrinho/endereco.php?lang=$1 [QSA,NC]
+
+    RewriteRule  ^(br|us)/acessa/?$ acessa.php?lang=$1 [NC]
+    RewriteRule  ^(br|us)/logout/?$ acessa.php?lang=$1&c=logout [NC]
+    RewriteRule  ^(br|us)/cadastro/?$ cadastro.php?lang=$1 [NC]
+    RewriteRule  ^(br|us)/esqueci/?$ e-esqueci.php?lang=$1 [NC]
+
+    RewriteRule  ^(br|us)/ingressos/?$ ingressos.php?lang=$1 [NC]
+    RewriteRule  ^(br|us)/candybox/ingressos/?$ ingressos.php?lang=$1&tipo=candybox [NC]
+
+    RewriteRule  ^(br|us)/ingressos/post/?$ e-compra.php?lang=$1 [NC]
+
+    RewriteRule  ^(br|us)/pagamento/([0-9]+)/?$ pagamento.php?lang=$1&c=$2 [NC]
+    RewriteRule  ^(br|us)/candybox/pagamento/([0-9]+)/?$ pagamento.php?lang=$1&c=$2&tipo=candybox [NC]
+
+    RewriteRule  ^pagamento/([0-9]+)/?$ pagamento.php?c=$1 [NC]
+
+    RewriteRule  ^(br|us)/pagamento/cielo/confirmacao/?$ ../controle2014/cielo/pages/e-compra-cartao.php?lang=$1&fromcliente=true [QSA,NC]
+
+	ErrorDocument 404 /404.php	
+
+</IfModule>

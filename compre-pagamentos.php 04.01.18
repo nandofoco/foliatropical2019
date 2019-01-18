@@ -1,0 +1,191 @@
+<?
+
+//Verificamos o dominio
+include("include/includes.php");
+
+//Conexão com o banco de dados do sqlserver
+include("conn/conn-mssql.php");
+
+//Conexão com o banco de dados da Sankhya
+include("conn/conn-sankhya.php");
+
+//Definir o carnaval ativo
+include("include/setcarnaval.php");
+
+unset($_SESSION['roteiro-itens']);
+
+//-----------------------------------------------------------------//
+
+if(!checklogado()){
+?>
+<script type="text/javascript">
+	location.href='<? echo SITE.$link_lang; ?>';
+</script>
+<?
+	exit();
+}
+
+if ($_SESSION['atualizacao_dados'] == false)
+{ 
+    echo '<script type="text/javascript">location.href="'.SITE.$link_lang.'atualiza-dados/";</script>';
+}
+
+//-----------------------------------------------------------------//
+
+//arquivos de layout
+include("include/head.php");
+include("include/header.php");
+
+//-----------------------------------------------------------------//
+
+$evento = setcarnaval();
+$usuario_cod = $_SESSION['usuario-cod'];
+
+$tipo = format($_GET['t']);
+switch ($tipo) {
+	case 'pagas':
+		$tipo = 'pagas';
+		$search = " AND l.LO_PAGO='1' ";
+	break;
+	
+	case 'pendentes':
+		$tipo = 'pendentes';
+		$search = " AND l.LO_PAGO='0' ";
+	break;
+
+	case 'todas':
+	default:
+		$tipo = 'todas';
+		$search = "";
+	break;
+}
+
+//-----------------------------------------------------------------//
+
+?>
+<section id="conteudo">
+	<div id="breadcrumb" itemprop="breadcrumb"> 
+		<a href="<? echo SITE.$link_lang; ?>"><? echo $lg['menu_inicio']; ?></a> &rsaquo; <? echo $lg['menu_minhas_compras']; ?>
+	</div>
+	<section id="compre-aqui">
+
+		<header class="titulo">
+			<h1><? echo $lg['minhas_compras']; ?></h1>
+			<ul class="menu">
+				<li><a href="<? echo SITE.$link_lang; ?>minhas-compras/" <? if ($tipo == 'todas'){ echo 'class="checked"'; } ?>><? echo $lg['minhas_compras_todas']; ?></a></li>
+				<li><a href="<? echo SITE.$link_lang; ?>minhas-compras/pagas/" <? if ($tipo == 'pagas'){ echo 'class="checked"'; } ?>><? echo $lg['minhas_compras_pagas']; ?></a></li>
+				<li><a href="<? echo SITE.$link_lang; ?>minhas-compras/pendentes/"  <? if ($tipo == 'pendentes'){ echo 'class="checked"'; } ?>><? echo $lg['minhas_compras_pendentes']; ?></a></li>
+				<li><a href="<? echo SITE.$link_lang; ?>minhas-compras/agendamentos/" class="agendamentos"><? echo $lg['minhas_compras_agendamentos']; ?></a></li>
+			</ul>
+		</header>
+		<section class="padding">
+		
+			<section id="financeiro-lista" class="secao label-top">
+				<table class="lista tablesorter">
+					<thead>
+						<tr>
+							<th class="first"><strong><? echo $lg['minhas_compras_voucher']; ?></strong><span></span></th>
+							<th><strong><? echo $lg['minhas_compras_data_compra']; ?></strong><span></span></th>
+							<th><strong><? echo $lg['minhas_compras_data_pagamento']; ?></strong><span></span></th>
+							<th><strong><? echo $lg['minhas_compras_itens']; ?></strong><span></span></th>
+							<th class="right"><span></span><strong><? echo $lg['minhas_compras_voucher']; ?></strong></th>
+							<th><strong><? echo $lg['minhas_compras_forma_pagamento']; ?></strong><span></span></th>
+							<th>&nbsp;</th>
+						</tr>
+						<tr class="spacer"><td colspan="7">&nbsp;</td></tr>
+					</thead>
+					<tbody>
+					<?
+
+					// $sql_loja = sqlsrv_query($conexao, "SELECT *, (CONVERT(VARCHAR, LO_DATA_COMPRA, 103)+' '+SUBSTRING(CONVERT(VARCHAR, LO_DATA_COMPRA, 108),1,5)) AS DATA, (CONVERT(VARCHAR, LO_DATA_PAGAMENTO, 103)+' '+SUBSTRING(CONVERT(VARCHAR, LO_DATA_PAGAMENTO, 108),1,5)) AS DATA_PAGAMENTO, ISNULL(DATEDIFF (DAY, LO_DATA_PAGAMENTO, GETDATE()), 6) AS DIFERENCA FROM loja WHERE LO_EVENTO='$evento' AND LO_CLIENTE='$usuario_cod' AND LO_BLOCK='0' AND D_E_L_E_T_='0' $search ORDER BY LO_DATA_COMPRA DESC", $conexao_params, $conexao_options);
+					$sql_loja = sqlsrv_query($conexao, "SELECT l.*, p.FP_NOME, (CONVERT(VARCHAR, l.LO_DATA_COMPRA, 103)+' '+SUBSTRING(CONVERT(VARCHAR, l.LO_DATA_COMPRA, 108),1,5)) AS DATA, (CONVERT(VARCHAR, l.LO_DATA_PAGAMENTO, 103)+' '+SUBSTRING(CONVERT(VARCHAR, l.LO_DATA_PAGAMENTO, 108),1,5)) AS DATA_PAGAMENTO, ISNULL(DATEDIFF (DAY, l.LO_DATA_PAGAMENTO, GETDATE()), 6) AS DIFERENCA FROM loja l, formas_pagamento p WHERE l.LO_EVENTO='$evento' AND l.LO_CLIENTE='$usuario_cod' AND l.LO_BLOCK='0' AND l.D_E_L_E_T_='0' AND  l.LO_FORMA_PAGAMENTO=p.FP_COD $search ORDER BY l.LO_DATA_COMPRA DESC", $conexao_params, $conexao_options);
+
+					$n_loja = sqlsrv_num_rows($sql_loja);
+
+					if($n_loja > 0)	 {
+
+						$i=1;
+						while($loja = sqlsrv_fetch_array($sql_loja)) {
+
+							$loja_cod = $loja['LO_COD'];
+							$loja_data = $loja['DATA'];
+							$loja_data_pagamento = $loja['DATA_PAGAMENTO'];
+							$loja_valor = number_format($loja['LO_VALOR_TOTAL'], 2, ",", ".");
+							$loja_pago = (bool) $loja['LO_PAGO'];
+							$loja_entrega = (bool) $loja['LO_ENVIADO'];
+							$loja_block = (bool) $loja['LO_BLOCK'];
+							$loja_status_transacao = $loja['LO_STATUS_TRANSACAO'];
+							$loja_diferenca_dias = (5 - $loja['DIFERENCA']);
+							$entrega = ($loja_entrega) ? 'ativo' : 'ativar';			
+							$acao_entrega = ($loja_entrega) ? 'cancelar' : 'confirmar';
+
+							$loja_tipo_pagamento = utf8_encode($loja['LO_FORMA_PAGAMENTO']);
+							$cartao_credito = ($loja_tipo_pagamento == 1) ? true : false;
+
+							$loja_forma_pagamento = utf8_encode($loja['FP_NOME']);
+
+							//buscar itens
+							$sql_itens = sqlsrv_query($conexao, "SELECT * FROM loja_itens WHERE LI_COMPRA='$loja_cod' AND D_E_L_E_T_='0'", $conexao_params, $conexao_options);
+							$n_itens = sqlsrv_num_rows($sql_itens);
+							?>
+								<tr <? if ($loja_block){ echo 'class="block"'; } ?>>	
+									<td class="first"><? echo $loja_cod; ?></td>
+									<td><? echo $loja_data; ?></td>
+									<td><? echo $loja_data_pagamento; ?></td>
+									<td><? echo $n_itens; ?></td>
+									<td class="valor"><? echo $loja_valor; ?></td>
+									<td><? echo $loja_forma_pagamento; ?></td>
+									<td class="ctrl financeiro">
+										<? if($cartao_credito && ($loja_status_transacao != 4)  && !($loja_diferenca_dias > -1) && !$loja_pago) { ?>
+										<a href="<? echo SITE.$link_lang; ?>ingressos/pagamento/v2/<? echo $loja_cod; ?>/" class="liberar pagar confirm" title="<? echo $lg['minhas_compras_deseja_pagar'].$loja_cod; ?>?" data-sim="<? echo $lg['minhas_compras_sim']; ?>" data-cancelar="<? echo $lg['minhas_compras_cancelar']; ?>"><? echo $lg['minhas_compras_pagar']; ?></a>
+										<? } ?>
+
+										<a href="<? echo SITE.$link_lang; ?>minhas-compras/detalhes/<? echo $loja_cod; ?>/" class="ver"></a>
+										<? if($loja_pago) { ?>
+										<a href="<? echo SITE.$link_lang; ?>minhas-compras/imprimir/<? echo $loja_cod; ?>/" class="print" title="Imprimir voucher <? echo $loja_cod; ?>?" target="_blank"></a>
+										<? } ?>
+									</td>
+								</tr>
+							<?
+							$i++;
+						}
+					} 
+					if($n_loja == 0) {
+					?>
+						<tr>
+							<td colspan="7" class="nenhum">Nenhuma compra encontrada.</td>
+						</tr>
+					<?
+					}
+					?>
+					</tbody>
+				</table>
+				<? if ($n_loja > 0) { ?>
+		        <div class="pager-tablesorter">
+			        <a href="#" class="first"></a>
+			        <a href="#" class="prev"></a>
+			        <span class="pagedisplay"></span>
+			        <a href="#" class="next"></a>
+			        <a href="#" class="last"></a>
+			        <input type="hidden" class="pagesize" value="30" />
+		        </div>
+		        <? } ?>
+				<div class="clear"></div>
+
+			</section>			
+			
+		</section>
+	</section>
+</section>
+<?
+
+//-----------------------------------------------------------------//
+
+include('include/footer.php');
+
+//fechar conexao com o banco
+include("conn/close.php");
+include("conn/close-mssql.php");
+include("conn/close-sankhya.php");
+
+?>

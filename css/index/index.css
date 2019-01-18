@@ -1,0 +1,699 @@
+@font-face {
+  font-family: 'dk_liquid_embraceregular';
+  src: url("../index/font/dk_liquid_embrace-webfont.eot");
+  src: url("../index/font/dk_liquid_embrace-webfont.eot?#iefix") format("embedded-opentype"), url("../index/font/dk_liquid_embrace-webfont.woff2") format("woff2"), url("../index/font/dk_liquid_embrace-webfont.woff") format("woff"), url("../index/font/dk_liquid_embrace-webfont.ttf") format("truetype"), url("../index/font/dk_liquid_embrace-webfont.svg#dk_liquid_embraceregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'dk_black_bambooregular';
+  src: url("../index/font/dk_black_bamboo-webfont.eot");
+  src: url("../index/font/dk_black_bamboo-webfont.eot?#iefix") format("embedded-opentype"), url("../index/font/dk_black_bamboo-webfont.woff2") format("woff2"), url("../index/font/dk_black_bamboo-webfont.woff") format("woff"), url("../index/font/dk_black_bamboo-webfont.ttf") format("truetype"), url("../index/font/dk_black_bamboo-webfont.svg#dk_black_bambooregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'dk_cinnabar_brush';
+  src: url("../index/font/dk_cinnabar_brush.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+/*
+%input {
+    
+    border: 1px $corform1 solid;
+    margin: 0;
+    padding: 9px 19px;
+    background: $cor1;
+    color: $corform2;
+    font-size: 14px;
+    font-family: $font-face;
+    line-height: 25px;
+    height: 25px;
+
+    @include border-radius();
+    @include transition();
+
+    &.disabled {
+        background-color: lighten($corform1, 12%);
+    }
+
+    &.empty{
+        border: 1px solid $cor3-medio;
+        background-color: lighten($cor3-medio, 30%);
+    }
+
+    &.invalid{
+        border: 1px solid $corform5;
+        background-color: lighten($corform5, 30%);
+    }
+    
+}
+%submit {
+    border: none;
+    margin: 0;
+    width: 100%;
+    height: 45px;
+    font: 700 16px/45px $font-face;
+    color: $cor1;
+    background: $corform6;
+    cursor: pointer;
+
+    @include border-radius();
+    @include transition();
+
+    &:hover { background-color: lighten($corform6, 5%); }
+}
+%botao {
+    display: block;
+    height: 35px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 35px;
+    color: $cor1;
+    background: darken($corform1, 5%);
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+
+    @include border-radius();
+    @include transition();
+
+    &:hover { background-color: $corform1; }
+}*/
+/* body {
+    font: normal 14px/1em $font-face;
+    background: #fff;
+    text-align: center;
+    overflow-x: hidden;
+    color: #000;
+} */
+div#index section#apresentacao, div#index section#camarote-lounge, div#index section#visao, div#index section#sinta-emocao, div#index section#shows, div#index section#galeria, div#index section#all-inclusive, div#index section#espacos, div#index section#video, div#index section#transporte, div#index section#programacao, div#index section#conheca-tb {
+  position: relative;
+  max-width: 1920px;
+  margin: 0 auto; }
+  div#index section#apresentacao .wrapper, div#index section#camarote-lounge .wrapper, div#index section#visao .wrapper, div#index section#sinta-emocao .wrapper, div#index section#shows .wrapper, div#index section#galeria .wrapper, div#index section#all-inclusive .wrapper, div#index section#espacos .wrapper, div#index section#video .wrapper, div#index section#transporte .wrapper, div#index section#programacao .wrapper, div#index section#conheca-tb .wrapper {
+    position: relative;
+    width: 990px;
+    margin: 0 auto; }
+    div#index section#apresentacao .wrapper header, div#index section#camarote-lounge .wrapper header, div#index section#visao .wrapper header, div#index section#sinta-emocao .wrapper header, div#index section#shows .wrapper header, div#index section#galeria .wrapper header, div#index section#all-inclusive .wrapper header, div#index section#espacos .wrapper header, div#index section#video .wrapper header, div#index section#transporte .wrapper header, div#index section#programacao .wrapper header, div#index section#conheca-tb .wrapper header {
+      height: 90px;
+      position: relative; }
+      div#index section#apresentacao .wrapper header h2, div#index section#camarote-lounge .wrapper header h2, div#index section#visao .wrapper header h2, div#index section#sinta-emocao .wrapper header h2, div#index section#shows .wrapper header h2, div#index section#galeria .wrapper header h2, div#index section#all-inclusive .wrapper header h2, div#index section#espacos .wrapper header h2, div#index section#video .wrapper header h2, div#index section#transporte .wrapper header h2, div#index section#programacao .wrapper header h2, div#index section#conheca-tb .wrapper header h2 {
+        font-family: "dk_cinnabar_brush", sans-serif;
+        font-size: 50px;
+        font-weight: normal;
+        line-height: 60px;
+        text-transform: uppercase; }
+      div#index section#apresentacao .wrapper header h3, div#index section#camarote-lounge .wrapper header h3, div#index section#visao .wrapper header h3, div#index section#sinta-emocao .wrapper header h3, div#index section#shows .wrapper header h3, div#index section#galeria .wrapper header h3, div#index section#all-inclusive .wrapper header h3, div#index section#espacos .wrapper header h3, div#index section#video .wrapper header h3, div#index section#transporte .wrapper header h3, div#index section#programacao .wrapper header h3, div#index section#conheca-tb .wrapper header h3 {
+        font-family: "dk_cinnabar_brush", sans-serif;
+        font-size: 35px;
+        font-weight: normal;
+        line-height: 35px;
+        text-transform: uppercase; }
+      div#index section#apresentacao .wrapper header.tab, div#index section#camarote-lounge .wrapper header.tab, div#index section#visao .wrapper header.tab, div#index section#sinta-emocao .wrapper header.tab, div#index section#shows .wrapper header.tab, div#index section#galeria .wrapper header.tab, div#index section#all-inclusive .wrapper header.tab, div#index section#espacos .wrapper header.tab, div#index section#video .wrapper header.tab, div#index section#transporte .wrapper header.tab, div#index section#programacao .wrapper header.tab, div#index section#conheca-tb .wrapper header.tab {
+        height: 60px; }
+        div#index section#apresentacao .wrapper header.tab h2, div#index section#camarote-lounge .wrapper header.tab h2, div#index section#visao .wrapper header.tab h2, div#index section#sinta-emocao .wrapper header.tab h2, div#index section#shows .wrapper header.tab h2, div#index section#galeria .wrapper header.tab h2, div#index section#all-inclusive .wrapper header.tab h2, div#index section#espacos .wrapper header.tab h2, div#index section#video .wrapper header.tab h2, div#index section#transporte .wrapper header.tab h2, div#index section#programacao .wrapper header.tab h2, div#index section#conheca-tb .wrapper header.tab h2 {
+          top: -30px; }
+        div#index section#apresentacao .wrapper header.tab.nivel, div#index section#camarote-lounge .wrapper header.tab.nivel, div#index section#visao .wrapper header.tab.nivel, div#index section#sinta-emocao .wrapper header.tab.nivel, div#index section#shows .wrapper header.tab.nivel, div#index section#galeria .wrapper header.tab.nivel, div#index section#all-inclusive .wrapper header.tab.nivel, div#index section#espacos .wrapper header.tab.nivel, div#index section#video .wrapper header.tab.nivel, div#index section#transporte .wrapper header.tab.nivel, div#index section#programacao .wrapper header.tab.nivel, div#index section#conheca-tb .wrapper header.tab.nivel {
+          margin-top: 100px; }
+
+div#index {
+  font: normal 14px/1em "dk_black_bambooregular", sans-serif;
+  background: #fff;
+  text-align: center;
+  overflow-x: hidden;
+  color: #000;
+  position: relative;
+  overflow: hidden;
+  /*    section#credenciamento {
+          @extend %center;
+          background: #229e32 url(../../img/index/bg-credenciamento.jpg) no-repeat center center;
+  
+          .wrapper {
+              
+              padding-bottom: 70px;
+  
+              header {
+                  color: #229e32;
+                  margin-bottom: 50px;
+              }
+              h1{
+                  font-family: $font-face-titulos;
+                  font-size: 34px;
+                  line-height: 40px;
+                  color: #fcae01;
+              }
+              ul {
+                  overflow: hidden;
+                  background: url(../../img/index/bg-credenciamento-mais.png) no-repeat center center;
+  
+                  li {
+                      float: left;
+                      width: 50%;
+                      background-image: url(../../img/index/bg-credenciamento-imagens.png);
+                      background-repeat: no-repeat;
+  
+                      p {
+                          font-size: 25px;
+                          font-family: $font-face-titulos;
+                          line-height: 70px;
+                          color: #fff;
+                      }
+  
+                      img {
+                          height: 290px;
+                      }
+  
+                      &.top {
+                          background-position: center 0;
+                          margin-bottom: 120px;
+                      }
+                      &.bottom {
+                          padding-top: 25px;
+                          background-position: center -25px;
+                      }
+  
+                  }
+              }
+          }
+      }*/
+   /* section#confira {
+        @extend %center;
+        background: #e9573f url(../../img/index/bg-confira.jpg) no-repeat center center;
+
+        .wrapper {
+            
+            padding-bottom: 65px;
+
+            header {
+                color: #e9573f;
+                margin-bottom: 50px;
+            }
+
+            figure {
+
+                h3 {
+                    font-size: 26px;
+                    line-height: 1em;
+                    letter-spacing: 3px;
+                    text-transform: uppercase;
+                    color: #fff;
+                    margin-bottom: 15px;
+                }
+
+                &.super-folia { 
+                    margin: 60px 0;
+                }
+
+                &.vista-panoramica,
+                &.open-bar {
+                    float: left;
+                    height: 505px;
+                }
+
+                &.vista-panoramica {
+                    width: 595px;
+                    margin-right: 20px;
+                }
+                &.open-bar {
+                    width: 370px;
+                }
+
+            }
+
+            article {
+                margin-top: 30px;
+                color: #fff;
+
+                ul {
+                    
+                    margin-bottom: 20px;
+
+                    li {
+                        font-size: 30px;
+                        line-height: 1.5em;
+                        letter-spacing: 1px;
+                    }
+                }
+
+                a.saiba-mais {
+                    display: block;
+                    width: 790px;
+                    height: 100px;
+                    margin: 50px auto 50px auto;
+                    font-size: 30px;
+                    line-height: 100px;
+                    letter-spacing: 1px;
+                    text-decoration: none;
+                    color: #fff;                    
+                    background: #faa004;
+
+                    box-shadow: inset 0 -4px 3px rgba(0, 0, 0, 0.3), inset 0 3px 4px rgba(255, 255, 255, 0.2);
+                    -moz-box-shadow: inset 0 -4px 3px rgba(0, 0, 0, 0.3), inset 0 3px 4px rgba(255, 255, 255, 0.2);
+                    -webkit-box-shadow: inset 0 -4px 3px rgba(0, 0, 0, 0.3), inset 0 3px 4px rgba(255, 255, 255, 0.2);
+                }
+
+                p {
+                    font-size: 18px;
+                    line-height: 1.5em;
+                    letter-spacing: 1px;
+                    color: #fff;
+                    margin-bottom: 30px;
+                }
+            }
+        }
+    }*/ }
+  div#index header nav#ingresso {
+    min-width: 800px;
+    top: 0;
+    z-index: 800;
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: auto;
+    text-transform: uppercase;
+    background-color: #8f4499;
+    text-align: center;
+    vertical-align: center;
+    color: #fff;
+    visibility: hidden;
+    -webkit-box-shadow: 5px 2px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 5px 2px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 5px 2px 0 rgba(0, 0, 0, 0.15);
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s; }
+    div#index header nav#ingresso.visivel {
+      visibility: visible;
+      top: 80px; }
+    div#index header nav#ingresso h1 {
+      font: 700 24px/1em 'Open Sans Condensed', sans-serif;
+      padding: 15px 50px;
+      height: auto; }
+    div#index header nav#ingresso h1,
+    div#index header nav#ingresso ul {
+      display: inline-block;
+      vertical-align: middle; }
+    div#index header nav#ingresso ul li {
+      font: 600 16px 'Open Sans', sans-serif;
+      color: #f7d207;
+      display: inline-block;
+      padding: 10px 0 10px 0;
+      margin: 0 10px 0 10px; }
+      div#index header nav#ingresso ul li a {
+        text-decoration: none; }
+      div#index header nav#ingresso ul li button {
+        margin-top: 5px;
+        display: block;
+        padding: 0 25px;
+        font-size: 16px;
+        font-weight: 700;
+        height: 30px;
+        font: 600 16px 'Open Sans', sans-serif;
+        background: #46ae20 url(../img/bg-radio-label.png) no-repeat center center;
+        color: #fff;
+        text-transform: uppercase;
+        overflow: hidden;
+        cursor: pointer;
+        border-radius: 1px;
+        -moz-border-radius: 1px;
+        -webkit-border-radius: 1px;
+        box-shadow: 1.5px 2px 0 rgba(0, 0, 0, 0.15);
+        -moz-box-shadow: 1.5px 2px 0 rgba(0, 0, 0, 0.15);
+        -webkit-box-shadow: 1.5px 2px 0 rgba(0, 0, 0, 0.15);
+        -webkit-transition: .3s;
+        -moz-transition: .3s;
+        -o-transition: .3s;
+        transition: .3s;
+        border: 0; }
+  div#index section#apresentacao {
+    background: #ed6d34 url(../../img/index2017/bg-logo.jpg) no-repeat center center;
+    z-index: 2; }
+    div#index section#apresentacao .wrapper {
+      height: 915px; }
+      div#index section#apresentacao .wrapper a.logo {
+        display: block;
+        margin: 0 auto;
+        width: 1124px;
+        height: 657px;
+        text-decoration: none;
+        background: url(../../img/index2017/logo.png) no-repeat center center; }
+      div#index section#apresentacao .wrapper footer {
+        display: block;
+        margin-top: 15px; }
+        div#index section#apresentacao .wrapper footer h1 {
+          font-family: "dk_cinnabar_brush", sans-serif;
+          font-size: 45px;
+          line-height: 55px;
+          letter-spacing: 5px;
+          text-transform: uppercase;
+          color: #FFF; }
+  div#index section#camarote-lounge {
+    background: #FFF; }
+    div#index section#camarote-lounge .wrapper {
+      padding: 50px 0; }
+      div#index section#camarote-lounge .wrapper header {
+        text-align: center; }
+        div#index section#camarote-lounge .wrapper header h2 {
+          color: #f04450; }
+        div#index section#camarote-lounge .wrapper header h3 {
+          color: #188c8d; }
+      div#index section#camarote-lounge .wrapper .localizacao {
+        margin-top: 40px; }
+        div#index section#camarote-lounge .wrapper .localizacao h2 {
+          font-family: "dk_cinnabar_brush", sans-serif;
+          font-size: 50px;
+          font-weight: normal;
+          line-height: 60px;
+          text-transform: uppercase;
+          color: #f04450; }
+        div#index section#camarote-lounge .wrapper .localizacao h3 {
+          font-family: "dk_cinnabar_brush", sans-serif;
+          font-size: 35px;
+          font-weight: normal;
+          line-height: 35px;
+          text-transform: uppercase;
+          color: #188c8d; }
+        div#index section#camarote-lounge .wrapper .localizacao h4 {
+          font-family: "dk_cinnabar_brush", sans-serif;
+          position: relative;
+          font-size: 35px;
+          font-weight: normal;
+          line-height: 55px;
+          text-transform: uppercase;
+          color: #f04450;
+          margin-top: -40px;
+          z-index: 20;
+          margin-bottom: 70px;
+          background: url("../../img/index2017/coracao.png") no-repeat 770px center; }
+        div#index section#camarote-lounge .wrapper .localizacao img {
+          margin: 30px 0; }
+    div#index section#camarote-lounge figure {
+      margin-top: 0;
+      position: relative; }
+      div#index section#camarote-lounge figure img {
+        width: 100%; }
+  div#index section#visao {
+    background: #FFF;
+    padding: 70px 0; }
+    div#index section#visao header {
+      color: #fc6a08; }
+    div#index section#visao div.visao {
+      width: 70%;
+      margin: 50px auto 0 auto;
+      position: relative; }
+      div#index section#visao div.visao article h2 {
+        color: #fc6a08;
+        font-size: 34px;
+        line-height: 1.3em; }
+      div#index section#visao div.visao article h3 {
+        color: #0572b9;
+        font-size: 26px;
+        line-height: 1em; }
+      div#index section#visao div.visao article.panoramica {
+        position: absolute;
+        top: 60px;
+        left: 80px; }
+      div#index section#visao div.visao article.lounge {
+        position: absolute;
+        bottom: 60px;
+        right: 80px; }
+      div#index section#visao div.visao img {
+        width: 100%; }
+  div#index section#sinta-emocao {
+    background: url(../../img/index2017/bg-video.jpg) no-repeat center center;
+    height: 966px; }
+    div#index section#sinta-emocao .wrapper header {
+      padding-top: 90px;
+      margin-bottom: 20px;
+      color: #FFF; }
+    div#index section#sinta-emocao .wrapper .video .player {
+      background: #ccc;
+      height: 585px; }
+  div#index section#shows {
+    background: url(../../img/index2017/bg-shows.jpg) no-repeat center center;
+    height: 1260px; }
+    div#index section#shows .atracoes {
+      width: 100%;
+      margin-top: 100px; }
+      div#index section#shows .atracoes ul {
+        height: 385px;
+        width: 80%;
+        margin: 0 auto;
+        overflow: hidden; }
+        div#index section#shows .atracoes ul li {
+          position: relative;
+          float: left;
+          width: 23%;
+          padding: 0 10px; }
+          div#index section#shows .atracoes ul li img {
+            width: 100%; }
+    div#index section#shows .wrapper {
+      /*            .mpb-903 {
+                      margin: 100px auto 0 auto;
+                      width: 435px;
+                      height: 195px;
+                      background: url(../../img/index2017/camarote-oficial.png) no-repeat center center;
+                  }   */ }
+      div#index section#shows .wrapper header {
+        color: #FFF;
+        padding-top: 80px; }
+      div#index section#shows .wrapper .ssc h3 {
+        color: #FFF;
+        font-size: 24px;
+        margin: 20px 0 0 0;
+        line-height: 24px; }
+      div#index section#shows .wrapper .ssc img {
+        display: block;
+        width: 190px;
+        margin: 15px auto 0 auto; }
+    div#index section#shows .banda {
+      display: block;
+      width: 70%;
+      margin: 0 auto; }
+      div#index section#shows .banda img {
+        width: 100%; }
+  div#index section#galeria {
+    background: #FFF; }
+    div#index section#galeria .wrapper {
+      padding-bottom: 100px; }
+      div#index section#galeria .wrapper header {
+        color: #f41865;
+        margin-bottom: 50px; }
+      div#index section#galeria .wrapper section#galeria-slider {
+        position: relative;
+        height: 590px;
+        padding: 0;
+        z-index: 1; }
+        div#index section#galeria .wrapper section#galeria-slider a.ctrl {
+          display: block;
+          position: absolute;
+          top: 265px;
+          width: 64px;
+          height: 45px;
+          text-decoration: none;
+          background: url(../../img/index2017/bg-slider-ctrl-arrow.jpg) no-repeat;
+          -webkit-transition: 0.3s;
+          -moz-transition: 0.3s;
+          -o-transition: 0.3s;
+          transition: 0.3s; }
+          div#index section#galeria .wrapper section#galeria-slider a.ctrl.prev {
+            background-position: 0 0;
+            left: -80px; }
+          div#index section#galeria .wrapper section#galeria-slider a.ctrl.next {
+            background-position: -64px 0;
+            right: -80px; }
+          div#index section#galeria .wrapper section#galeria-slider a.ctrl:hover {
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=$opacity-ie)";
+            filter: alpha(opacity=80);
+            -moz-opacity: 0.8;
+            -khtml-opacity: 0.8;
+            opacity: 0.8; }
+        div#index section#galeria .wrapper section#galeria-slider .overflow,
+        div#index section#galeria .wrapper section#galeria-slider .overflow .list,
+        div#index section#galeria .wrapper section#galeria-slider .overflow .list .item,
+        div#index section#galeria .wrapper section#galeria-slider .overflow .list .item a.link {
+          height: 590px; }
+        div#index section#galeria .wrapper section#galeria-slider .overflow {
+          position: relative;
+          margin: 0 auto;
+          overflow: hidden;
+          padding-bottom: 60px;
+          width: 100%;
+          z-index: 2; }
+          div#index section#galeria .wrapper section#galeria-slider .overflow .list {
+            width: 5000%; }
+            div#index section#galeria .wrapper section#galeria-slider .overflow .list .item {
+              float: left;
+              width: 2%;
+              background: #ccc; }
+              div#index section#galeria .wrapper section#galeria-slider .overflow .list .item .link img {
+                width: 100%; }
+              div#index section#galeria .wrapper section#galeria-slider .overflow .list .item a.link {
+                display: block;
+                text-decoration: none;
+                background-color: #fff;
+                -webkit-transition: 0.3s;
+                -moz-transition: 0.3s;
+                -o-transition: 0.3s;
+                transition: 0.3s; }
+                div#index section#galeria .wrapper section#galeria-slider .overflow .list .item a.link:hover {
+                  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+                div#index section#galeria .wrapper section#galeria-slider .overflow .list .item a.link figure,
+                div#index section#galeria .wrapper section#galeria-slider .overflow .list .item a.link figure img {
+                  width: 100%;
+                  height: 590px; }
+                div#index section#galeria .wrapper section#galeria-slider .overflow .list .item a.link img {
+                  width: 100%; }
+                div#index section#galeria .wrapper section#galeria-slider .overflow .list .item a.link figure {
+                  position: relative; }
+                  div#index section#galeria .wrapper section#galeria-slider .overflow .list .item a.link figure img {
+                    display: block; }
+  div#index section#all-inclusive {
+    background: #FFF;
+    padding: 60px 0 100px 0; }
+    div#index section#all-inclusive .wrapper header {
+      color: #48a644;
+      margin-bottom: 50px; }
+    div#index section#all-inclusive figure {
+      width: 80%;
+      margin: 0 auto; }
+      div#index section#all-inclusive figure img {
+        width: 100%;
+        max-width: 1150px; }
+  div#index section#espacos {
+    background: url(../../img/index2017/bg-espacos.jpg) no-repeat center center;
+    height: 920px; }
+    div#index section#espacos .wrapper header {
+      padding-top: 100px;
+      color: #FFF;
+      margin-bottom: 50px; }
+    div#index section#espacos figure {
+      width: 80%;
+      margin: 0 auto; }
+      div#index section#espacos figure img {
+        width: 100%;
+        max-width: 1150px; }
+  div#index section#video {
+    background: #22998f url(../../img/index/bg-video.jpg) no-repeat center center;
+    height: auto !important;
+    z-index: initial; }
+    div#index section#video .wrapper {
+      padding-bottom: 150px;
+      height: auto !important; }
+      div#index section#video .wrapper header {
+        color: #22998f;
+        margin-bottom: 50px; }
+      div#index section#video .wrapper .video h3 {
+        font-size: 24px;
+        line-height: 30px;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        text-align: center;
+        color: #fff; }
+      div#index section#video .wrapper .video .player {
+        background: #ccc;
+        height: 585px; }
+  div#index section#transporte {
+    background: #FFF;
+    padding: 30px 0 80px 0; }
+    div#index section#transporte .wrapper header {
+      color: #0888ab;
+      margin-bottom: 40px; }
+    div#index section#transporte figure {
+      width: 80%;
+      margin: 0 auto; }
+      div#index section#transporte figure img {
+        width: 100%;
+        max-width: 1150px; }
+  div#index section#programacao {
+    background: url(../../img/index2017/bg-programacao.jpg) no-repeat center center;
+    height: 770px;
+    padding-top: 150px; }
+    div#index section#programacao .wrapper header {
+      color: #FFF;
+      margin-bottom: 50px; }
+    div#index section#programacao .wrapper table {
+      width: 100%;
+      border-collapse: collapse; }
+      div#index section#programacao .wrapper table td, div#index section#programacao .wrapper table th {
+        padding: 25px;
+        border: 4px #fff dashed;
+        color: #fff;
+        font-family: "dk_cinnabar_brush", sans-serif; }
+      div#index section#programacao .wrapper table th {
+        font-size: 24px;
+        line-height: 1em;
+        text-align: center; }
+        div#index section#programacao .wrapper table th h3 {
+          font-size: 32px;
+          line-height: 1em; }
+        div#index section#programacao .wrapper table th span {
+          font-size: 24px;
+          line-height: 1.5em;
+          color: #e99518; }
+      div#index section#programacao .wrapper table td {
+        font-size: 20px;
+        line-height: 1.5em;
+        text-align: left; }
+        div#index section#programacao .wrapper table td span {
+          color: #e99518; }
+    div#index section#programacao figure {
+      width: 80%;
+      margin: 0 auto; }
+      div#index section#programacao figure img {
+        width: 100%;
+        max-width: 1150px; }
+  div#index section#conheca-tb {
+    background: #FFF;
+    padding-bottom: 80px; }
+    div#index section#conheca-tb .wrapper {
+      padding-bottom: 30px; }
+      div#index section#conheca-tb .wrapper header {
+        color: #751f87;
+        margin-bottom: 30px; }
+      div#index section#conheca-tb .wrapper a.saiba-mais {
+        display: block;
+        width: 818px;
+        height: 95px;
+        margin: 40px auto 0 auto;
+        background: url("../../img/index2017/saiba-mais.jpg") no-repeat center center; }
+      div#index section#conheca-tb .wrapper span.titulo {
+        background: url("../../img/index2017/titulo-superfolia.jpg") no-repeat center center;
+        display: block;
+        width: 798px;
+        height: 112px;
+        margin: 0 auto; }
+      div#index section#conheca-tb .wrapper span.titulo-mapa {
+        background: url("../../img/index2017/mapa-superfolia.jpg") no-repeat center center;
+        display: block;
+        width: 476px;
+        height: 106px;
+        margin: 0 auto; }
+      div#index section#conheca-tb .wrapper span.titulo-servicos {
+        background: url("../../img/index2017/titulo-servicos.jpg") no-repeat center center;
+        display: block;
+        width: 528px;
+        height: 105px;
+        margin: 0 auto; }
+      div#index section#conheca-tb .wrapper p {
+        color: #491c62;
+        font-size: 25px;
+        letter-spacing: 2px;
+        line-height: 38px;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 40px;
+        margin-top: 40px;
+        padding: 0 70px; }
+        div#index section#conheca-tb .wrapper p span {
+          color: #ff9820;
+          font-size: 34px; }
+    div#index section#conheca-tb img.mapa {
+      width: 80%;
+      margin-bottom: 50px;
+      max-width: 1150px; }
+
+/*# sourceMappingURL=index.css.map */

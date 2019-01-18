@@ -1,0 +1,570 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    #se comentar uma das duas linhas abaixo vai da problema no on line
+    RewriteCond %{SERVER_PORT} 80
+	RewriteRule ^(.*)$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
+    
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-l
+
+	RewriteRule ^(br|us)/?$ compre.php?lang=$1 [QSA,NC,L]
+	
+    #------------------------------------------------------------------------------------------------------#
+
+	#Página de exibição do blog
+		#----BR
+	#RewriteRule  ^(br|us)/blog/?$ blog.php?lang=$1&blog=true [NC]
+	#RewriteRule  ^(br|us)/blog/([0-9]+)/([a-z0-9-]+)/?$ blog.php?lang=$1&blog=true&c=$2&nome=$3 [NC]
+	#RewriteRule  ^(br|us)/blog/categoria/([a-z0-9-]+)/?$ blog.php?lang=$1&blog=true&cat=$2 [NC]
+
+	#RewriteRule  ^br/noticias-carnaval/?$ blog.php?lang=br [NC]
+	#RewriteRule  ^br/noticias-carnaval/([a-z0-9-]+)/([a-z0-9-]+)/([0-9]+)/?$ blog.php?lang=br&categoria=$1&nome=$2&c=$3 [NC]
+
+	#RewriteRule  ^br/noticias-carnaval/pagina/([0-9]+)/?$ blog.php?lang=br&p=$1 [NC]
+	#RewriteRule  ^br/noticias-carnaval/pagina/([0-9]+)/q/(.*)/?$ blog.php?lang=br&p=$1&q=$2 [NC]
+
+	#RewriteRule  ^br/noticias-carnaval/([a-z0-9-]+)/?$ blog.php?lang=br&cat=$1 [NC]
+	#RewriteRule  ^br/noticias-carnaval/([a-z0-9-]+)/pagina/([0-9]+)/?$ blog.php?lang=br&cat=$1&p=$2 [NC]
+
+		#----US
+	#RewriteRule  ^us/latest-carnivals-news/?$ blog.php?lang=us [NC]
+	#RewriteRule  ^us/latest-carnivals-news/([a-z0-9-]+)/([a-z0-9-]+)/([0-9]+)/?$ blog.php?lang=us&categoria=$1&nome=$2&c=$3 [NC]
+
+	#RewriteRule  ^us/latest-carnivals-news/pagina/([0-9]+)/?$ blog.php?lang=us&p=$1 [NC]
+	#RewriteRule  ^us/latest-carnivals-news/pagina/([0-9]+)/q/(.*)/?$ blog.php?lang=us&p=$1&q=$2 [NC]
+
+	#RewriteRule  ^us/latest-carnivals-news/([a-z0-9-]+)/?$ blog.php?lang=us&cat=$1 [NC]
+	#RewriteRule  ^us/latest-carnivals-news/([a-z0-9-]+)/pagina/([0-9]+)/?$ blog.php?lang=us&cat=$1&p=$2 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	#Página de exibição do guia
+	#RewriteRule  ^(br|us)/guia-do-carnaval/?$ guia.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/guia-do-carnaval/([0-9]+)/([a-z0-9-]+)/?$ guia.php?lang=$1&c=$2&nome=$3 [NC]
+	#RewriteRule  ^(br|us)/guia-do-carnaval/categoria/([a-z0-9-]+)/?$ guia.php?lang=$1&cat=$2 [NC]
+
+
+	#------------------------------------------------------------------------------------------------------#
+
+	#Página de exibição ds produtos
+	#RewriteRule  ^(br|us)/produtos/folia-tropical/?$ produtos-folia-tropical.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/produtos/camarote/?$ produtos-camarote.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/produtos/camarote-corporativo/?$ produtos-camarote-corporativo.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/produtos/arquibancadas/?$ produtos-arquibancadas.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/produtos/frisas/?$ produtos-frisas.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/produtos/cadeiras/?$ produtos-cadeiras.php?lang=$1 [NC]
+
+	#RewriteRule  ^(br|us)/folia-tropical/?$ produtos-folia-tropical.php?lang=br [NC]
+	#RewriteRule  ^(br|us)/camarotes/?$ produtos-camarote.php?lang=br [NC]
+	#RewriteRule  ^(br|us)/camarote-corporativo/?$ produtos-camarote-corporativo.php?lang=br [NC]
+	#RewriteRule  ^(br|us)/arquibancadas/?$ produtos-arquibancadas.php?lang=br [NC]
+	#RewriteRule  ^(br|us)/frisas/?$ produtos-frisas.php?lang=br [NC]
+	
+	#RewriteRule  ^us/carnival-2016-folia-tropical/?$ produtos-folia-tropical.php?lang=us [NC]
+	#RewriteRule  ^us/rio-carnivals-vip-boxes/?$ produtos-camarote.php?lang=us [NC]
+	#RewriteRule  ^us/rio-carnivals-corporate-vip-boxes/?$ produtos-camarote-corporativo.php?lang=us [NC]
+	#RewriteRule  ^us/rio-carnivals-grand-stands/?$ produtos-arquibancadas.php?lang=us [NC]
+	#RewriteRule  ^us/rio-carnivals-vip-seats/?$ produtos-frisas.php?lang=us [NC]
+	#------------------------------------------------------------------------------------------------------#
+
+	#SUPERFOLIA
+	#RewriteRule  ^(br|us)/superfolia/?$ superfolia.php?lang=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	#Atendimento
+	#RewriteRule  ^(br|us)/atendimento/?$ atendimento.php?lang=br [NC]
+	#RewriteRule  ^(br|us)/atendimento/sucesso/?$ e-atendimento.php?lang=$1 [NC]
+
+	#RewriteRule  ^us/customer-service/?$ atendimento.php?lang=us [NC]
+	
+	#------------------------------------------------------------------------------------------------------#
+
+	#Atendimento
+	#RewriteRule  ^(br|us)/lounge-faq/?$ lounge_perguntas.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/lounge-faq/sucesso/?$ e-lounge-perguntas.php?lang=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	#Atendimento
+	#RewriteRule  ^(br|us)/lounge-faq/?$ lounge_perguntas_respostas.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/lounge-faq/sucesso/?$ e-atendimento.php?lang=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	#Atendimento
+	#RewriteRule  ^(br|us)/marketing-incentivo/?$ marketing-incentivo.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/marketing-incentivo/sucesso/?$ e-marketing-incentivo.php?lang=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	#Amigos do Ton
+	#RewriteRule  ^(br|us)/amigos-do-ton/?$ amigos-do-ton.php?lang=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	#Cadastro
+	RewriteRule  ^(br|us)/cadastro/?$ cadastro.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/cadastro/compre-adicionais/?$ cadastro.php?lang=$1&compre=true [NC]
+	RewriteRule  ^(br|us)/cadastro/imprimir/([0-9]+)/?$ cadastro.php?lang=$1&imprimir=$2 [NC]
+	RewriteRule  ^(br|us)/cadastro/sucesso/?$ e-cadastro.php?lang=$1 [NC]
+
+	RewriteRule  ^(br|us)/login/?$ login.php?lang=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^(br|us)/login/sucesso/?$ acessa.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/logout/?$ acessa.php?lang=$1&c=logout [NC]
+	
+	RewriteRule  ^(br|us)/esqueci-senha/?$ esqueci-senha.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/esqueci-senha/sucesso/?$ e-esqueci-senha.php?lang=$1 [NC]
+	
+	#------------------------------------------------------------------------------------------------------#
+
+	#Compra
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/?$ compre.php?lang=$1 [QSA]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/cancelar/?$ compre.php?lang=$1&cancelar=true [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/adicionar/?$ e-compre-adicionar.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/post/?$ e-compre.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/adicionais/?$ compre-adicionais.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/delivery/post/?$ e-compre-delivery.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/delivery/([0-9]+)/?$ compre-delivery.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/delivery/([0-9]+)/transfer/?$ compre-delivery.php?lang=$1&c=$2&transfer=true [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/delivery/([0-9]+)/detalhes/?$ compre-delivery.php?lang=$1&c=$2&detalhes=true [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/cupom/?$ e-compre-cupom.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?lang=$1&c=$2&i=$3 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/cupom-parceiro/?$ e-compre-cupom-parceiro.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/([0-9]+)/?$ compre-pagamento.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?lang=$1&c=$2&cupom=$3 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/confirmacao/?$ controle2014/cielo/pages/e-compra.php?lang=$1&fromcliente=true [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/agendamento/post/?$ e-compre-agendamento.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/agendamento/([0-9]+)/nao/?$ e-compre-agendamento-nao.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/agendamento/([0-9]+)/?$ compre-agendamento.php?lang=$1&c=$2 [NC]
+
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/?$ compre.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/cancelar/?$ compre.php?lang=$1&cancelar=true [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/adicionar/?$ e-compre-adicionar.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/post/?$ e-compre.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/adicionais/?$ compre-adicionais.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/delivery/post/?$ e-compre-delivery.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/delivery/([0-9]+)/?$ compre-delivery.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/delivery/([0-9]+)/transfer/?$ compre-delivery.php?lang=$1&c=$2&transfer=true [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/delivery/([0-9]+)/detalhes/?$ compre-delivery.php?lang=$1&c=$2&detalhes=true [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/cupom/?$ e-compre-cupom.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?lang=$1&c=$2&i=$3 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/cupom-parceiro/?$ e-compre-cupom-parceiro.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/([0-9]+)/?$ compre-pagamento.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?lang=$1&c=$2&cupom=$3 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/confirmacao/?$ controle2014/cielo/pages/e-compra.php?lang=$1&fromcliente=true [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/agendamento/post/?$ e-compre-agendamento.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/agendamento/([0-9]+)/nao/?$ e-compre-agendamento-nao.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/agendamento/([0-9]+)/?$ compre-agendamento.php?lang=$1&c=$2 [NC]
+
+	
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/([a-z0-9-]+)/?$ compre.php?lang=$1&t=$2 [NC]
+
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/([a-z0-9-]+)/?$ compre.php?lang=$1&t=$2 [QSA]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/v2/cupom/?$ e-compre-cupom.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/v2/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?lang=$1&c=$2&i=$3&v2=true [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/v2/cupom-parceiro/?$ e-compre-cupom-parceiro.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/v2/([0-9]+)/?$ compre-pagamento-v2.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/v2/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?lang=$1&c=$2&cupom=$3&v2=true [NC]
+
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/v2/cupom/?$ e-compre-cupom.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/v2/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?lang=$1&c=$2&i=$3&v2=true [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/v2/parceiro/?$ e-compre-parceiro.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/v2/([0-9]+)/?$ compre-pagamento-v2.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/v2/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?lang=$1&c=$2&cupom=$3&v2=true [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/paypal/cupom/?$ e-compre-cupom.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/paypal/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?lang=$1&c=$2&i=$3&paypal=true [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/paypal/cupom-parceiro/?$ e-compre-cupom-parceiro.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/paypal/([0-9]+)/?$ compre-pagamento-paypal.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos-carnaval-2016/pagamento/paypal/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?lang=$1&c=$2&cupom=$3&paypal=true [NC]
+
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/paypal/cupom/?$ e-compre-cupom.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/paypal/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?lang=$1&c=$2&i=$3&paypal=true [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/paypal/parceiro/?$ e-compre-parceiro.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/paypal/([0-9]+)/?$ compre-pagamento-paypal.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2016-rj/pagamento/paypal/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?lang=$1&c=$2&cupom=$3&paypal=true [NC]
+	
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^(br|us)/minhas-compras/?$ compre-pagamentos.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/minhas-compras/detalhes/([0-9]+)/?$ compre-pagamentos-detalhes.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/minhas-compras/detalhes/camisas/([0-9]+)/?$ compre-pagamentos-detalhes-camisas.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/minhas-compras/detalhes/camisas/post/?$ e-compre-camisas.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/minhas-compras/imprimir/([0-9]+)/?$ compre-pagamentos-imprimir.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/minhas-compras/excluir/([0-9]+)/?$ e-compre-excluir.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/minhas-compras/agendamentos/?$ compre-agendamentos.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/minhas-compras/agendamentos/([0-9]+)/?$ compre-agendamento.php?lang=$1&c=$2&interno=true [NC]
+	RewriteRule  ^(br|us)/minhas-compras/agendamentos/([0-9]+)/nao/?$ e-compre-agendamento-nao.php?lang=$1&c=$2&interno=true [NC]
+	RewriteRule  ^(br|us)/minhas-compras/agendamentos/post/?$ e-compre-agendamento.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/minhas-compras/([a-z0-9-]+)/?$ compre-pagamentos.php?lang=$1&t=$2 [NC]
+	
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^(br|us)/meus-dados/?$ meus-dados.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/meus-dados/alterar/?$ e-meus-dados.php?lang=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	#RewriteRule  ^(br|us)/nossos-camarotes/para-empresas/?$ produtos-camarote-corporativo.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/nossos-camarotes/transporte/?$ produtos-camarote.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/nossos-camarotes/para-grupos/?$ produtos-camarote.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/nossos-camarotes/setor-4-especial/?$ produtos-camarote.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/nossos-camarotes/setor-4/?$ produtos-camarote.php?lang=$1 [NC]
+	#RewriteRule  ^(br|us)/nossos-camarotes/setor-8/?$ produtos-camarote.php?lang=$1 [NC]
+
+	redirect 301 /ingressos-carnaval/camarote-vip/ http://www.foliatropical.com.br/camarotes-carnaval-2016
+	redirect 301 /ingressos-carnaval/camarote-folia-tropical/ http://www.foliatropical.com.br/camarote-corporativo
+	redirect 301 /ingressos-carnaval/frisas/ http://www.foliatropical.com.br/frisas-carnaval-2016
+	redirect 301 /ingressos-carnaval/arquibancadas/ http://www.foliatropical.com.br/arquibancadas-carnaval-2016
+	redirect 301 /ingressos-carnaval/cadeiras-especiais/ http://www.foliatropical.com.br/cadeiras-numeradas-carnaval-2016
+	redirect 301 /camarote-lounge-folia-tropical/ http://www.foliatropical.com.br/folia-tropical-carnaval-2016
+	redirect 301 /atrativos-do-folia-tropical/ http://www.foliatropical.com.br/folia-tropical-carnaval-2016
+	redirect 301 /acesso/ http://www.foliatropical.com.br/folia-tropical-carnaval-2016
+
+	
+	redirect 301 /carnaval-2015/sambodromo http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /carnaval-2015/desfiles http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /carnaval-2015/grupo-acesso http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /carnaval-2015/grupo-especial http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /carnaval-2015/desfile-das-campeas http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /carnaval-2015/programa-do-carnaval http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /guia http://www.foliatropical.com.br/guia-do-carnaval/
+
+	redirect 301 /atendimento/post http://www.foliatropical.com.br/atendimento/sucesso/
+
+	redirect 301 /compre-aqui http://www.foliatropical.com.br/ingressos-carnaval-2016/
+	redirect 301 /compre-aqui/ http://www.foliatropical.com.br/ingressos-carnaval-2016/
+	redirect 301 /compre-aqui/folia-tropical/ http://www.foliatropical.com.br/ingressos-carnaval-2016/folia-tropical/
+	redirect 301 /compre-aqui/camarote/ http://www.foliatropical.com.br/ingressos-carnaval-2016/camarote/
+	redirect 301 /compre-aqui/camarote-corporativo/ http://www.foliatropical.com.br/ingressos-carnaval-2016/camarote-corporativo/
+	redirect 301 /compre-aqui/aquibancada/ http://www.foliatropical.com.br/ingressos-carnaval-2016/aquibancada/
+	redirect 301 /compre-aqui/frisa/ http://www.foliatropical.com.br/ingressos-carnaval-2016/frisa/
+
+
+	#------------------------------------------------------------------------------------------------------#
+
+	# Manter paginas dinamicas
+
+	RewriteRule  ^(br|us)/guia-do-carnaval-2014/([0-9]+)/([a-z0-9-]+)/?$ guia.php?lang=$1&c=$2&nome=$3 [NC]
+	RewriteRule  ^(br|us)/guia-do-carnaval-2014/categoria/([a-z0-9-]+)/?$ guia.php?lang=$1&cat=$2 [NC]
+
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/?$ compre.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/adicionar/?$ e-compre-adicionar.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/post/?$ e-compre.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/adicionais/?$ compre-adicionais.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/delivery/post/?$ e-compre-delivery.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/delivery/([0-9]+)/?$ compre-delivery.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/delivery/([0-9]+)/transfer/?$ compre-delivery.php?lang=$1&c=$2&transfer=true [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/delivery/([0-9]+)/detalhes/?$ compre-delivery.php?lang=$1&c=$2&detalhes=true [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/pagamento/confirmacao/?$ controle2014/cielo/pages/e-compra.php?lang=$1&fromcliente=true [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/pagamento/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/pagamento/cupom/?$ e-compre-cupom.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/pagamento/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?lang=$1&c=$2&i=$3 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/pagamento/([0-9]+)/?$ compre-pagamento.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/agendamento/post/?$ e-compre-agendamento.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/agendamento/([0-9]+)/nao/?$ e-compre-agendamento-nao.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/agendamento/([0-9]+)/?$ compre-agendamento.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/comprar-ingressos-carnaval-2014-rj/([a-z0-9-]+)/?$ compre.php?lang=$1&t=$2 [NC]
+	
+
+	RewriteRule  ^(br|us)/promoespacocambio?$ promocao-espaco-cambio.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/promoespacocambio/post/?$ e-promocao-espaco-cambio.php?lang=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	redirect 301 /carnaval-2014/sambodromo http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /carnaval-2014/desfiles http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /carnaval-2014/grupo-acesso http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /carnaval-2014/grupo-especial http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /carnaval-2014/desfile-das-campeas http://www.foliatropical.com.br/guia-do-carnaval/
+	redirect 301 /carnaval-2014/programa-do-carnaval http://www.foliatropical.com.br/guia-do-carnaval/
+
+	redirect 301 /guia-do-carnaval-2014 http://www.foliatropical.com.br/guia-do-carnaval
+	
+	redirect 301 /folia-tropical-carnaval-2014 http://www.foliatropical.com.br/folia-tropical-carnaval-2016
+	redirect 301 /camarotes-carnaval-2014 http://www.foliatropical.com.br/camarotes-carnaval-2016
+	redirect 301 /camarote-corporativo-carnaval-2014 http://www.foliatropical.com.br/camarote-corporativo
+	redirect 301 /arquibancadas-carnaval-2014 http://www.foliatropical.com.br/arquibancadas-carnaval-2016
+	redirect 301 /frisas-carnaval-2014 http://www.foliatropical.com.br/frisas-carnaval-2016
+	redirect 301 /cadeiras-numeradas-carnaval-2014 http://www.foliatropical.com.br/cadeiras-numeradas-carnaval-2016
+
+	redirect 301 /guia-do-carnaval-2015 http://www.foliatropical.com.br/guia-do-carnaval	
+	redirect 301 /folia-tropical-carnaval-2015 http://www.foliatropical.com.br/folia-tropical-carnaval-2016
+	redirect 301 /camarotes-carnaval-2015 http://www.foliatropical.com.br/camarotes-carnaval-2016
+	redirect 301 /camarote-corporativo-carnaval-2015 http://www.foliatropical.com.br/camarote-corporativo
+	redirect 301 /arquibancadas-carnaval-2015 http://www.foliatropical.com.br/arquibancadas-carnaval-2016
+	redirect 301 /frisas-carnaval-2015 http://www.foliatropical.com.br/frisas-carnaval-2016
+	redirect 301 /cadeiras-numeradas-carnaval-2015 http://www.foliatropical.com.br/cadeiras-numeradas-carnaval-2016
+	
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^(br|us)/oportunidadesfoliatropical/?$ oportunidades-folia-tropical.php?lang=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	#RewriteRule  ^blog/?$ blog.php?blog=true [NC]
+	#RewriteRule  ^blog/([0-9]+)/([a-z0-9-]+)/?$ blog.php?blog=true&c=$1&nome=$2 [NC]
+	#RewriteRule  ^blog/categoria/([a-z0-9-]+)/?$ blog.php?blog=true&cat=$1 [NC]
+	#RewriteRule  ^noticias-carnaval/?$ blog.php [NC]
+	#RewriteRule  ^noticias-carnaval/([a-z0-9-]+)/([a-z0-9-]+)/([0-9]+)/?$ blog.php?categoria=$1&nome=$2&c=$3 [NC]
+	#RewriteRule  ^noticias-carnaval/pagina/([0-9]+)/?$ blog.php?p=$1 [NC]
+	#RewriteRule  ^noticias-carnaval/pagina/([0-9]+)/q/(.*)/?$ blog.php?p=$1&q=$2 [NC]
+	#RewriteRule  ^noticias-carnaval/([a-z0-9-]+)/?$ blog.php?cat=$1 [NC]
+	#RewriteRule  ^noticias-carnaval/([a-z0-9-]+)/pagina/([0-9]+)/?$ blog.php?cat=$1&p=$2 [NC]
+	#RewriteRule  ^guia-do-carnaval/?$ guia.php [NC]
+	#RewriteRule  ^guia-do-carnaval/([0-9]+)/([a-z0-9-]+)/?$ guia.php?c=$1&nome=$2 [NC]
+	#RewriteRule  ^guia-do-carnaval/categoria/([a-z0-9-]+)/?$ guia.php?cat=$1 [NC]
+	#RewriteRule  ^produtos/folia-tropical/?$ produtos-folia-tropical.php [NC]
+	#RewriteRule  ^produtos/camarote/?$ produtos-camarote.php [NC]
+	#RewriteRule  ^produtos/camarote-corporativo/?$ produtos-camarote-corporativo.php [NC]
+	#RewriteRule  ^produtos/arquibancadas/?$ produtos-arquibancadas.php [NC]
+	#RewriteRule  ^produtos/frisas/?$ produtos-frisas.php [NC]
+	#RewriteRule  ^produtos/cadeiras/?$ produtos-cadeiras.php [NC]
+	#RewriteRule  ^folia-tropical-carnaval-2016/?$ produtos-folia-tropical.php [NC]
+	#RewriteRule  ^camarotes-carnaval-2016/?$ produtos-camarote.php [NC]
+	#RewriteRule  ^camarote-corporativo/?$ produtos-camarote-corporativo.php [NC]
+	#RewriteRule  ^arquibancadas-carnaval-2016/?$ produtos-arquibancadas.php [NC]
+	#RewriteRule  ^frisas-carnaval-2016/?$ produtos-frisas.php [NC]
+	#RewriteRule  ^atendimento/?$ atendimento.php [NC]
+	#RewriteRule  ^atendimento/sucesso/?$ e-atendimento.php [NC]
+	#RewriteRule  ^marketing-incentivo/?$ marketing-incentivo.php [NC]
+	#RewriteRule  ^marketing-incentivo/sucesso/?$ e-marketing-incentivo.php [NC]
+	#RewriteRule  ^amigos-do-ton/?$ amigos-do-ton.php [NC]
+	RewriteRule  ^login-cadastro-site/?$ cadastro.php [NC]
+	RewriteRule  ^login-cadastro-site/compre-adicionais/?$ cadastro.php?compre=true [NC]
+	RewriteRule  ^cadastro/compre-adicionais/?$ cadastro.php?compre=true [NC]
+
+	RewriteRule  ^login-cadastro-site/imprimir/([0-9]+)/?$ cadastro.php?imprimir=$1 [NC]
+	RewriteRule  ^login-cadastro-site/sucesso/?$ e-cadastro.php [NC]
+
+	RewriteRule  ^cadastro/imprimir/([0-9]+)/?$ cadastro.php?imprimir=$1 [NC]
+	RewriteRule  ^cadastro/sucesso/?$ e-cadastro.php [NC]
+
+	RewriteRule  ^login/sucesso/?$ acessa.php [NC]
+	RewriteRule  ^logout/?$ acessa.php?c=logout [NC]
+	RewriteRule  ^esqueci-senha/?$ esqueci-senha.php [NC]
+	RewriteRule  ^esqueci-senha/sucesso/?$ e-esqueci-senha.php [NC]
+	RewriteRule  ^ingressos-carnaval-2016/?$ compre.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/?$ compre.php [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/adicionar/?$ e-compre-adicionar.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/adicionar/?$ e-compre-adicionar.php [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/post/?$ e-compre.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/post/?$ e-compre.php [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/adicionais/?$ compre-adicionais.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/adicionais/?$ compre-adicionais.php [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/delivery/post/?$ e-compre-delivery.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/delivery/post/?$ e-compre-delivery.php [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/delivery/([0-9]+)/?$ compre-delivery.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/delivery/([0-9]+)/?$ compre-delivery.php?c=$1 [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/delivery/([0-9]+)/transfer/?$ compre-delivery.php?c=$1&transfer=true [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/delivery/([0-9]+)/transfer/?$ compre-delivery.php?c=$1&transfer=true [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/delivery/([0-9]+)/detalhes/?$ compre-delivery.php?c=$1&detalhes=true [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/delivery/([0-9]+)/detalhes/?$ compre-delivery.php?c=$1&detalhes=true [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/cupom/?$ e-compre-cupom.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/cupom/?$ e-compre-cupom.php [NC]
+	
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/cupom-parceiro/?$ e-compre-cupom-parceiro.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/cupom-parceiro/?$ e-compre-cupom-parceiro.php [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?c=$1&i=$2 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?c=$1&i=$2 [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/([0-9]+)/?$ compre-pagamento.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/([0-9]+)/?$ compre-pagamento.php?c=$1 [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?c=$1&cupom=$2 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?c=$1&cupom=$2 [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/confirmacao/?$ controle2014/cielo/pages/e-compra.php?fromcliente=true [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/confirmacao/?$ controle2014/cielo/pages/e-compra.php?fromcliente=true [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?c=$1 [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/agendamento/post/?$ e-compre-agendamento.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/agendamento/post/?$ e-compre-agendamento.php [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/agendamento/([0-9]+)/nao/?$ e-compre-agendamento-nao.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/agendamento/([0-9]+)/nao/?$ e-compre-agendamento-nao.php?c=$1 [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/agendamento/([0-9]+)/?$ compre-agendamento.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/agendamento/([0-9]+)/?$ compre-agendamento.php?c=$1 [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/([a-z0-9-]+)/?$ compre.php?t=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/([a-z0-9-]+)/?$ compre.php?t=$1 [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/v2/cupom/?$ e-compre-cupom.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/v2/cupom/?$ e-compre-cupom.php [NC]
+	
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/v2/cupom-parceiro/?$ e-compre-cupom-parceiro.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/v2/cupom-parceiro/?$ e-compre-cupom-parceiro.php [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/v2/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?c=$1&i=$2&v2=true [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/v2/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?c=$1&i=$2&v2=true [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/v2/([0-9]+)/?$ compre-pagamento-v2.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/v2/([0-9]+)/?$ compre-pagamento-v2.php?c=$1 [NC]
+
+	RewriteRule  ^ingressos-carnaval-2016/pagamento/v2/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?c=$1&cupom=$2&v2=true [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2016-rj/pagamento/v2/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?c=$1&cupom=$2&v2=true [NC]
+
+	RewriteRule  ^minhas-compras/?$ compre-pagamentos.php [NC]
+	RewriteRule  ^minhas-compras/detalhes/([0-9]+)/?$ compre-pagamentos-detalhes.php?c=$1 [NC]
+	RewriteRule  ^minhas-compras/detalhes/camisas/([0-9]+)/?$ compre-pagamentos-detalhes-camisas.php?c=$1 [NC]
+	RewriteRule  ^minhas-compras/detalhes/camisas/post/?$ e-compre-camisas.php?c=$1 [NC]
+	RewriteRule  ^minhas-compras/imprimir/([0-9]+)/?$ compre-pagamentos-imprimir.php?c=$1 [NC]
+	RewriteRule  ^minhas-compras/excluir/([0-9]+)/?$ e-compre-excluir.php?c=$1 [NC]
+	RewriteRule  ^minhas-compras/agendamentos/?$ compre-agendamentos.php [NC]
+	RewriteRule  ^minhas-compras/agendamentos/([0-9]+)/?$ compre-agendamento.php?c=$1&interno=true [NC]
+	RewriteRule  ^minhas-compras/agendamentos/([0-9]+)/nao/?$ e-compre-agendamento-nao.php?c=$1&interno=true [NC]
+	RewriteRule  ^minhas-compras/agendamentos/post/?$ e-compre-agendamento.php [NC]
+	RewriteRule  ^minhas-compras/([a-z0-9-]+)/?$ compre-pagamentos.php?t=$1 [NC]
+	RewriteRule  ^meus-dados/?$ meus-dados.php [NC]
+	RewriteRule  ^meus-dados/alterar/?$ e-meus-dados.php [NC]
+	RewriteRule  ^nossos-camarotes/para-empresas/?$ produtos-camarote-corporativo.php [NC]
+	RewriteRule  ^nossos-camarotes/transporte/?$ produtos-camarote.php [NC]
+	RewriteRule  ^nossos-camarotes/para-grupos/?$ produtos-camarote.php [NC]
+	RewriteRule  ^nossos-camarotes/setor-4-especial/?$ produtos-camarote.php [NC]
+	RewriteRule  ^nossos-camarotes/setor-4/?$ produtos-camarote.php [NC]
+	RewriteRule  ^nossos-camarotes/setor-8/?$ produtos-camarote.php [NC]
+	RewriteRule  ^guia-do-carnaval-2014/([0-9]+)/([a-z0-9-]+)/?$ guia.php?c=$1&nome=$2 [NC]
+	RewriteRule  ^guia-do-carnaval-2014/categoria/([a-z0-9-]+)/?$ guia.php?cat=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/?$ compre.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/adicionar/?$ e-compre-adicionar.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/post/?$ e-compre.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/adicionais/?$ compre-adicionais.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/delivery/post/?$ e-compre-delivery.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/delivery/([0-9]+)/?$ compre-delivery.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/delivery/([0-9]+)/transfer/?$ compre-delivery.php?c=$1&transfer=true [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/delivery/([0-9]+)/detalhes/?$ compre-delivery.php?c=$1&detalhes=true [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/pagamento/confirmacao/?$ controle2014/cielo/pages/e-compra.php?fromcliente=true [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/pagamento/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/pagamento/cupom/?$ e-compre-cupom.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/pagamento/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?c=$1&i=$2 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/pagamento/([0-9]+)/?$ compre-pagamento.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/agendamento/post/?$ e-compre-agendamento.php [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/agendamento/([0-9]+)/nao/?$ e-compre-agendamento-nao.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/agendamento/([0-9]+)/?$ compre-agendamento.php?c=$1 [NC]
+	RewriteRule  ^comprar-ingressos-carnaval-2014-rj/([a-z0-9-]+)/?$ compre.php?t=$1 [NC]
+	RewriteRule  ^promoespacocambio?$ promocao-espaco-cambio.php [NC]
+	RewriteRule  ^promoespacocambio/post/?$ e-promocao-espaco-cambio.php [NC]
+	RewriteRule  ^oportunidadesfoliatropical/?$ oportunidades-folia-tropical.php [NC]
+
+	RewriteRule  ^compra/v2/retorno/?$ controle2014/cielov2/retorno.php [NC]
+	RewriteRule  ^compra/v2/notificacao/?$ controle2014/cielov2/notificacao.php [NC]
+	RewriteRule  ^compra/v2/status/?$ controle2014/cielov2/status.php [NC]
+
+	RewriteRule  ^compra/retorno/cielo/([a-z0-9-]+)/?$ controle2014/cielo/pages/retorno-cliente.php?c=$1 [NC]
+
+	RewriteRule  ^retorno/paypal/sucesso/?$ controle2014/paypal/retorno-paypal.php [NC]
+	RewriteRule  ^retorno/paypal/cancel/?$ controle2014/paypal/cancel-paypal.php [NC]
+
+
+	#------------------------------------------------------------------------------------------------------#
+
+
+	#------------------------------------------------------------------------------------------------------#
+
+	#Compra
+	RewriteRule  ^(br|us)/tickets-carnival-in-rio-2017/?$ compre.php?lang=$1 [QSA]
+	RewriteRule  ^(br|us)/tickets-carnival-in-rio-2017/([a-z0-9-]+)/?$ compre.php?lang=$1&t=$2 [QSA]
+	RewriteRule  ^(br|us)/tickets-carnival-in-rio/([a-z0-9-]+)/?$ compre.php?lang=$1&t=$2 [QSA]
+
+
+	RewriteRule  ^(br|us)/ingressos/?$ compre.php?lang=$1 [QSA]
+	RewriteRule  ^(br|us)/ingressos/2/?$ compre2.php?lang=$1 [QSA]
+	RewriteRule  ^(br|us)/ingressos/cancelar/?$ compre.php?lang=$1&cancelar=true [NC]
+	RewriteRule  ^(br|us)/ingressos/adicionar/?$ e-compre-adicionar.php?lang=$1 [QSA]
+	RewriteRule  ^(br|us)/ingressos/post/?$ e-compre.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos/adicionais/?$ compre-adicionais.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos/delivery/post/?$ e-compre-delivery.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos/delivery/([0-9]+)/?$ compre-delivery.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos/delivery/([0-9]+)/transfer/?$ compre-delivery.php?lang=$1&c=$2&transfer=true [NC]
+	RewriteRule  ^(br|us)/ingressos/delivery/([0-9]+)/detalhes/?$ compre-delivery.php?lang=$1&c=$2&detalhes=true [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/cupom/?$ e-compre-cupom.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?lang=$1&c=$2&i=$3 [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/cupom-parceiro/?$ e-compre-cupom-parceiro.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/([0-9]+)/?$ compre-pagamento-v2.php?lang=$1&c=$2 [NC]
+
+
+	RewriteRule  ^(br|us)/ingressos/pagamento/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?lang=$1&c=$2&cupom=$3 [NC]
+
+	RewriteRule  ^(br|us)/ingressos/pagamento/cielo/confirmacao/?$ controle2014/cielo/pages/e-compra-cartao.php?lang=$1&fromcliente=true [NC]
+
+
+	RewriteRule  ^(br|us)/ingressos/pagamento/confirmacao/?$ controle2014/cielo/pages/e-compra.php?lang=$1&fromcliente=true [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos/agendamento/post/?$ e-compre-agendamento.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos/agendamento/([0-9]+)/nao/?$ e-compre-agendamento-nao.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos/agendamento/([0-9]+)/?$ compre-agendamento.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos/([a-z0-9-]+)/?$ compre.php?lang=$1&t=$2 [QSA]
+
+	RewriteRule  ^(br|us)/ingressos/pagamento/v2/cupom/?$ e-compre-cupom.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/v2/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?lang=$1&c=$2&i=$3&v2=true [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/v2/cupom-parceiro/?$ e-compre-cupom-parceiro.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/v2/([0-9]+)/?$ compre-pagamento-v2.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/v2/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?lang=$1&c=$2&cupom=$3&v2=true [NC]
+
+	#pagamento cielo novo
+	RewriteRule   ^(br|us)/ingressos/pagamento/cielo/([0-9]+)/?$ compre-pagamento-cielo.php?lang=$1&c=$2 [NC]
+
+	RewriteRule  ^(br|us)/ingressos/pagamento/paypal/cupom/?$ e-compre-cupom.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/paypal/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?lang=$1&c=$2&i=$3&paypal=true [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/paypal/cupom-parceiro/?$ e-compre-cupom-parceiro.php?lang=$1 [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/paypal/([0-9]+)/?$ compre-pagamento-paypal.php?lang=$1&c=$2 [NC]
+	RewriteRule  ^(br|us)/ingressos/pagamento/paypal/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?lang=$1&c=$2&cupom=$3&paypal=true [NC]
+
+	RewriteRule  ^ingressos/post/?$ e-compre.php [NC]
+	RewriteRule  ^ingressos/adicionais/?$ compre-adicionais.php [NC]
+	RewriteRule  ^ingressos/delivery/post/?$ e-compre-delivery.php [NC]
+	RewriteRule  ^ingressos/delivery/([0-9]+)/?$ compre-delivery.php?c=$1 [NC]
+	RewriteRule  ^ingressos/delivery/([0-9]+)/transfer/?$ compre-delivery.php?c=$1&transfer=true [NC]
+	RewriteRule  ^ingressos/delivery/([0-9]+)/detalhes/?$ compre-delivery.php?c=$1&detalhes=true [NC]
+	RewriteRule  ^ingressos/pagamento/cupom/?$ e-compre-cupom.php [NC]
+	RewriteRule  ^ingressos/pagamento/cupom-parceiro/?$ e-compre-cupom-parceiro.php [NC]
+	RewriteRule  ^ingressos/pagamento/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?c=$1&i=$2 [NC]
+	RewriteRule  ^ingressos/pagamento/([0-9]+)/?$ compre-pagamento.php?c=$1 [NC]
+	RewriteRule  ^ingressos/pagamento/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?c=$1&cupom=$2 [NC]
+	RewriteRule  ^ingressos/pagamento/confirmacao/?$ controle2014/cielo/pages/e-compra.php?fromcliente=true [NC]
+	RewriteRule  ^ingressos/pagamento/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?c=$1 [NC]
+	RewriteRule  ^ingressos/pagamento/cielo/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?c=$1 [NC]
+	RewriteRule  ^ingressos-carnaval-2017/pagamento/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?c=$1 [NC]
+	RewriteRule  ^ingressos-carnaval-2017/pagamento/cielo/retorno/([0-9]+)/?$ controle2014/cielo/pages/retorno-cliente.php?c=$1 [NC]
+	
+	RewriteRule  ^ingressos/agendamento/post/?$ e-compre-agendamento.php [NC]
+	RewriteRule  ^ingressos/agendamento/([0-9]+)/nao/?$ e-compre-agendamento-nao.php?c=$1 [NC]
+	RewriteRule  ^ingressos/agendamento/([0-9]+)/?$ compre-agendamento.php?c=$1 [NC]
+	RewriteRule  ^ingressos/([a-z0-9-]+)/?$ compre.php?t=$1 [NC]
+	RewriteRule  ^ingressos/pagamento/v2/cupom/?$ e-compre-cupom.php [NC]
+	RewriteRule  ^ingressos/pagamento/v2/cupom-parceiro/?$ e-compre-cupom-parceiro.php [NC]
+	RewriteRule  ^ingressos/pagamento/v2/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compre-cupom.php?c=$1&i=$2&v2=true [NC]
+	RewriteRule  ^ingressos/pagamento/v2/([0-9]+)/?$ compre-pagamento-v2.php?c=$1 [NC]
+	RewriteRule  ^ingressos/pagamento/v2/([0-9]+)/remover/([0-9]+)/?$ compre-pagamento-remover.php?c=$1&cupom=$2&v2=true [NC]
+	
+
+	#------------------------------------------------------------------------------------------------------#
+
+	ErrorDocument 404 /404.php	
+
+</IfModule>

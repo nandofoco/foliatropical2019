@@ -1,0 +1,190 @@
+<?
+
+include 'conn/conn.php';
+include 'conn/conn-sankhya.php';
+include 'inc/funcoes.php';
+
+$_SESSION['plataforma'] = 'atual';
+
+if ($_GET['c']=='logout') {
+
+	unsetsessao();
+	?>
+	<script type="text/javascript">location.href='<? echo $_SERVER['HTTP_REFERER']; ?>';</script>
+	<?
+	exit();
+}
+
+$continue = $_GET['cc'];
+
+//TRATANTO AS VARIAVEIS DO LOGON
+$login = format($_POST['email']);
+$senha = md5(format($_POST['senha']));
+
+$imprimir = (int) $_POST['imprimir'];
+$compre = (bool) $_POST['compre'];
+$sessionID = format($_POST['SessionID']);
+
+#if($compre) $retorno = 'compre-adicionais/';
+#elseif ($imprimir > 0) $retorno = 'imprimir/'.$imprimir.'/';
+
+//BUSCANDO DADOS DO USUARIO
+$sql_logon = sqlsrv_query($conexao_sankhya, "SELECT
+		CODPARC,
+		EMAIL,
+		AD_SENHA,
+		NOMEPARC,
+		RAZAOSOCIAL,
+		TIPPESSOA,
+		EMAIL,
+		TELEFONE,
+		CGC_CPF,
+		CONVERT(CHAR, DTNASC, 103) AS DATA,
+		AD_IDENTIFICACAO,
+		PAIS_SIGLA
+    FROM
+        TGFPAR
+    WHERE
+        EMAIL='$login'
+		AND AD_SENHA='$senha'",
+    $conexao_params, $conexao_options);
+
+$logon = sqlsrv_num_rows($sql_logon);
+
+
+if ($logon==0) {
+
+	$user_ip = $_SERVER["REMOTE_ADDR"];
+    $user_host = gethostbyaddr($user_ip); //pego o host
+    
+    //Incluir arquivos de layout
+    include 'inc/partials/head.php';
+	
+	?>
+	<script type="text/javascript">
+		(function (a, b, c, d, e, f, g) {
+		 a['CsdmObject'] = e; a[e] = a[e] || function () {
+		 (a[e].q = a[e].q || []).push(arguments)
+		 }, a[e].l = 1 * new Date(); f = b.createElement(c),
+		 g = b.getElementsByTagName(c)[0]; f.async = 1; f.src = d; g.parentNode.insertBefore(f, g)
+		})(window, document, 'script', '//device.clearsale.com.br/m/cs.js', 'csdm');
+		csdm('app', '<?php echo CLEARSALE_APP; ?>');
+		csdm('mode', 'manual');
+		csdm('send', 'login-fail');
+        
+        // swal({
+        //     title: "Login incorreto",
+        //     text: "Os dados parecem estar incorretos, tente novamente",
+        //     html: true,
+        //     type: "error"
+        // }, function() {
+        //     window.location.href = '<? echo $_SERVER['HTTP_REFERER'].$retorno; ?>#/login';
+		// });
+		window.location.href = '<? echo $_SERVER['HTTP_REFERER'].$retorno; ?>#/login';
+	</script>
+	<?
+
+	$_SESSION['usuario-erro'] = true;
+
+	//fechar conexao com o banco
+	include 'conn/close.php';
+	include 'conn/close-sankhya.php';
+	
+	exit();
+}
+
+if ($logon==1) {
+
+	$result = sqlsrv_fetch_array($sql_logon);
+
+
+	//Setamos as variáveis de sessão
+	$_SESSION['usuario-cod'] = trim($result['CODPARC']);
+	$_SESSION['usuario-login'] = trim($result['EMAIL']);
+	$_SESSION['usuario-senha'] = trim($result['AD_SENHA']);
+	$_SESSION['usuario-nome'] = trim($result['NOMEPARC']);
+	$_SESSION['usuario-razao-social'] = trim($result['RAZAOSOCIAL']);
+	$_SESSION['usuario-tipo-pessoa'] = trim($result['TIPPESSOA']);
+	$_SESSION['usuario-email'] = trim($result['EMAIL']);
+	$_SESSION['usuario-telefone'] = trim($result['TELEFONE']);
+	$_SESSION['SessionID'] = format($sessionID);
+	
+	$user_ip = $_SERVER["REMOTE_ADDR"];
+	$user_host = gethostbyaddr($user_ip); //pego o host
+
+	//Codificar dados para usar no cookie
+	include 'inc/focoencrypt.php';
+
+	$cliente_cpf_cnpj = trim($result['CGC_CPF']);
+	$cliente_passaporte = trim($result['AD_IDENTIFICACAO']);
+
+	#$session_language = (!empty($cliente_passaporte)) ? 'US' : 'BR';
+	#setcookie('ftropsitelang', $session_language, time()+(3600*24*30*12*5), '/');
+	
+	$focoenc = new FocoEncrypt;
+	$cookie_valor = $focoenc->criptografar($_SESSION['usuario-login'], $_SESSION['usuario-senha']);
+
+	setcookie('ftropsite', $cookie_valor, time()+(3600*24*30*12*5), '/');
+
+	unset($_SESSION['usuario-erro']);
+	
+	// $link = (count($_SESSION['compra-site']) > 0) ? 'ingressos/' : '';
+	$link = (count($_SESSION['compra-site']) > 0) ? '' : '';
+
+	#if($compre) $link = 'ingressos/adicionais/';
+	#elseif ($imprimir > 0) $link = 'minhas-compras/imprimir/'.$imprimir.'/';
+
+
+	//Verifica se o CPF ou o Passaporte estão vazios
+
+		
+	$cliente_pais = $result['PAIS_SIGLA'];
+	$cliente_data_nascimento = utf8_encode(trim($result['DATA']));
+
+
+	$emptyCPF = false;
+	$emptyPassaport = false;
+
+
+	if ($cliente_pais == 'BR') 
+	{
+		// $session_language = ('BR');
+
+		if (empty($cliente_cpf_cnpj))
+		{
+			$emptyCPF = true;
+		}
+	} 
+	else
+	{
+		// $session_language = ('US');
+
+		if (empty($cliente_passaporte))
+		{
+			$emptyPassaport = true;
+		}
+	}
+
+	
+	
+
+	if (empty($cliente_data_nascimento) || $emptyCPF || $emptyPassaport)
+	{
+		$_SESSION['atualizacao_dados'] = false;
+
+		echo '<script type="text/javascript">location.href="https://ingressos.foliatropical.com.br/atualiza-dados.php";</script>';
+	}
+	else
+	{
+		$_SESSION['atualizacao_dados'] = true;
+	 	echo '<script type="text/javascript">location.href="'.$_SERVER['HTTP_REFERER'].$link.'";</script>';
+	}
+
+
+}
+
+//fechar conexao com o banco
+include 'conn/close.php';
+include 'conn/close-sankhya.php';
+
+?>

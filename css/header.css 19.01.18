@@ -1,0 +1,98 @@
+header#topo-novo {
+    position: relative;
+    /*height: 140px;*/
+    z-index: 999;
+}
+    header#topo-novo nav#principal {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 120px;
+        padding-bottom: 20px;
+        display: block;
+        background: url(../img/bg-header-novo.png) repeat-x center top;
+        z-index: 2;
+    }
+
+        header#topo-novo nav#principal div {
+            position: relative;
+            padding-top: 80px;
+            padding-bottom: 10px;
+            width: 780px;
+            height: 30px;
+            line-height: 30px;
+            margin: 0 auto;
+        }
+            header#topo-novo nav#principal a#logo {
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: 0;
+                margin-left: -80px;
+                width: 160px;
+                height: 80px;
+                z-index: 2;
+                cursor: pointer;
+            }
+                header#topo-novo nav#principal a#logo span { display: none; }
+            
+            header#topo-novo nav#principal ul {
+                height: 30px;
+                line-height: 30px;
+            }
+                header#topo-novo nav#principal ul li {
+                    display: inline;
+                    padding: 0 8px;
+                    line-height: 30px;
+                    vertical-align: center;
+                }
+                header#topo-novo nav#principal ul li a {
+                    font-size: 18px;
+                    font-weight: 400;
+                    line-height: 30px;
+                    vertical-align: center;
+                    color: #fff;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    
+                    -webkit-transition: color .3s;
+                    -moz-transition: color .3s;
+                    -o-transition: color .3s;
+                    transition: color .3s;
+                }
+                header#topo-novo nav#principal ul li a:hover {
+                    color: #ffb638;
+                }
+                    header#topo-novo nav#principal ul li a.comprar {
+                        font-size: 22px;
+                        color: #ffb638;
+                    }
+                    header#topo-novo nav#principal ul li a.info {
+                        font-size: 16px
+                    }
+
+                    header#topo-novo nav#principal ul li.carrinho {
+                        padding-left: 30px;
+                        background: url(../img/bg-header-novo-carrinho.png) no-repeat 10px center;
+                    }
+                    header#topo-novo nav#principal ul li.carrinho a.carrinho {
+                        font-size: 12px;
+                    }
+
+                header#topo-novo nav#principal ul li.nome {
+                    position: absolute;
+                    bottom: 90px;
+                    right: 0;
+                    font-size: 16px;
+                    font-weight: 400;
+                    line-height: 1em;
+                    text-align: right;
+                    color: #fff;
+                    text-transform: uppercase;
+                    white-space: nowrap;
+                }
+                
+                    header#topo-novo nav#principal ul li.nome a { padding-left: 10px; }
+
+                    

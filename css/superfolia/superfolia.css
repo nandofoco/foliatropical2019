@@ -1,0 +1,354 @@
+@font-face {
+  font-family: 'dk_liquid_embraceregular';
+  src: url("../index/font/dk_liquid_embrace-webfont.eot");
+  src: url("../index/font/dk_liquid_embrace-webfont.eot?#iefix") format("embedded-opentype"), url("../index/font/dk_liquid_embrace-webfont.woff2") format("woff2"), url("../index/font/dk_liquid_embrace-webfont.woff") format("woff"), url("../index/font/dk_liquid_embrace-webfont.ttf") format("truetype"), url("../index/font/dk_liquid_embrace-webfont.svg#dk_liquid_embraceregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'dk_black_bambooregular';
+  src: url("../index/font/dk_black_bamboo-webfont.eot");
+  src: url("../index/font/dk_black_bamboo-webfont.eot?#iefix") format("embedded-opentype"), url("../index/font/dk_black_bamboo-webfont.woff2") format("woff2"), url("../index/font/dk_black_bamboo-webfont.woff") format("woff"), url("../index/font/dk_black_bamboo-webfont.ttf") format("truetype"), url("../index/font/dk_black_bamboo-webfont.svg#dk_black_bambooregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'dk_cinnabar_brush';
+  src: url("../index/font/dk_cinnabar_brush.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+/*
+%input {
+    
+    border: 1px $corform1 solid;
+    margin: 0;
+    padding: 9px 19px;
+    background: $cor1;
+    color: $corform2;
+    font-size: 14px;
+    font-family: $font-face;
+    line-height: 25px;
+    height: 25px;
+
+    @include border-radius();
+    @include transition();
+
+    &.disabled {
+        background-color: lighten($corform1, 12%);
+    }
+
+    &.empty{
+        border: 1px solid $cor3-medio;
+        background-color: lighten($cor3-medio, 30%);
+    }
+
+    &.invalid{
+        border: 1px solid $corform5;
+        background-color: lighten($corform5, 30%);
+    }
+    
+}
+%submit {
+    border: none;
+    margin: 0;
+    width: 100%;
+    height: 45px;
+    font: 700 16px/45px $font-face;
+    color: $cor1;
+    background: $corform6;
+    cursor: pointer;
+
+    @include border-radius();
+    @include transition();
+
+    &:hover { background-color: lighten($corform6, 5%); }
+}
+%botao {
+    display: block;
+    height: 35px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 35px;
+    color: $cor1;
+    background: darken($corform1, 5%);
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+
+    @include border-radius();
+    @include transition();
+
+    &:hover { background-color: $corform1; }
+}*/
+section#superfolia section.conteudo#servicos-exclusivos a.compre, section#superfolia section.conteudo#mais-folia a.sobre {
+  display: block;
+  width: 790px;
+  height: 100px;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 40px;
+  line-height: 100px;
+  color: #fff;
+  margin: 0 auto;
+  box-shadow: inset -1px -3px 8px rgba(0, 0, 0, 0.4), inset 1px 3px 8px rgba(255, 255, 255, 0.4);
+  -moz-box-shadow: inset -1px -3px 8px rgba(0, 0, 0, 0.4), inset 1px 3px 8px rgba(255, 255, 255, 0.4);
+  -webkit-box-shadow: inset -1px -3px 8px rgba(0, 0, 0, 0.4), inset 1px 3px 8px rgba(255, 255, 255, 0.4);
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s; }
+
+section#superfolia {
+  font: normal 14px/1em "dk_black_bambooregular", sans-serif;
+  text-align: center;
+  overflow-x: hidden;
+  color: #fff;
+  background: #FFF;
+  position: relative;
+  overflow: hidden; }
+  section#superfolia .slice1 {
+    background: url(../../img/superfolia/bg-parte-1.jpg) no-repeat center top;
+    height: 1000px; }
+  section#superfolia .slice2 {
+    background: #FFF; }
+  section#superfolia .slice3 {
+    background: url(../../img/superfolia/bg-parte-3.jpg) no-repeat center top;
+    height: 1989px; }
+  section#superfolia .slice4 {
+    background: #FFF;
+    padding: 30px 0 60px 0; }
+  section#superfolia .slice5 {
+    background: url(../../img/superfolia/bg-parte-5.jpg) no-repeat center top;
+    height: 1393px; }
+  section#superfolia .slice6 {
+    background: #FFF; }
+    section#superfolia .slice6 .wrapper {
+      width: 1050px; }
+  section#superfolia .slice7 {
+    background: url(../../img/superfolia/bg-parte-7.jpg) no-repeat center top;
+    height: 568px; }
+  section#superfolia .wrapper {
+    width: 985px;
+    padding-left: 23px;
+    padding-right: 23px;
+    margin: 0 auto; }
+  section#superfolia a#super-logo {
+    display: block;
+    text-decoration: none;
+    height: 900px;
+    background: url(../../img/superfolia/logo.png) no-repeat center center; }
+  section#superfolia .slice5 .wrapper {
+    width: 1172px; }
+  section#superfolia section.conteudo h2 {
+    /*background-image: url(../../img/superfolia/bg-secao-titulos.png);*/
+    background-repeat: no-repeat;
+    height: 80px;
+    line-height: 80px;
+    font-size: 50px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: "dk_cinnabar_brush", sans-serif; }
+  section#superfolia section.conteudo p {
+    font-size: 32px;
+    letter-spacing: 2px;
+    line-height: 38px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 70px; }
+  section#superfolia section.conteudo#lounge-exclusivo {
+    margin-bottom: 80px; }
+    section#superfolia section.conteudo#lounge-exclusivo h2 {
+      background-position: center 0;
+      color: #7d468a; }
+    section#superfolia section.conteudo#lounge-exclusivo figure img {
+      width: 100%; }
+  section#superfolia section.conteudo#mapa-camarote h2 {
+    color: #FFF;
+    padding-top: 100px; }
+  section#superfolia section.conteudo#mapa-camarote figure {
+    position: relative; }
+    section#superfolia section.conteudo#mapa-camarote figure img {
+      width: 100%; }
+    section#superfolia section.conteudo#mapa-camarote figure article {
+      position: absolute; }
+      section#superfolia section.conteudo#mapa-camarote figure article h3 {
+        font-size: 30px;
+        color: #FFF;
+        line-height: 1.2em;
+        margin-bottom: 10px; }
+      section#superfolia section.conteudo#mapa-camarote figure article p {
+        font-size: 24px;
+        color: #491c62;
+        margin: 0;
+        line-height: 1.2em; }
+      section#superfolia section.conteudo#mapa-camarote figure article.panoramica {
+        top: 140px;
+        right: -130px; }
+      section#superfolia section.conteudo#mapa-camarote figure article.lounge {
+        bottom: 140px;
+        left: -160px; }
+  section#superfolia section.conteudo#mapa-camarote p {
+    margin-top: 80px;
+    font-size: 26px; }
+    section#superfolia section.conteudo#mapa-camarote p span {
+      color: #491c61;
+      font-size: 38px; }
+  section#superfolia section.conteudo#area-premium {
+    /*padding-top: 20px;*/ }
+    section#superfolia section.conteudo#area-premium h2 {
+      background-position: center -160px;
+      color: #4a1c62; }
+    section#superfolia section.conteudo#area-premium p {
+      color: #491c62;
+      font-size: 25px; }
+      section#superfolia section.conteudo#area-premium p span {
+        color: #ff9820;
+        font-size: 34px; }
+    section#superfolia section.conteudo#area-premium figure {
+      margin-bottom: 50px; }
+      section#superfolia section.conteudo#area-premium figure img {
+        width: 100%; }
+  section#superfolia section.conteudo#open-bar-exclusivo {
+    padding-top: 210px; }
+    section#superfolia section.conteudo#open-bar-exclusivo h2 {
+      background-position: center -240px;
+      color: #7d468a; }
+    section#superfolia section.conteudo#open-bar-exclusivo figure {
+      background: url(../../img/superfolia/img-open-bar.png) no-repeat center -50px;
+      height: 580px; }
+  section#superfolia section.conteudo#servicos-exclusivos h2 {
+    color: #491c61;
+    margin-bottom: 50px; }
+  section#superfolia section.conteudo#servicos-exclusivos figure {
+    background: url(../../img/superfolia/img-servicos-diferenciados.jpg) no-repeat center center;
+    height: 521 px; }
+  section#superfolia section.conteudo#servicos-exclusivos a.compre {
+    font-size: 55px;
+    background: #813c7f; }
+    section#superfolia section.conteudo#servicos-exclusivos a.compre:hover {
+      background: #8f428d; }
+  section#superfolia section.conteudo#mais-folia {
+    padding-top: 40px;
+    /*			img.galeria {
+    				position: relative;
+    				left: -150px;
+    				top: -100px;
+    				z-index: 1;
+    			}*/ }
+    section#superfolia section.conteudo#mais-folia h2 {
+      color: #7d468a; }
+    section#superfolia section.conteudo#mais-folia figure {
+      z-index: 99;
+      height: 500px;
+      padding-right: 130px;
+      margin-top: 80px;
+      position: relative; }
+      section#superfolia section.conteudo#mais-folia figure img {
+        float: right; }
+      section#superfolia section.conteudo#mais-folia figure p {
+        font-size: 48px;
+        line-height: 1em;
+        position: absolute;
+        top: 100px;
+        left: 120px; }
+    section#superfolia section.conteudo#mais-folia section#galeria-slider {
+      position: relative;
+      height: 609px;
+      padding: 0;
+      z-index: 1;
+      margin: 0 auto;
+      width: 914px;
+      z-index: 1; }
+      section#superfolia section.conteudo#mais-folia section#galeria-slider a.ctrl {
+        display: block;
+        position: absolute;
+        top: 274.5px;
+        width: 35px;
+        height: 60px;
+        text-decoration: none;
+        background: url(../../img/index/bg-slider-ctrl-arrow.png) no-repeat;
+        -webkit-transition: 0.3s;
+        -moz-transition: 0.3s;
+        -o-transition: 0.3s;
+        transition: 0.3s; }
+        section#superfolia section.conteudo#mais-folia section#galeria-slider a.ctrl.prev {
+          background-position: 0 0;
+          left: -55px; }
+        section#superfolia section.conteudo#mais-folia section#galeria-slider a.ctrl.next {
+          background-position: -35px 0;
+          right: -55px; }
+        section#superfolia section.conteudo#mais-folia section#galeria-slider a.ctrl:hover {
+          -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=$opacity-ie)";
+          filter: alpha(opacity=80);
+          -moz-opacity: 0.8;
+          -khtml-opacity: 0.8;
+          opacity: 0.8; }
+      section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow,
+      section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list,
+      section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list .item,
+      section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list .item a.link {
+        height: 609px; }
+      section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow {
+        position: relative;
+        margin: 0 auto;
+        overflow: hidden;
+        padding-bottom: 60px;
+        width: 100%;
+        z-index: 2; }
+        section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list {
+          width: 5000%; }
+          section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list .item {
+            float: left;
+            width: 2%;
+            background: #ccc; }
+            section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list .item span.link img {
+              width: 990px; }
+            section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list .item a.link {
+              display: block;
+              text-decoration: none;
+              background-color: #fff;
+              -webkit-transition: 0.3s;
+              -moz-transition: 0.3s;
+              -o-transition: 0.3s;
+              transition: 0.3s; }
+              section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list .item a.link:hover {
+                -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+              section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list .item a.link figure,
+              section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list .item a.link figure img {
+                width: 100%;
+                height: 609px; }
+              section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list .item a.link figure {
+                position: relative; }
+                section#superfolia section.conteudo#mais-folia section#galeria-slider .overflow .list .item a.link figure img {
+                  display: block; }
+      section#superfolia section.conteudo#mais-folia section#galeria-slider .item {
+        overflow: hidden; }
+      section#superfolia section.conteudo#mais-folia section#galeria-slider a.ctrl {
+        background: url(../../img/superfolia/ctrl.png) no-repeat;
+        width: 32px; }
+    section#superfolia section.conteudo#mais-folia a.sobre {
+      background: #faa004; }
+      section#superfolia section.conteudo#mais-folia a.sobre:hover {
+        background: #fba817; }
+  section#superfolia section#video-super {
+    padding-top: 30px;
+    padding-bottom: 60px; }
+    section#superfolia section#video-super h2 {
+      font-size: 40px;
+      line-height: 1em;
+      color: #7d468a;
+      margin-bottom: 30px;
+      text-transform: uppercase; }
+  section#superfolia a.perguntas {
+    position: relative;
+    top: 180px;
+    width: 963px;
+    height: 215px;
+    display: block;
+    margin: 0 auto;
+    background: url(../../img/superfolia/img-perguntas.png); }
+
+/*# sourceMappingURL=superfolia.css.map */

@@ -1,0 +1,318 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, applet, object, iframe, table, caption,
+tbody, tfoot, thead, tr, th, td, del, dfn, em, font, img, ins,
+kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr,
+acronym, address, big, cite, code, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend {
+    vertical-align: baseline;
+    font-family: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    outline: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+:focus { outline: 0; }
+body {
+    background: white;
+    line-height: 1;
+    color: black;
+}
+ol, ul { list-style: none; }
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+table td { /*vertical-align: middle;*/}
+caption, th, td {
+    font-weight: normal;
+    text-align: left;
+}
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+strong { font-weight: bold; }
+em { font-style: italic; }
+header, section, footer, article, nav, aside { display: block; }
+h1, h2, h3, h4, h5, h6 { font-weight: 400; }
+
+/*------------------------------ Global --------------------------------*/
+
+body {      
+    font: normal 12px/1em 'Open Sans', sans-serif;
+    position: relative;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #000;
+}
+
+/*----------------------------------------------------------------*/
+
+section#conteudo {
+    width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    padding-bottom: 60px;
+}
+    
+    section#conteudo header#topo {
+        position: relative;
+        /*padding: 40px 30px 40px 250px;
+        margin-bottom: 15px;
+        height: 130px;
+
+        font-size: 12px;
+        line-height: 1.8em;*/
+
+        padding: 30px 30px 10px 180px;
+        height: 80px;
+        font-size: 14px;
+        line-height: 1.8em;
+    }
+    section#conteudo header#topo img.logo {
+        position: absolute;
+        /*top: 30px;*/
+        top: 10px;
+        left: 0;
+        display: block;
+        /*width: 200px;*/
+        /*height: 150px;*/
+
+        width: 135px;
+        height: 100px;
+    }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section#detalhes-compra {
+        position: relative;
+        height: 50px;
+        margin-bottom: 20px;
+    }
+        section#conteudo section#detalhes-compra h1 {
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 50px;
+        }
+        section#conteudo section#detalhes-compra h2 {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 22px;
+            font-weight: 900;
+            line-height: 50px;
+            text-transform: uppercase;
+        }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section.secao {
+        margin-bottom: 30px;
+    }
+        section#conteudo section.secao h2 {
+            font-size: 13px;
+            line-height: 1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        section#conteudo section.secao table {
+            width: 100%;
+            border-collapse: collapse;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        section#conteudo section.secao table tr td,
+        section#conteudo section.secao table tr th {
+            /*font-size: 13px;*/
+            font-size: 12px;
+            line-height: 1.5em;
+            /*padding: 8px 10px;*/
+            padding: 4px 10px;
+            border: 1px #000 solid;
+        }
+        section#conteudo section.secao table tr td.email { text-transform: none; }
+        section#conteudo section.secao table tr th {
+            font-weight: 700;
+            width: 200px;
+        }
+        section#conteudo section.secao table tr th.full { width: auto; }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section#informacoes-assinatura.secao table thead tr th {
+        border: none;
+        text-transform: none;
+        font-weight: normal;
+        font-size: 11px;
+    }
+        section#conteudo section#informacoes-assinatura.secao table thead tr th.data { width: 80px; }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section.secao table tr td .atencao { padding-top: 0.5em; }
+    section#conteudo section.secao table tr td .atencao p { margin-bottom: 0.5em; }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section.informacoes-retirada,
+    section#conteudo section#informacoes-cancelamento {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    section#conteudo section.informacoes-retirada { margin-bottom: 30px; }
+
+        section#conteudo section.informacoes-retirada h3,
+        section#conteudo section#informacoes-cancelamento h3 {
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1em;
+            text-transform: uppercase;
+            margin: 8px 0;
+        }
+        section#conteudo section.informacoes-retirada p,
+        section#conteudo section#informacoes-cancelamento p {
+            /*font-size: 10px;
+            margin-bottom: 5px;*/
+            font-size: 9px;
+            line-height: 1em;
+            margin-bottom: 3px;
+        }
+
+    section#conteudo section.informacoes-retirada.big.side,
+    section#conteudo section#informacoes-cancelamento.big.side {
+        float: left;
+        width: 370px;
+        padding: 20px 0;
+        text-align: left;
+    }
+    section#conteudo section.informacoes-retirada.big.side { padding-right: 30px; }
+    section#conteudo section#informacoes-cancelamento.big.side { padding-left: 30px; }
+
+        section#conteudo section.informacoes-retirada.big h3,
+        section#conteudo section#informacoes-cancelamento.big h3 {
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1em;
+            margin: 12px 0;
+        }
+        section#conteudo section.informacoes-retirada.big p,
+        section#conteudo section#informacoes-cancelamento.big p {
+            text-align: left;
+            font-size: 12px;
+            line-height: 1.2em;
+            margin-bottom: 8px;
+        }
+
+    section#conteudo section.informacoes-retirada.float {
+        width: 340px;
+        height: 120px;
+        padding: 19px 29px;
+        border: 1px #000 solid;
+        float: left;
+        text-align: left;
+    }
+    section#conteudo section.informacoes-retirada.float.last {
+        border-left: 0;
+        padding-left: 30px;
+    }
+        section#conteudo section.informacoes-retirada.float h3 { font-size: 11px; }
+        section#conteudo section.informacoes-retirada.float h3,
+        section#conteudo section.informacoes-retirada.float p {
+            text-transform: uppercase;
+            line-height: 1.1em;
+        }
+        section#conteudo section.informacoes-retirada.float p { margin-bottom: 5px; }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo footer {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-align: center;
+    }
+        section#conteudo footer p { margin-bottom: 5px; }
+
+/*----------------------------------------------------------------*/
+
+
+section#conteudo header#topo-procuracao {
+    position: relative;
+    padding: 30px 30px 10px 180px;
+    height: 80px;
+    font-size: 14px;
+    line-height: 1.8em;
+    margin-top: 100px;
+    border-top: 1px #ccc dashed;
+}
+    section#conteudo header#topo-procuracao img.logo {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        display: block;
+        
+        width: 135px;
+        height: 100px;
+    }
+
+    section#conteudo article#procuracao {
+        padding: 30px;
+    }    
+        section#conteudo article#procuracao h3 {
+            font-size: 10px;
+            font-weight: 400;
+            line-height: 1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        section#conteudo article#procuracao h2 {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1em;
+            text-transform: uppercase;
+            margin-bottom: 45px;
+        }
+        section#conteudo article#procuracao p {
+            font-size: 12px;
+            line-height: 2em;
+            margin-bottom: 1.5em;   
+        }
+        section#conteudo article#procuracao p.assinatura { margin-top: 35px; }
+
+        section#conteudo article#procuracao h4 {
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1em;
+            text-transform: uppercase;
+            margin-top: 40px;
+        }   
+
+
+@media print {
+    section#conteudo { padding-bottom: 0; }
+    section#conteudo header#topo-procuracao {
+        margin-top: 0;
+        border-top: none;
+        page-break-before: always;
+    }
+}
+
+/*----------------------------------------------------------------*/
+
+
+
+.clear  {
+    clear: both;
+    display: block;
+    font: 1px/0px serif;
+    content: ".";
+    height: 0;
+    visibility: hidden;
+}

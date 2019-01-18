@@ -1,0 +1,322 @@
+@import '_colors';
+@import '_mixins';
+
+%botao {
+	display: block;
+	width: 790px;
+	height: 100px;
+	text-decoration: none;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 40px;
+	line-height: 100px;
+	color: #fff;
+
+	margin: 0 auto;
+
+	box-shadow: inset -1px -3px 8px rgba(0, 0, 0, .4), inset 1px 3px 8px rgba(255, 255, 255, .4);
+	-moz-box-shadow: inset -1px -3px 8px rgba(0, 0, 0, .4), inset 1px 3px 8px rgba(255, 255, 255, .4);
+	-webkit-box-shadow: inset -1px -3px 8px rgba(0, 0, 0, .4), inset 1px 3px 8px rgba(255, 255, 255, .4);
+
+	@include transition();
+
+
+}
+
+section#superfolia{
+	
+	font: normal 14px/1em $font-face;
+	text-align: center;
+	overflow-x: hidden;
+	color: #fff;
+	background: #FFF;
+
+	position: relative;
+	overflow: hidden;
+
+	.slice1 {
+		background: url(../../img/superfolia/bg-parte-1.jpg) no-repeat center top;
+		height: 1000px;
+	}
+	.slice2 {
+		background: #FFF;
+	}
+	.slice3 {
+		background: url(../../img/superfolia/bg-parte-3.jpg) no-repeat center top;
+		height: 1989px;
+	}
+	.slice4 {
+		background: #FFF;
+		padding: 30px 0 60px 0;
+	}
+	.slice5 {
+		background: url(../../img/superfolia/bg-parte-5.jpg) no-repeat center top;
+		height: 1393px;
+	}
+	.slice6 {
+		background: #FFF;
+
+		.wrapper {
+			width: 1050px;
+		}
+	}
+	.slice7 {
+		background: url(../../img/superfolia/bg-parte-7.jpg) no-repeat center top;
+		height: 568px;
+	}
+	.wrapper {
+		width: 985px;
+		padding-left: 23px;
+		padding-right: 23px;
+		margin: 0 auto;
+	}
+
+	a#super-logo {
+		display: block;
+		text-decoration: none;
+		height: 900px;
+		background: url(../../img/superfolia/logo.png) no-repeat center center;
+	}
+
+	.slice5 {
+		.wrapper {
+			width: 1172px;
+		}
+	}
+
+	section.conteudo {
+
+		h2 {
+			/*background-image: url(../../img/superfolia/bg-secao-titulos.png);*/
+			background-repeat: no-repeat;
+			height: 80px;
+			line-height: 80px;
+			font-size: 50px;
+			text-transform: uppercase;
+			text-align: center;
+			margin-bottom: 20px;
+			font-family: $font-face-titulos;
+		}
+
+		p {
+			font-size: 32px;
+			letter-spacing: 2px;
+			line-height: 38px;
+			text-transform: uppercase;
+			text-align: center;
+			margin-bottom: 40px;
+			padding: 0 70px;
+		}
+
+
+
+		&#lounge-exclusivo {
+			margin-bottom: 80px;				
+			
+			h2 {
+				background-position: center 0;
+				color: #7d468a;
+			}				
+
+			figure {
+				img { width: 100%; }
+			}
+		}
+
+		&#mapa-camarote {
+
+			h2 {
+				color: #FFF;
+				padding-top: 100px;
+			}
+
+			figure {
+				position: relative;
+				img { width: 100%; }
+
+				article {
+					position: absolute;
+					h3 {
+						font-size: 30px;
+						color: #FFF;
+						line-height: 1.2em;
+						margin-bottom: 10px;
+					}
+					p {
+						font-size: 24px;
+						color: #491c62;
+						margin: 0;
+						line-height: 1.2em;
+					}
+
+					&.panoramica {
+						top: 140px;
+						right: -130px;
+					}
+
+					&.lounge {
+						bottom: 140px;
+						left: -160px;
+					}
+				}
+			}
+
+			p {
+				margin-top: 80px;
+				font-size: 26px;
+
+				span {
+					color: #491c61;
+					font-size: 38px;
+				}
+			}
+		}
+
+		&#area-premium {
+			/*padding-top: 20px;*/
+
+			h2 {
+				background-position: center -160px;
+				color: #4a1c62;
+			}
+
+			p {
+				color: #491c62;
+				font-size: 25px;
+
+				span {
+					color: #ff9820;
+					font-size: 34px;
+				}
+			}
+
+			figure {
+				img { width: 100%; }
+				margin-bottom: 50px;
+			}
+		}
+
+		&#open-bar-exclusivo {
+			padding-top: 210px;
+
+			h2 {
+				background-position: center -240px;
+				color: #7d468a;
+			}
+
+			figure {
+				background: url(../../img/superfolia/img-open-bar.png) no-repeat center -50px;
+				height: 580px;
+			}
+		}
+
+		&#servicos-exclusivos {
+
+			h2 {
+				color: #491c61;
+				margin-bottom: 50px;
+			}
+			figure {
+				background: url(../../img/superfolia/img-servicos-diferenciados.jpg) no-repeat center center;
+				height: 521
+				px;
+			}
+
+			a.compre {
+				@extend %botao;
+
+				font-size: 55px;
+				background: #813c7f;
+
+				&:hover { background: lighten(#813c7f, 4); }
+			}
+		}
+
+		&#mais-folia {
+			padding-top: 40px;
+			h2 {
+				color: #7d468a;
+			}
+
+			figure {
+				z-index: 99;
+				height: 500px;
+				padding-right: 130px;
+				margin-top: 80px;
+				position: relative;
+				
+				img {
+					float: right;
+				}
+
+				p {
+					font-size: 48px;
+					line-height: 1em;
+					position: absolute;
+					top: 100px;
+					left: 120px;
+				}
+			}
+
+/*			img.galeria {
+				position: relative;
+				left: -150px;
+				top: -100px;
+				z-index: 1;
+			}*/
+
+	        section#galeria-slider {
+	            @include slider(609px);
+	            margin: 0 auto;
+	            width: 914px;
+                z-index: 1;
+
+                .item {
+                	overflow: hidden;
+                }
+
+                a.ctrl {
+                	background: url(../../img/superfolia/ctrl.png) no-repeat;
+                	width: 32px;
+                }
+	        }
+
+
+			a.sobre {
+				@extend %botao;
+
+				background: #faa004;
+
+				&:hover { background: lighten(#faa004, 4); }
+			}
+		}
+
+	}
+
+	section#video-super {
+
+		padding-top: 30px;
+		padding-bottom: 60px;
+
+		h2 {
+			font-size: 40px;
+			line-height: 1em;
+			color: #7d468a;
+			margin-bottom: 30px;
+			text-transform: uppercase;
+		}
+
+	}
+
+	a.perguntas {
+		position: relative;
+		top: 180px;
+		width: 963px;
+		height: 215px;
+		display: block;
+		margin: 0 auto;
+		background: url(../../img/superfolia/img-perguntas.png);
+	}
+
+
+}

@@ -1,0 +1,132 @@
+<?
+
+//Incluir funções básicas
+include("include/includes.php");
+
+//-----------------------------------------------------------------//
+
+//arquivos de layout
+include("include/head.php");
+include("include/header.php");
+
+//-----------------------------------------------------------------//
+
+ $cod_parceiro = $_SESSION['us-par-parceiro'];
+
+
+// $cod_parceiro='5940';
+
+// $q = format($_GET['q']);
+// // if(!empty($q)) $search = "AND (CP_NOME LIKE '%$q%' OR CP_CUPOM LIKE '%$q%' OR tipo='$q')";
+// if(!empty($q)) $search = "AND (CP_NOME LIKE '%$q%' OR CP_CUPOM LIKE '%$q%')";
+
+$sql_loja = sqlsrv_query($conexao, "select l.LO_COD, 
+(CONVERT(VARCHAR, l.LO_DATA_COMPRA, 103)+' '+SUBSTRING(CONVERT(VARCHAR, l.LO_DATA_COMPRA, 108),1,5)) AS DATA_COMPRA, 
+l.LO_VALOR_PARCIAL, 
+l.LO_VALOR_TOTAL, 
+(CONVERT(VARCHAR, l.LO_DATA_PAGAMENTO, 103)+' '+SUBSTRING(CONVERT(VARCHAR, l.LO_DATA_PAGAMENTO, 108),1,5)) AS DATA_PAGAMENTO, 
+c.CP_CUPOM, 
+c.CP_DESCONTO
+FROM cupom c, loja l LEFT JOIN log lg ON lg.LG_VOUCHER=l.LO_COD 
+AND lg.LG_ACAO=N'Pagamento liberado' 
+AND lg.D_E_L_E_T_='0'
+WHERE l.LO_COD=c.CP_COMPRA 
+AND c.CP_UTILIZADO=1 
+AND c.CP_DATA_UTILIZACAO IS NOT NULL AND l.LO_PARCEIRO='$cod_parceiro'", $conexao_params, $conexao_options);
+	
+$n_loja = sqlsrv_num_rows($sql_loja);
+
+?>
+<section id="conteudo">
+	<header class="titulo">
+		<!-- <h1>Vendas <span>Listagem</span></h1> -->
+		<h1>Vendas com <span>cupom de desconto</span></h1>
+		
+	</header>
+	<section class="secao bottom">
+		<table class="lista tablesorter">
+			<thead>
+				<tr>
+					<th><strong>Voucher</strong><span></span></th>
+					<th><strong>Data da Compra</strong><span></span></th>
+					<th><strong>Valor Parcial</strong><span></span></th>
+					<th><strong>Valor Total</strong> <span></span></th>
+					<th><strong>Data Pagamento</strong> <span></span></th>
+					<th><strong>Cupom</strong> <span></span></th>
+					<th><strong>Desconto %</strong> <span></span></th>
+				</tr>
+				<tr class="spacer"><td colspan="6">&nbsp;</td></tr>
+			</thead>
+			<tbody>
+			<?
+			
+			if($n_loja > 0)	 {
+
+				$i=1;
+
+				while($loja = sqlsrv_fetch_array($sql_loja)) {
+
+					$loja_cod = $loja['LO_COD'];
+					$loja_data = $loja['DATA_COMPRA'];
+					$loja_valor_parcial = $loja['LO_VALOR_PARCIAL'];
+					$loja_valor_total = $loja['LO_VALOR_TOTAL'];
+					$loja_data_pagamento = $loja['DATA_PAGAMENTO'];
+					$cupom_nome = $loja['CP_CUPOM'];
+					$cupom_valor = $loja['CP_DESCONTO'];
+
+					$cupom_valor = floatval($loja['CP_DESCONTO']);
+
+					$loja_valor_parcial = 'R$ '.number_format($loja_valor_parcial, 2, ',', '.');
+					$loja_valor_total = 'R$ '.number_format($loja_valor_total, 2, ',', '.');
+
+					// $valor = ($cupom_tipo == 1) ? round($cupom_valor)."%" : 'R$ '.number_format($cupom_valor, 2, ',', '.');
+
+					// $cupom_block = (bool) $cupom['CP_BLOCK'];
+					// $acao = ($cupom_block) ? 'desbloquear' : 'bloquear';
+
+					?>
+					<tr>
+						<td><? echo $loja_cod; ?></td>
+						<td><? echo $loja_data; ?></td>
+						<td><? echo $loja_valor_parcial; ?></td>
+						<td><? echo $loja_valor_total; ?></td>
+						<td><? echo $loja_data_pagamento; ?></td>
+						<td><? echo $cupom_nome; ?></td>
+						<td><? echo $cupom_valor; ?>%</td>						
+					</tr>
+					<?
+					$i++;
+				}
+			} else {
+			?>
+				<tr>
+					<td colspan="6" class="nenhum">Nenhum cupom encontrado.</td>
+				</tr>
+			<?
+			}
+			?>
+			</tbody>
+		</table>
+
+		<? if ($n_cupons > 0) { ?>
+        <div class="pager-tablesorter">
+	        <a href="#" class="first"></a>
+	        <a href="#" class="prev"></a>
+	        <span class="pagedisplay"></span>
+	        <a href="#" class="next"></a>
+	        <a href="#" class="last"></a>
+	        <input type="hidden" class="pagesize" value="30" />
+        </div>
+        <? } ?>
+	</section>
+</section>
+<?
+
+//-----------------------------------------------------------------//
+
+include('include/footer.php');
+
+//Fechar conexoes
+include("conn/close.php");
+
+?>

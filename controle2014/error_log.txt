@@ -1,0 +1,12 @@
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Notice:  Undefined index: adicionaiscod in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 22
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Notice:  Undefined index: exclusividade in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 23
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Notice:  Undefined index: exclusividadeval in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 24
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Notice:  Undefined index: transferqtde in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 25
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Notice:  Undefined index: delivery in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 28
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Notice:  Undefined index: retida in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 29
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Notice:  Undefined index: frisa in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 30
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Notice:  Undefined index: folia in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 31
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Warning:  sqlsrv_next_result() expects parameter 1 to be resource, boolean given in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 82
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Warning:  sqlsrv_num_rows() expects parameter 1 to be resource, boolean given in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 183
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Notice:  Undefined variable: nome_cliente in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 266
+[19-Jan-2017 15:49:30 America/Sao_Paulo] PHP Fatal error:  Call to undefined function lote() in C:\web\foliatropical.com.br\public_html\controle2014\e-compras-modificar.php on line 270

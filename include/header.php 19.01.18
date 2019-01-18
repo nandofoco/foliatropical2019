@@ -1,0 +1,35 @@
+<header id="topo-novo" <? if (defined('PGINDEX')){ echo 'class="index parallaxouter"'; } ?>>
+
+	<nav id="principal">
+		<div>
+			<!-- <a href="<? echo SITE.$link_lang; ?>" id="logo"><span>Folia Tropical</span></a> -->
+			<a href="https://ingressos.foliatropical.com.br/compras/<?= $link_lang; ?>" id="logo"><span>Folia Tropical</span></a>
+			<ul class="menu">
+				<li><a href="https://www.foliatropical.com.br/">Home</a></li>
+				<li><a href="https://www.foliatropical.com.br/#o-camarote"><?=$lg['camarote'];?></a></li>
+				<li><a href="https://www.foliatropical.com.br/galeria/"><?=$lg['galeria'];?></a></li>
+				<li><a href="https://www.foliatropical.com.br/duvidas/"><?=$lg['duvidas'];?></a></li>
+				<li><a href="https://www.foliatropical.com.br/contato/"><?=$lg['contato'];?></a></li>
+				<li><a href="<? echo SITE; ?>compras/" class="comprar"><?=$lg['compre_ingressos_comprar'];?></a></li>
+
+				<?
+				if(checklogado()) {
+					$usuario_nome = explode(" ", $_SESSION['usuario-nome']);
+					$usuario_nome = $usuario_nome[0];
+				?>
+				<li><a href="<? echo SITE.$link_lang; ?>minhas-compras/" class="info"><? echo $lg['menu_minhas_compras']; ?></a></li>
+				<li><a href="<? echo SITE.$link_lang; ?>meus-dados/" class="info"><? echo $lg['menu_meus_dados']; ?></a></li>
+				<li class="carrinho"><a href="<? echo SITE.$link_lang.$lg['link_compre']; ?>" class="carrinho"><? echo count($_SESSION['compra-site']); ?></a></li>
+				<li><a href="<? echo SITE.$link_lang; ?>logout/" class="info"><? echo $lg['menu_sair']; ?></a></li>
+				<li class="nome"><?=$lg['menu_ola'];?>, <? echo utf8_encode($usuario_nome); ?></li>
+				<?
+				} else {
+				?>
+				<li class="login"><a href="<? echo SITE.$link_lang; ?>login/" ><? echo $lg['menu_login_ou_cadastro']; ?></a></li>
+				<? 
+				}
+				?>
+			</ul>
+		</div>
+	</nav>
+</header>

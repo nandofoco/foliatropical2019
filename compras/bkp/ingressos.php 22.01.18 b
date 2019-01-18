@@ -1,0 +1,466 @@
+<?
+
+include 'conn/conn.php';
+include 'conn/conn-sankhya.php';
+include 'inc/funcoes.php';
+include 'inc/checklogado.php';
+include 'inc/checkwww.php';
+include 'inc/language.php';
+
+$evento = setcarnaval();
+$logado = checklogado();
+
+//-----------------------------------------------------------------//
+
+/* if(!$logado()){
+?>
+<script type="text/javascript">
+	// location.href='<? echo SITE; ?>login/compre-adicionais/';
+	location.href='<? echo SITE; ?>login/';
+</script>
+<?
+	exit();
+} */
+//var_dump($_SESSION['compra-site']);die;
+$usuario_cod = $_SESSION['usuario-cod'];
+
+$meta_title = $lg['ingressos_meta_title'];
+$meta_description = $lg['ingressos_meta_description'];
+
+//Canonical
+$meta_canonical = SITE.$link_lang."ingressos/";
+
+
+
+
+//-----------------------------------------------------------------//
+
+$quantidade = $_POST['quantidade'];
+
+if(count($_SESSION['compra-site']) > 0) {
+
+	//arquivos de layout
+	include 'inc/partials/head.php';
+    include 'inc/partials/header.php';
+
+	$loja_qtde_folia = 0;
+    $loja_qtde_frisa = 0;
+    $ingressos_valor_soma = 0;
+    $loja_enable_frisa = false;
+	$loja_exist_camarote = false;
+	$loja_exist_folia = false;
+	$loja_exist_superfolia = false;
+
+
+	//Novos combos
+	$loja_qtde_combo = array();
+
+	// Atualizar a quantidade
+	if(count($quantidade) > 0){
+		foreach ($quantidade as $key => $value) {
+			if($value > 0) $_SESSION['compra-site'][$key]['qtde'] = $value;
+		}
+	}
+	
+	// Criar o form
+	#foreach ($_SESSION['compra-site'] as $carrinho_valor_total) {
+	#	if(!$carrinho_valor_total['disabled']) $ingressos_valor_soma += ($carrinho_valor_total['valor'] * $carrinho_valor_total['qtde']);
+	#}
+	#if($ingressos_valor_soma > 0) $ingressos_valor_soma = number_format($ingressos_valor_soma,2,",",".");
+
+	?>
+    <main>
+
+    <section class="secao" id="carrinho">
+        <header>
+            <h2><? echo $lg['resumo_compra']; ?></h2>
+        </header>
+		<form id="compras-adicionais" class="padrao" method="post" action="<? echo SITE.$link_lang; ?>ingressos/post/">
+            
+            <table class="lista">
+                <thead>
+                    <tr>
+                        <th><? echo $lg['resumo_tipo_ingresso']; ?></th>
+                        <th><? echo $lg['n_de_ingressos']; ?></th>
+                        <th class="valor"><? echo $lg['resumo_valor']; ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+				
+				<?
+
+                foreach ($_SESSION['compra-site'] as $key => $carrinho) {
+												
+					$sql_ingressos = sqlsrv_query($conexao, "
+							DECLARE @ingresso INT='".$carrinho['item']."';
+							DECLARE @vendas TABLE (VE_COD INT, VE_TIPO INT, VE_ESTOQUE INT, VE_SETOR INT, VE_DIA INT, VE_FILA VARCHAR(255), VE_VAGAS INT, VE_TIPO_ESPECIFICO VARCHAR(255), VE_VALOR_EXCLUSIVIDADE DECIMAL(10,2));
+							DECLARE @qtde TABLE (COD INT, QTDE INT DEFAULT 0);
+
+							INSERT INTO @vendas (VE_COD, VE_TIPO, VE_ESTOQUE, VE_SETOR, VE_DIA, VE_FILA, VE_VAGAS, VE_TIPO_ESPECIFICO, VE_VALOR_EXCLUSIVIDADE)
+							
+							SELECT VE_COD, VE_TIPO, VE_ESTOQUE, VE_SETOR, VE_DIA, VE_FILA, VE_VAGAS, VE_TIPO_ESPECIFICO, VE_VALOR_EXCLUSIVIDADE FROM vendas WHERE VE_COD=@ingresso AND VE_BLOCK=0 AND D_E_L_E_T_=0 AND VE_VALOR>0;
+
+							INSERT INTO @qtde (COD, QTDE)
+							
+							SELECT li.LI_INGRESSO, COUNT(li.LI_COD) FROM loja_itens li, loja l WHERE li.LI_INGRESSO=@ingresso AND l.LO_COD=li.LI_COMPRA AND l.D_E_L_E_T_=0 AND li.D_E_L_E_T_=0 GROUP BY li.LI_INGRESSO;
+
+							SELECT TOP 1 * FROM (SELECT ISNULL(q.QTDE, 0) AS QTDE, v.*, CAST((v.VE_ESTOQUE - ISNULL(q.QTDE, 0)) AS INT) AS TOTAL, t.TI_TAG, t.TI_NOME, SUBSTRING(CONVERT(VARCHAR, d.ED_DATA, 103), 1, 5) AS ED_NOME, d.ED_DATA, s.ES_NOME FROM @vendas v 
+							LEFT JOIN @qtde q ON v.VE_COD = q.COD
+							LEFT JOIN tipos t ON t.TI_COD=v.VE_TIPO
+							LEFT JOIN eventos_dias d ON d.ED_COD=v.VE_DIA
+							LEFT JOIN eventos_setores s ON s.ES_COD=v.VE_SETOR
+							WHERE d.D_E_L_E_T_=0 AND t.D_E_L_E_T_=0 AND s.D_E_L_E_T_=0) S", $conexao_params, $conexao_options);
+					
+					if(sqlsrv_next_result($sql_ingressos) && sqlsrv_next_result($sql_ingressos))
+					if(sqlsrv_num_rows($sql_ingressos) !== false) {
+
+						$i=1;
+						$ingressos = sqlsrv_fetch_array($sql_ingressos);
+
+						$ingressos_estoque = (int) $ingressos['TOTAL'];
+						$ingressos_vaga = utf8_encode($ingressos['VE_VAGAS']);
+						$ingressos_tipo_especifico = utf8_encode($ingressos['VE_TIPO_ESPECIFICO']);
+
+						//Calculo de estoque
+						if(($ingressos_tipo_especifico == 'fechado') && ($ingressos_vaga > 0)) {
+							$ingressos_estoque = $ingressos['VE_ESTOQUE'] / $ingressos_vaga;
+							$ingressos_estoque = $ingressos_estoque - ($ingressos['QTDE'] / $ingressos_vaga);
+						}
+
+						if(!($ingressos_estoque > 0)) {
+							$_SESSION['compra-site'][$key]['disabled'] = true;
+						} else {
+
+							$ingressos_cod = $ingressos['VE_COD'];
+							$ingressos_setor = utf8_encode($ingressos['ES_NOME']);
+							$ingressos_dia = utf8_encode($ingressos['ED_NOME']);
+							$ingressos_data = $ingressos['ED_DATA'];
+							$ingressos_tipo = ($ingressos['TI_NOME'] == 'Lounge') ? 'Folia Tropical' : utf8_encode($ingressos['TI_NOME']);
+							$ingressos_tipo_tag = $ingressos['TI_TAG'];
+							/* $ingressos_valor = $carrinho['valor'] * $carrinho['qtde'];
+							$ingressos_valor = number_format($ingressos_valor,2,",","."); */
+                            $ingressos_valor_exclusividade = $ingressos['VE_VALOR_EXCLUSIVIDADE'];
+                            
+                            $ingressos_valor = $carrinho['valor'];
+                            $ingressos_valor_total = ($ingressos_valor * $carrinho['qtde']);
+                            $ingressos_valor_totalf = number_format($ingressos_valor_total,2,",",".");
+                            $ingressos_valor_soma += $ingressos_valor_total;
+							
+							$ingressos_fila = utf8_encode($ingressos['VE_FILA']);
+
+							$ingresso_indisponivel = ($ingressos_estoque < $carrinho['qtde']);
+
+							$ingressos_tipo_tag = $ingressos['TI_TAG'];
+							switch ($ingressos_tipo_tag) {
+								case 'lounge':
+									$loja_exist_folia = true;
+									$ingressos_tipo_tag_selected = 'folia-tropical';
+								break;
+								case 'super':
+									$loja_exist_superfolia = true;
+									$loja_exist_outros = true;
+									$ingressos_tipo_tag_selected = $ingressos_tipo_tag;									
+								break;
+								case 'camarote':
+									$loja_exist_camarote = true;
+									$loja_exist_outros = true;
+									$ingressos_tipo_tag_selected = ($ingressos_tipo_especifico == 'fechado') ? 'camarote-corporativo' : $ingressos_tipo_tag;
+								break;
+								default:
+									$loja_exist_outros = true;
+									$ingressos_tipo_tag_selected = $ingressos_tipo_tag;
+								break;
+							}
+
+							$ingressos_data = (string) date('Y-m-d', strtotime($ingressos_data->format('Y-m-d')));
+
+							if($ingressos_tipo_tag_selected == 'folia-tropical') {
+
+								//loja_qtde_combo
+								if(count($combo_dias) > 0) {
+
+									// Limite
+									$loja_data_limite = (string) date('Y-m-d');
+
+									foreach ($combo_dias as $k => $c) {
+										//Verificar cada ocorrencia
+										// if(in_array($item_data_n, $c['dias'])) {
+										// Modificacao por causa da data de compra
+
+										if(in_array($ingressos_data, $c['dias']) && ($loja_data_limite >= $c['limite'][0]) && ($loja_data_limite <= $c['limite'][1])) {
+
+											$loja_qtde_combo[$k] = 1 + ((int) $loja_qtde_combo[$k]);
+
+											//Retiramos do combo o valor encontrado
+											foreach ($c['dias'] as $kd => $ingressos_dia_atual) {
+												if ($ingressos_dia_atual == $ingressos_data) unset($combo_dias[$k]['dias'][$kd]);
+											}
+										}									
+									}
+								}
+
+							}
+
+							if($evento > 1) {
+								unset($loja_atual_frisa);
+
+								if($ingressos_tipo_tag == 'frisa'){
+
+									$loja_enable_frisa = $loja_atual_frisa = true;
+									$loja_frisa_fechadas = floor($carrinho['qtde'] / 6);
+									if($loja_frisa_fechadas > 0) $loja_qtde_frisa = $loja_qtde_frisa + $loja_frisa_fechadas;
+
+								}
+							}
+
+                            #if($ingresso_indisponivel){ echo 'indisponivel'; }
+
+                        ?>
+                        <tr class="big">
+                            <!-- <td class="dia"><? echo $ingressos_dia; ?></td> -->
+                            <td class="tipo"><? echo $ingressos_tipo; ?></td>
+                            <td class="qtde">
+                                <select name="quantidade[<? echo $key; ?>]" class="input" rel="<? echo $key; ?>">
+                                    <? for($q = 1; $q <= ($ingressos_estoque > 10 ? 10 : $ingressos_estoque); $q++) { ?>
+                                    <option value="<? echo $q; ?>" <? if($q == $carrinho['qtde']) { echo 'selected'; } ?>><? echo $q; ?></option>
+                                    <? } ?>
+                                </select>
+                                <input type="hidden" name="valor" value="<? echo $ingressos_valor; ?>" />
+                                <input type="hidden" name="valortotal" value="<? echo $ingressos_valor_total; ?>" />
+
+								<?
+                                
+                                // compras-adicionais
+                                $sql_vendas_adicionais = sqlsrv_query($conexao, "SELECT v.*, vv.* FROM vendas_adicionais v, vendas_adicionais_valores vv WHERE vv.VAV_VENDA='$ingressos_cod' AND vv.VAV_ADICIONAL=v.VA_COD AND vv.VAV_BLOCK=0 AND vv.D_E_L_E_T_=0 AND v.VA_BLOCK=0 AND v.D_E_L_E_T_=0 ORDER BY v.VA_COD ASC", $conexao_params, $conexao_options);
+                                if(sqlsrv_num_rows($sql_vendas_adicionais) !== false) {
+
+                                    while ($vendas_adicionais = sqlsrv_fetch_array($sql_vendas_adicionais)) {
+                                        $vendas_adicionais_cod = $vendas_adicionais['VA_COD'];
+                                        $vendas_adicionais_tipo = $vendas_adicionais['VA_TIPO'];
+                                        $vendas_adicionais_label = utf8_encode($vendas_adicionais['VA_LABEL']);
+                                        $vendas_adicionais_nome_exibicao = $vendas_adicionais['VA_NOME_EXIBICAO'];
+                                        $vendas_adicionais_nome_insercao = $vendas_adicionais['VA_NOME_INSERCAO'];
+                                        $vendas_adicionais_multi = (bool) $vendas_adicionais['VA_VALOR_MULTI'];
+
+                                        $vendas_adicionais_opcoes_cod = $vendas_adicionais['VAV_COD'];
+                                        $vendas_adicionais_opcoes_valor_n = $vendas_adicionais['VAV_VALOR'];
+                                        
+                                        $vendas_adicionais_opcoes_valor = ($vendas_adicionais_multi) ?  number_format($vendas_adicionais_opcoes_valor_n * $carrinho['qtde'],2,",",".") : number_format($vendas_adicionais_opcoes_valor_n,2,",",".");
+                                        $vendas_adicionais_opcoes_incluso = (bool) $vendas_adicionais['VAV_INCLUSO'];
+
+                                        $vendas_adicionais_transfer = (($vendas_adicionais_nome_exibicao == 'transfer') && ($ingressos_tipo_especifico == 'fechado') && ($ingressos_vaga > 0)) ? true : false;
+
+										
+										if($vendas_adicionais_opcoes_incluso) {
+										?>								
+                                        <input type="hidden" name="adicionaiscod[<? echo $key; ?>][]" value="<? echo $vendas_adicionais_cod; ?>" class="adicional" />
+                                    	<?
+										}
+                                    }
+                                }
+                                
+                                ?>
+                            </td>
+                            <td class="valor">R$ <? echo $ingressos_valor_totalf; ?></td>
+                        </tr>
+						<?
+
+						} //Estoque
+					}
+				}
+				?>
+				<tr class="total">
+                    <td colspan="3" class="valor">
+                        <strong><? echo $lg['subtotal']; ?></strong>
+                        <span class="valor">R$ <? echo number_format($ingressos_valor_soma, 2, ",", "."); ?></span>
+                    </td>
+                </tr>
+				<?
+
+				//Verifica a exestência de desconto para caso sejam comprados 2 ingressos em dias diferentes 
+
+				 $sql_desconto = sqlsrv_query($conexao, "SELECT DES_VALOR FROM desconto_folia_tropical", $conexao_params, $conexao_options);
+
+	             $ar_desconto = sqlsrv_fetch_array($sql_desconto);
+
+	             $porcentagem_desconto = $ar_desconto['DES_VALOR'] / 100;
+
+				if (count($_SESSION['data_ingresso_desconto']) >= 2)
+				{
+					$desconto_folia = $ingressos_valor_soma * $porcentagem_desconto;
+					
+					$_SESSION['desconto_ft'] = $desconto_folia;
+					$ingressos_valor_soma -= $desconto_folia; 
+				?>
+					<tr class="desconto">
+						<td colspan="3" class="desconto">
+							<span class="cupom">
+								Folia Tropical • <? echo ($_SESSION['language'] == 'BR' ? 'Desconto de '.$ar_desconto['DES_VALOR'].'%' : $ar_desconto['DES_VALOR'].'% discount' ) ?> 
+							</span>
+							<span class="valor">- R$ <? echo number_format($desconto_folia,2,',','.'); ?></span>
+							<input type="hidden" name="desconto_folia" value="<? echo $desconto_folia; ?>" />
+						</td>
+					</tr>
+
+				<?	
+				}
+
+
+				//Verificar a existencia de cupom de desconto
+				if($_SESSION['compra-cupom']['usuario'] == $usuario_cod) {
+					
+					$cupom_cod = $_SESSION['compra-cupom']['cod'];
+					$cupom_delete = true;
+
+					$sql_cupom = sqlsrv_query($conexao, "SELECT TOP 1 * 
+						FROM
+							cupom
+						WHERE
+							CP_COD='$cupom_cod'
+							AND CP_BLOCK='0'
+							AND D_E_L_E_T_='0'
+							AND CP_UTILIZADO='0'
+							AND CP_DATA_VALIDADE >= GETDATE() ",
+						$conexao_params, $conexao_options);
+
+					$n_cupom = sqlsrv_num_rows($sql_cupom);
+
+					if($n_cupom > 0) {
+
+						$cupom = sqlsrv_fetch_array($sql_cupom);
+
+						$cupom_cod = $cupom['CP_COD'];
+						$cupom_nome = utf8_encode($cupom['CP_NOME']);
+						$cupom_codigo = $cupom['CP_CUPOM'];
+						$cupom_valor = $cupom['CP_DESCONTO'];
+						$cupom_tipo = $cupom['CP_TIPO'];
+
+						// 1 Porcentagem
+						// 2 Valor
+
+						$_SESSION['compra-cupom']['usuario'] = $usuario_cod;
+						$_SESSION['compra-cupom']['cod'] = $cupom_cod;
+
+						switch ($cupom_tipo) {
+							case 1:
+								$cupom_valor_desconto = (($cupom_valor * $ingressos_valor_soma) / 100);
+							break;
+							
+							case 2:
+								if($ingressos_valor_soma >= $cupom_valor) $cupom_valor_desconto = $cupom_valor;
+								else unset($_SESSION['compra-cupom'], $cupom_cod);
+							break;
+						}
+
+						$cupom_valor_desconto = round($cupom_valor_desconto, 2);
+						
+						
+						//Total formatado
+						#$loja_valor_total_f = number_format($loja_valor_total, 2, ',','.');
+					}
+					
+				}
+				
+				$loja_valor_total = $ingressos_valor_soma + $loja_valor_adicionais - $cupom_valor_desconto;
+				
+				if($cupom_cod > 0) {
+				?>
+					<tr class="desconto">
+						<td colspan="3" class="desconto">
+							<span class="cupom">
+								<? echo $cupom_nome; ?> 
+
+								<? if ((0 === strpos($cupom_codigo, 'FOLIA'))) { ?>
+								• Desconto de  <? echo ($cupom_tipo == 1) ? round($cupom_valor)."%" : 'R$ '.number_format($cupom_valor, 2, ',', '.'); } ?>
+
+								<? if ($cupom_delete){ ?>
+
+								<a href="<? echo SITE ?>carrinho/cupom/?c=<? echo $cupom_cod; ?>" class="excluir confirm" title="<? echo $lg['desconto_remover_cupom']; ?> &rdquo;<? echo $cupom_nome; ?>&ldquo;">&times;</a>
+								
+								<? } ?>
+							</span>
+							<span class="valor">- R$ <? echo number_format($cupom_valor_desconto,2,',','.'); ?></span>
+							<input type="hidden" name="desconto" value="<? echo $cupom_valor_desconto; ?>" />
+						</td>
+					</tr>
+				<? 					
+				}
+				?>
+					<tr>
+						<td class="cupom">
+							<p>
+								<label for="compra-parceiro"><? echo $lg['codigo_desconto']; ?></label>
+								<input type="text" name="cupom" class="input" id="compra-parceiro" />
+								<a href="#" class="adicionar-cupom"><i class="fa fa-check" aria-hidden="true"></i></a>
+								<!-- <input type="submit" class="submit adicionar" value="Ok" /> -->
+							</p>							
+						</td>
+						<td colspan="2" class="total-final">
+							<strong><? echo $lg['total']; ?></strong>
+							<span class="valor">R$ <? echo number_format($loja_valor_total, 2, ",", "."); ?></span>
+						</td>
+					</tr>
+                </tbody>
+            </table>
+			
+            <footer class="controle">
+				<input type="submit" class="submit" value="<? echo $lg['prosseguir']; ?>" />
+				<a href="<? echo $_SERVER['HTTP_REFERER']; ?>" class="continuar"><? echo $lg['continuar_comprando']; ?></a>
+				
+				<section id="concordo" class="checkbox">
+					<ul>
+						<li>
+							<label class="item">
+								<span><i class="fa fa-check" aria-hidden="true"></i></span>
+								<input type="checkbox" name="concordo" value="true"/>
+								<? echo $lg['concorda_termos_1']; ?> <a href="https://ingressos.foliatropical.com.br/pdf/pacifica-termos-condicoes.pdf" target="_blank"><? echo $lg['concorda_termos_2']; ?></a>
+							</label>
+						</li>
+					</ul>
+					<div class="clear"></div>
+				</section>
+				
+                <div class="clear"></div>
+            </footer>
+			
+			<p class="comentarios">
+				<label for="carrinho-comentarios" class="infield"><? echo $lg['observacoes']; ?></label>
+				<textarea name="comentarios" class="input" id="carrinho-comentarios" rows="3"></textarea>
+			</p>
+
+        </form>
+	</section>
+	</main>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("form#compras-adicionais").submit(function(){
+				if($("input[name='concordo']").is(':checked')) {
+					return true;
+				} else {
+					// swal("", <? echo $lg['voce_deve_concordar']; ?>, "warning");
+					swal("", "Você deve concordar com a compra antes de prosseguir!", "warning");
+				}
+
+				return false;
+			});
+		});
+	</script>		
+
+	<?
+
+	//fechar conexao com o banco
+	include 'conn/close.php';
+	include 'conn/close-sankhya.php';
+
+	exit();
+}
+
+exit();
+
+?>
+<script type="text/javascript">
+
+	alert('<? echo $lg['ocorreu_erro']; ?>');
+	history.go(-1);
+</script>

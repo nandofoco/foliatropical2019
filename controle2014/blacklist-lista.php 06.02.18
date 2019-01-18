@@ -1,0 +1,96 @@
+<?
+
+//Incluir funções básicas
+include("include/includes.php");
+
+//-----------------------------------------------------------------//
+
+//arquivos de layout
+include("include/head.php");
+include("include/header.php");
+
+//-----------------------------------------------------------------//
+
+
+$sql_blacklist = sqlsrv_query($conexao, "SELECT * FROM loja_blacklist ORDER BY LB_COD DESC", $conexao_params, $conexao_options);
+$n_blacklist = sqlsrv_num_rows($sql_blacklist);
+
+?>
+
+<section id="conteudo">
+	<header class="titulo">
+		<h1>Usuários na <span>Blacklist</span></h1>
+		<!-- <form id="busca-lista" class="busca-lista" method="get" action="<? echo SITE; ?>cupons/">
+			<a href="<? echo SITE; ?>cupom/cadastro/" class="adicionar">+</a>
+			<p class="coluna">
+				<label for="busca-lista-input" class="infield">Pesquisar</label>
+				<? if(!empty($q)){ ?><a href="<? echo SITE; ?>cupons/" class="limpar-busca">&times;</a><? } ?>
+				<input type="text" name="q" class="input" id="busca-lista-input" value="<? echo utf8_encode($q); ?>" />
+			</p>
+			<input type="submit" class="submit" value="" />
+		</form> -->
+	</header>
+	<a href="<? echo SITE; ?>blacklist/cadastro/" class="btn-add" title="Adicionar usuário na blacklist" target="_blank">+</a>
+	<section class="secao bottom">
+		<table class="lista tablesorter">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th><strong>ID</strong><span></span></th>
+					<th><strong>Usuário</strong><span></span></th>
+					<th><strong>CPF</strong><span></span></th>
+					<th><strong>Cartão</strong> <span></span></th>
+					<th>&nbsp;</th>
+				</tr>
+				<tr class="spacer"><td colspan="6">&nbsp;</td></tr>
+			</thead>
+			<tbody>
+			<?
+			
+			if($n_blacklist > 0)	 
+			{
+
+				while($blacklist = sqlsrv_fetch_array($sql_blacklist)) {
+
+					$bl_cod = $blacklist['LB_COD'];
+					$bl_usuario = utf8_encode($blacklist['LB_USUARIO']);
+					$bl_cpf = $blacklist['LB_CPF'];
+					$bl_num_cartao = $blacklist['LB_CARTAO'];
+					
+					?>
+					<tr>
+						<th>&nbsp;</th>
+						<td><? echo $bl_cod; ?></td>
+						<td><? echo utf8_encode($bl_usuario); ?></td>
+						<td><? echo utf8_encode($bl_cpf); ?></td>
+						<td><? echo $bl_num_cartao; ?></td>
+						<td class="ctrl">							
+							<a href="<? echo SITE; ?>e-blacklist-excluir.php?c=<? echo $bl_cod; ?>" class="excluir confirm" title="Tem certeza que deseja excluir este item da blacklist?"></a>
+						</td>
+					</tr>
+					<?
+				}
+			} else {
+			?>
+				<tr>
+					<td colspan="6" class="nenhum">Nenhum usuário na blacklist.</td>
+				</tr>
+			<?
+			}
+			?>
+			</tbody>
+		</table>
+
+		
+	</section>
+</section>
+<?
+
+//-----------------------------------------------------------------//
+
+include('include/footer.php');
+
+//Fechar conexoes
+include("conn/close.php");
+
+?>

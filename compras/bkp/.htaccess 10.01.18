@@ -1,0 +1,33 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    #se comentar uma das duas linhas abaixo vai da problema no on line
+    #RewriteCond %{SERVER_PORT} 80
+	#RewriteRule ^(.*)$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
+    
+	#RewriteCond %{REQUEST_FILENAME} !-d
+	#RewriteCond %{REQUEST_FILENAME} !-f
+	#RewriteCond %{REQUEST_FILENAME} !-l
+
+	#------------------------------------------------------------------------------------------------------#
+
+    RewriteRule  ^candybox/?$ index.php?tipo=candybox [NC]
+
+    RewriteRule  ^carrinho/selecionar/?$ inc/carrinho/selecionar.php [NC]
+    RewriteRule  ^carrinho/adicionar/?$ inc/carrinho/adicionar.php [QSA,NC]
+    RewriteRule  ^carrinho/cupom/?$ inc/carrinho/cupom.php [QSA,NC]
+    RewriteRule  ^carrinho/endereco/?$ inc/carrinho/endereco.php [QSA,NC]
+
+    RewriteRule  ^acessa/?$ acessa.php [NC]
+    RewriteRule  ^logout/?$ acessa.php?c=logout [NC]
+    RewriteRule  ^cadastro/?$ cadastro.php [NC]
+    RewriteRule  ^esqueci/?$ e-esqueci.php [NC]
+    RewriteRule  ^ingressos/?$ ingressos.php [NC]
+    RewriteRule  ^ingressos/post/?$ e-compra.php [NC]
+    RewriteRule  ^pagamento/([0-9]+)/?$ pagamento.php?c=$1 [NC]
+
+    RewriteRule  ^pagamento/cielo/confirmacao/?$ ../controle2014/cielo/pages/e-compra-cartao.php?fromcliente=true [QSA,NC]
+
+	ErrorDocument 404 /404.php	
+
+</IfModule>

@@ -1,0 +1,260 @@
+	<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+	#------------------------------------------------------------------------------------------------------#
+	RewriteRule  ^cielo/logs/xml.log?$ index.php
+	RewriteRule  ^cielo/logs/log.log?$ index.php
+	RewriteRule  ^compras/novo/?$ compras-novo.php [NC]
+	RewriteRule  ^compras/novo/adicionar/?$ e-compras-adicionar.php [NC]
+	RewriteRule  ^compras/novo/post/?$ e-compras-novo.php [NC]
+	RewriteRule  ^compras/novo/adicionais/?$ compras-novo-adicionais.php [NC]
+	# RewriteRule  ^compras/novo/foliatropical/?$ compras-novo-homologacao.php [NC]
+	RewriteRule  ^compras/novo/([a-z0-9-]+)/?$ compras-novo.php?t=$1 [NC]
+	RewriteRule  ^compras/pagas/?$ compras.php?t=pagas [NC]
+	RewriteRule  ^compras/nao-pagas/?$ compras.php?t=naopagas [NC]
+
+	RewriteRule  ^compras/delivery/([0-9]+)/?$ compras-delivery.php?c=$1 [NC]
+	RewriteRule  ^compras/delivery/([0-9]+)/transfer/?$ compras-delivery.php?c=$1&transfer=true [NC]
+	RewriteRule  ^compras/delivery/([0-9]+)/multiplo/?$ compras-delivery.php?c=$1&multiplo=true [NC]
+	RewriteRule  ^compras/delivery/([0-9]+)/transfer/multiplo/?$ compras-delivery.php?c=$1&transfer=true&multiplo=true [NC]
+	RewriteRule  ^compras/delivery/([0-9]+)/detalhes/?$ compras-delivery.php?c=$1&detalhes=true [NC]
+	RewriteRule  ^compras/delivery/post/?$ e-compras-delivery.php [NC]
+	
+	#Contato
+	RewriteRule  ^sac/?$ sac-lista.php [NC]
+	RewriteRule  ^sac/cadastro/?$ sac-cadastro.php [NC]
+	RewriteRule  ^sac/editar/([0-9]+)/?$ sac-editar.php?c=$1 [NC]
+	RewriteRule  ^sac/cadastro/post/?$ e-sac-cadastro.php [NC]
+	
+	#Alterar tipos
+	RewriteRule  ^compras/alterar/([0-9]+)/?$ compras-alterar.php?c=$1 [NC]
+	RewriteRule  ^compras/alterar/post/?$ e-compras-alterar.php [NC]
+
+	#Modificar voucher
+	RewriteRule  ^compras/modificar/post/?$ e-compras-modificar.php [NC]
+	RewriteRule  ^compras/modificar/adicionar/?$ e-compras-modificar-adicionar.php [NC]
+	RewriteRule  ^compras/modificar/([0-9]+)/?$ compras-modificar.php?c=$1 [QSA,NC,L]
+	RewriteRule  ^compras/modificar/([0-9]+)/limpar/?$ compras-modificar.php?c=$1&limpar=true [NC]
+	RewriteRule  ^compras/modificar/([0-9]+)/([a-z0-9-]+)/?$ compras-modificar.php?c=$1&t=$2 [NC]
+
+	RewriteRule  ^compras/excluir/([0-9]+)/?$ e-compras-excluir.php?c=$1 [NC]
+	RewriteRule  ^compras/pendencias/?$ e-compras-pendencias.php [NC]
+
+	RewriteRule  ^compras/pagamento/cupom/?$ e-compras-cupom.php [NC]
+	RewriteRule  ^compras/pagamento/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compras-cupom.php?c=$1&i=$2 [NC]
+	
+	# RewriteRule  ^compras/pagamento/([0-9]+)/?$ compras-pagamento.php?c=$1 [NC]
+	RewriteRule  ^compras/pagamento/cielo/([0-9]+)/?$ compras-pagamento-cielo.php?c=$1 [NC]
+	RewriteRule  ^compra/post/?$ cielo/pages/e-compra.php [NC]
+	RewriteRule  ^compra/retorno/([0-9]+)/?$ cielo/pages/retorno.php?c=$1 [NC]
+	RewriteRule  ^compra/retorno-cartao/([0-9]+)/?$ cielo/pages/retorno-cartao.php?c=$1 [NC]
+	RewriteRule  ^compra/captura/([0-9]+)/?$ cielo/pages/captura.php?c=$1 [NC]
+	RewriteRule  ^compra/atualizar/([0-9]+)/?$ cielo/pages/atualizar.php?c=$1 [NC]
+	RewriteRule  ^compras/cancelar/([0-9]+)/?$ cielo/pages/cancelar.php?c=$1 [NC]
+	RewriteRule  ^compras/reativar/([0-9]+)/?$ e-compras-reativar.php?c=$1 [NC]
+
+	# Nova integraçao
+	RewriteRule  ^compras/pagamento/v2/([0-9]+)/?$ compras-pagamento-v2.php?c=$1 [NC]
+	RewriteRule  ^compras/pagamento/v2/cupom/?$ e-compras-cupom.php [NC]
+	RewriteRule  ^compras/pagamento/v2/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compras-cupom.php?c=$1&i=$2&v2=true [NC]
+	RewriteRule  ^compras/pagamento/v2/cupom-parceiro/?$ e-compras-cupom-parceiro.php [NC]
+	RewriteRule  ^compras/pagamento/v2/cupom-parceiro/remover/([0-9]+)/([0-9]+)/?$ e-compras-cupom-parceiro.php?c=$1&i=$2&v2=true [NC]
+	#RewriteRule  ^compra/v2/retorno/?$ cielo-v2/retorno.php [NC]
+	#RewriteRule  ^compra/v2/notificacao/?$ cielo-v2/notificacao.php [NC]
+	#RewriteRule  ^compras/v2/status/?$ cielo-v2/status.php [NC]
+
+	# Integração com PayPal
+	RewriteRule  ^compras/pagamento/paypal/([0-9]+)/?$ compras-pagamento-paypal.php?c=$1 [NC]
+
+	RewriteRule  ^compras/pagamento-multiplo/([0-9]+)/?$ compras-pagamento-multiplo.php?c=$1 [NC]
+	RewriteRule  ^compras/pagamento-multiplo/post/?$ e-compras-pagamento-multiplo.php [NC]
+
+
+	RewriteRule  ^compras/pagamento-multiplo/cartao/([0-9]+)/?$ compras-pagamento-multiplo-cartao.php?c=$1 [NC]
+	RewriteRule  ^compra/pagamento-multiplo/cartao/post/?$ cielo/pages/e-compra-multiplo.php [NC]
+	RewriteRule  ^compra/pagamento-multiplo/retorno/([0-9]+)/?$ cielo/pages/multiplo-retorno.php?c=$1 [NC]
+	RewriteRule  ^compra/pagamento-multiplo/captura/([0-9]+)/?$ cielo/pages/multiplo-captura.php?c=$1 [NC]
+	RewriteRule  ^compra/pagamento-multiplo/atualizar/([0-9]+)/?$ cielo/pages/multiplo-atualizar.php?c=$1 [NC]
+
+	RewriteRule  ^compra/pagamento-multiplo/cancelar/([0-9]+)/?$ cielo/pages/multiplo-cancelar.php?c=$1 [NC]
+
+	# RewriteRule  ^compra/teste/?$ cielo/pages/teste.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+	
+	#Homologação
+
+	#------------------------------------------------------------------------------------------------------#
+	
+	RewriteRule  ^carnaval/?$ carnaval.php [NC]
+	RewriteRule  ^carnaval/novo/?$ carnaval-novo.php [NC]
+	RewriteRule  ^carnaval/novo/post/?$ e-carnaval-novo.php [NC]
+	RewriteRule  ^carnaval/editar/post/?$ e-carnaval-novo.php [NC]
+	
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^carnaval/editar/([0-9]+)/?$ carnaval-editar.php?c=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^carnaval/lista/?$ carnaval-lista.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^ingressos/compra/?$ ingressos-compra.php [NC]
+	RewriteRule  ^ingressos/compra/novo/?$ ingressos-compra-novo.php [NC]
+	RewriteRule  ^ingressos/compra/novo/post/?$ e-ingressos-compra-novo.php [NC]
+	RewriteRule  ^ingressos/compra/editar/post/?$ e-ingressos-compra-editar.php [NC]
+	RewriteRule  ^ingressos/compra/novo/([a-z0-9-]+)/?$ ingressos-compra-novo.php?t=$1 [NC]
+	RewriteRule  ^ingressos/compra/editar/([0-9-]+)/?$ ingressos-compra-editar.php?c=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^ingressos/venda/?$ ingressos-venda.php [NC]
+	RewriteRule  ^ingressos/venda/novo/?$ ingressos-venda-novo.php [NC]
+	RewriteRule  ^ingressos/venda/novo/post/?$ e-ingressos-venda-novo.php [NC]
+	RewriteRule  ^ingressos/venda/novo/([a-z0-9-]+)/?$ ingressos-venda-novo.php?t=$1 [NC]
+	RewriteRule  ^ingressos/venda/editar/([0-9-]+)/?$ ingressos-venda-editar.php?c=$1 [NC]
+	RewriteRule  ^ingressos/venda/editar/post/?$ e-ingressos-venda-editar.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^ingressos/adicionais/?$ ingressos-adicionais.php [NC]
+	RewriteRule  ^ingressos/adicionais/novo/?$ ingressos-adicionais-novo.php [NC]
+	RewriteRule  ^ingressos/adicionais/novo/post/?$ e-ingressos-adicionais-novo.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^ingressos/alocacao/?$ ingressos-alocacao.php [NC]
+	RewriteRule  ^ingressos/alocacao/([a-z0-9-]+)/?$ ingressos-alocacao.php?t=$1 [NC]
+	RewriteRule  ^ingressos/alocacao/([a-z0-9-]+)/([0-9-]+)/([0-9-]+)/?$ ingressos-alocacao.php?t=$1&s=$2&d=$3 [NC]
+	RewriteRule  ^ingressos/alocacao/([a-z0-9-]+)/([0-9-]+)/([0-9-]+)/([a-z0-9-]+)/?$ ingressos-alocacao.php?t=$1&s=$2&d=$3&f=$4 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^ingressos/expedicao/?$ ingressos-expedicao.php [NC]
+	RewriteRule  ^ingressos/expedicao/entregues/?$ ingressos-expedicao.php?t=entregues [NC]
+	RewriteRule  ^ingressos/expedicao/pendentes/?$ ingressos-expedicao.php?t=pendentes [NC]
+	RewriteRule  ^ingressos/expedicao/confirmar/([0-9-]+)/?$ ingressos-expedicao-confirmar.php?c=$1 [NC]
+	RewriteRule  ^ingressos/expedicao/confirmar/([0-9-]+)/([a-z0-9-]+)/?$ ingressos-expedicao-confirmar.php?c=$1&t=$2 [NC]
+	RewriteRule  ^ingressos/expedicao/post/?$ e-ingressos-expedicao.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+	
+	RewriteRule  ^ingressos/comentario/([0-9-]+)/?$ ingressos-comentario.php?c=$1 [NC]
+	RewriteRule  ^ingressos/comentario/novo/([0-9-]+)/?$ ingressos-comentario.php?i=$1 [NC]
+	RewriteRule  ^ingressos/comentario/post/?$ e-ingressos-comentario.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^parceiros/?$ parceiro-lista.php [NC]
+	RewriteRule  ^parceiros/cadastro/?$ parceiro-cadastro.php [NC]
+	RewriteRule  ^parceiros/editar/([0-9]+)/?$ parceiro-editar.php?c=$1 [NC]
+	RewriteRule  ^parceiros/cadastro/post/?$ e-parceiro-cadastro.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^comissao/?$ comissao.php [NC]
+	RewriteRule  ^comissao/retidas/?$ comissao.php?t=retidas [NC]
+	RewriteRule  ^comissao/pagas/?$ comissao.php?t=pagas [NC]
+	RewriteRule  ^comissao/pendentes/?$ comissao.php?t=pendentes [NC]
+	
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^vendedor-externo/?$ vendedor-externo-lista.php [NC]
+	RewriteRule  ^vendedor-externo/cadastro/?$ vendedor-externo-cadastro.php [NC]
+	RewriteRule  ^vendedor-externo/editar/([0-9]+)/?$ vendedor-externo-editar.php?c=$1 [NC]
+	RewriteRule  ^vendedor-externo/cadastro/post/?$ e-vendedor-externo-cadastro.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^clientes/?$ cliente-lista.php [NC]
+	RewriteRule  ^clientes/cadastro/?$ cliente-cadastro.php [NC]
+	RewriteRule  ^clientes/editar/([0-9]+)/?$ cliente-editar.php?c=$1 [NC]
+	RewriteRule  ^clientes/cadastro/post/?$ e-cliente-cadastro.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^fornecedores/?$ fornecedor-lista.php [NC]
+	RewriteRule  ^fornecedores/cadastro/?$ fornecedor-cadastro.php [NC]
+	RewriteRule  ^fornecedores/editar/([0-9]+)/?$ fornecedor-editar.php?c=$1 [NC]
+	RewriteRule  ^fornecedores/cadastro/post/?$ e-fornecedor-cadastro.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^usuarios/?$ usuario-lista.php [NC]
+	RewriteRule  ^usuarios/cadastro/?$ usuario-cadastro.php [NC]
+	RewriteRule  ^usuarios/editar/([0-9]+)/?$ usuario-editar.php?c=$1 [NC]
+	RewriteRule  ^usuarios/cadastro/post/?$ e-usuario-cadastro.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^roteiros/?$ roteiro-lista.php [NC]
+	RewriteRule  ^roteiros/cadastro/?$ roteiro-cadastro.php [NC]
+	RewriteRule  ^roteiros/editar/([0-9]+)/?$ roteiro-editar.php?c=$1 [NC]
+	RewriteRule  ^roteiros/cadastro/post/?$ e-roteiro-cadastro.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^agendamentos/?$ agendamentos.php [NC]
+	RewriteRule  ^agendamentos/pendentes/?$ agendamentos-pendentes.php [NC]
+	RewriteRule  ^agendamentos/editar/([0-9]+)/?$ agendamento-editar.php?c=$1 [NC]
+	RewriteRule  ^agendamentos/editar/([0-9]+)/multiplo/?$ agendamento-editar.php?c=$1&multiplo=true [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^financeiro/?$ financeiro.php [NC]
+	RewriteRule  ^financeiro/busca/?$ financeiro-busca.php [NC]
+	#RewriteRule  ^financeiro/pagina/([0-9]+)/?$ financeiro-pendentes.php?p=$1 [NC]
+	RewriteRule  ^financeiro/pendentes/?$ financeiro-pendentes.php [NC]
+	RewriteRule  ^financeiro/cancelados/?$ financeiro-cancelados.php [NC]
+	#RewriteRule  ^financeiro/pendentes/pagina/([0-9]+)/?$ financeiro-pendentes.php?p=$1 [NC]
+	RewriteRule  ^financeiro/detalhes/([0-9]+)/?$ financeiro-detalhes.php?c=$1 [NC]
+	RewriteRule  ^financeiro/detalhes/2/([0-9]+)/?$ financeiro-detalhes2.php?c=$1 [NC]
+	RewriteRule  ^financeiro/detalhes/cupom/?$ e-compras-cupom.php [NC]
+	RewriteRule  ^financeiro/detalhes/cupom/remover/([0-9]+)/([0-9]+)/?$ e-compras-cupom.php?c=$1&i=$2&financeiro=true [QSA]
+	RewriteRule  ^financeiro/detalhes/cupom-parceiro/?$ e-compras-cupom-parceiro.php [NC]
+	RewriteRule  ^financeiro/detalhes/cupom-parceiro/remover/([0-9]+)/([0-9]+)/?$ e-compras-cupom-parceiro.php?c=$1&i=$2&financeiro=true [QSA]
+	RewriteRule  ^financeiro/detalhes/camisas/([0-9]+)/?$ financeiro-detalhes-camisas.php?c=$1 [NC]
+	RewriteRule  ^financeiro/detalhes/camisas/post/?$ e-financeiro-camisas.php [NC]
+
+	RewriteRule  ^financeiro/imprimir/([0-9]+)/?$ financeiro-imprimir.php?c=$1 [NC]
+	RewriteRule  ^financeiro/imprimir/([0-9]+)/entrega/?$ financeiro-imprimir.php?c=$1&entrega=true [NC]
+	RewriteRule  ^financeiro/caderno/([0-9]+)/?$ financeiro-imprimir-caderno.php?c=$1 [NC]
+	RewriteRule  ^financeiro/etiqueta/([0-9]+)/?$ financeiro-etiqueta.php?c=$1 [NC]
+	RewriteRule  ^financeiro/recibo/([0-9]+)/?$ financeiro-recibo.php?c=$1 [NC]
+	RewriteRule  ^financeiro/faturado/([0-9]+)/?$ financeiro-faturado.php?c=$1 [NC]
+	RewriteRule  ^financeiro/faturado/post/?$ e-financeiro-fatura.php [NC]
+
+	RewriteRule  ^financeiro/detalhes/v2/([0-9]+)/?$ financeiro-detalhes-v2.php?c=$1 [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^relatorios/?$ relatorios.php [NC]
+	RewriteRule  ^relatoriosteste/?$ relatorios_teste.php [NC]
+	RewriteRule  ^relatorios/detalhes/([a-z0-9-]+)/?$ relatorios-detalhes.php?tipo=$1 [NC]
+	RewriteRule  ^relatorios/detalhes/([0-9]+)/lounge/?$ relatorios-detalhes.php?tipo=$1&lounge=true [NC]
+	RewriteRule  ^relatorios/detalhes/([0-9]+)/setor/([0-9]+)/?$ relatorios-detalhes.php?tipo=$1&setor=$2 [NC]
+	RewriteRule  ^relatorios/detalhes/([a-z0-9-]+)/dia/([0-9]+)/?$ relatorios-detalhes-dias.php?tipo=$1&dia=$2 [NC]
+	RewriteRule  ^relatorios/detalhes/([a-z0-9-]+)/dia/([0-9]+)/old/?$ relatorios-detalhes-dias-old.php?tipo=$1&dia=$2 [NC]
+	RewriteRule  ^relatorios/detalhes/([a-z0-9-]+)/dia/([0-9]+)/novo/?$ relatorios-detalhes-dias-novo.php?tipo=$1&dia=$2 [NC]
+	RewriteRule  ^relatorios/canais-venda/?$ relatorio-canais-venda.php [NC]
+	RewriteRule  ^relatorios/exportar/([a-z0-9-]+)/?$ relatorios-exportar.php?c=$1 [QSA]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^cupons/?$ cupom-lista.php [NC]
+	RewriteRule  ^cupons/utilizados/?$ cupom-utilizados.php [NC]
+	RewriteRule  ^cupom/cadastro/?$ cupom-cadastro.php [NC]
+	RewriteRule  ^cupom/cadastro/post/?$ e-cupom-cadastro.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^bloqueado/?$ acesso-bloqueado.php [NC]
+	
+	RewriteRule  ^acessa/?$ acessa.php [NC]
+	RewriteRule  ^logout/?$ acessa.php?c=logout [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+	
+</IfModule>

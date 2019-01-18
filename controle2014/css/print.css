@@ -1,0 +1,701 @@
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, applet, object, iframe, table, caption,
+tbody, tfoot, thead, tr, th, td, del, dfn, em, font, img, ins,
+kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr,
+acronym, address, big, cite, code, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend {
+    vertical-align: baseline;
+    font-family: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    outline: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+:focus { outline: 0; }
+body {
+    background: white;
+    line-height: 1;
+    color: black;
+}
+ol, ul { list-style: none; }
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+table td { /*vertical-align: middle;*/}
+caption, th, td {
+    font-weight: normal;
+    text-align: left;
+}
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+strong { font-weight: bold; }
+em { font-style: italic; }
+header, section, footer, article, nav, aside { display: block; }
+h1, h2, h3, h4, h5, h6 { font-weight: 400; }
+
+/*------------------------------ Global --------------------------------*/
+
+body {      
+    font: normal 12px/1em 'Open Sans', sans-serif;
+    position: relative;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #000;
+}
+
+/*----------------------------------------------------------------*/
+
+section#conteudo {
+    width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    padding-bottom: 60px;
+}
+    
+    section#conteudo header#topo {
+        position: relative;
+        /*padding: 40px 30px 40px 250px;
+        margin-bottom: 15px;
+        height: 130px;
+
+        font-size: 12px;
+        line-height: 1.8em;*/
+
+        padding: 30px 30px 10px 180px;
+        height: 80px;
+        font-size: 14px;
+        line-height: 1.8em;
+    }
+    section#conteudo header#topo img.logo {
+        position: absolute;
+        /*top: 30px;*/
+        top: 10px;
+        left: 0;
+        display: block;
+        /*width: 200px;*/
+        /*height: 150px;*/
+
+        width: 135px;
+        height: 100px;
+    }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section#detalhes-compra {
+        position: relative;
+        height: 50px;
+        margin-bottom: 20px;
+    }
+        section#conteudo section#detalhes-compra h1 {
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 50px;
+        }
+        section#conteudo section#detalhes-compra h2 {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 22px;
+            font-weight: 900;
+            line-height: 50px;
+            text-transform: uppercase;
+        }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section.secao {
+        margin-bottom: 30px;
+    }
+        section#conteudo section.secao h2 {
+            font-size: 13px;
+            line-height: 1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        section#conteudo section.secao table {
+            width: 100%;
+            border-collapse: collapse;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        section#conteudo section.secao table tr td,
+        section#conteudo section.secao table tr th {
+            /*font-size: 13px;*/
+            font-size: 12px;
+            line-height: 1.5em;
+            /*padding: 8px 10px;*/
+            padding: 4px 10px;
+            border: 1px #000 solid;
+        }
+        section#conteudo section.secao table tr td.email { text-transform: none; }
+        section#conteudo section.secao table tr th {
+            font-weight: 700;
+            width: 200px;
+        }
+        section#conteudo section.secao table tr th.full { width: auto; }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section.secao table thead tr th {
+        border: none;
+        /*text-transform: none;*/
+        font-weight: normal;
+        font-size: 11px;
+    }
+        section#conteudo section.secao table thead tr th.data { width: 80px; }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section.secao table tr td .atencao { padding-top: 0.5em; }
+    section#conteudo section.secao table tr td .atencao p { margin-bottom: 0.5em; }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section.pendencias.secao table tr,
+    section#conteudo section.secao table tr.pendencias {
+        background-color: #ffcaca;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section#painel-pendencias {
+        border: 1px #000 solid;
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+        section#conteudo section#painel-pendencias .wrap {
+            padding: 10px 10px;
+            overflow: hidden;
+        }
+        section#conteudo section#painel-pendencias ul li {
+            float: left;
+            position: relative;
+            text-transform: uppercase;
+            font-size: 10px;
+            line-height: 20px;
+            padding: 0 20px 0 16px;
+            width: 155px;
+        }
+        section#conteudo section#painel-pendencias ul li span {
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            margin-top: -5px;
+            width: 8px;
+            height: 8px;
+            border: 1px #000 solid;
+            font: 1px/0px serif;
+        }
+            section#conteudo section#painel-pendencias ul li span strong {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                margin: -10px 0 0 -10px;
+                font-size: 15px;
+                font-weight: normal;
+                text-align: center;
+            }
+
+        section#conteudo section#painel-pendencias ul li.title { padding-left: 0; }
+        section#conteudo section#painel-pendencias ul li.title,
+        section#conteudo section#painel-pendencias h2 {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section.informacoes-retirada,
+    section#conteudo section#informacoes-cancelamento {
+        text-align: center;
+        /*margin-bottom: 60px;*/
+        margin-bottom: 40px;
+    }
+
+    section#conteudo section.informacoes-retirada { margin-bottom: 30px; }
+
+        section#conteudo section.informacoes-retirada h3,
+        section#conteudo section#informacoes-cancelamento h3 {
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1em;
+            text-transform: uppercase;
+            margin: 8px 0;
+        }
+        section#conteudo section.informacoes-retirada p,
+        section#conteudo section#informacoes-cancelamento p {
+            /*font-size: 10px;
+            margin-bottom: 5px;*/
+            font-size: 9px;
+            line-height: 1;
+            margin-bottom: 3px;
+        }
+
+        section#conteudo section.informacoes-retirada.big.side,
+        section#conteudo section#informacoes-cancelamento.big.side {
+            float: left;
+            width: 370px;
+            padding: 20px 0;
+            text-align: left;
+        }
+        section#conteudo section.informacoes-retirada.big.side { padding-right: 30px; }
+        section#conteudo section#informacoes-cancelamento.big.side { padding-left: 30px; }
+
+        section#conteudo section.informacoes-retirada.big h3,
+        section#conteudo section#informacoes-cancelamento.big h3 {
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1em;
+            margin: 12px 0;
+        }
+        section#conteudo section.informacoes-retirada.big p,
+        section#conteudo section#informacoes-cancelamento.big p {
+            text-align: left;
+            font-size: 12px;
+            line-height: 1.2em;
+            margin-bottom: 8px;
+        }
+
+    section#conteudo section.informacoes-retirada.float {
+        width: 340px;
+        height: 120px;
+        padding: 19px 29px;
+        border: 1px #000 solid;
+        float: left;
+        text-align: left;
+    }
+    section#conteudo section.informacoes-retirada.float.last {
+        border-left: 0;
+        padding-left: 30px;
+    }
+        section#conteudo section.informacoes-retirada.float h3 { font-size: 11px; }
+        section#conteudo section.informacoes-retirada.float h3,
+        section#conteudo section.informacoes-retirada.float p {
+            text-transform: uppercase;
+            line-height: 1.1em;
+        }
+        section#conteudo section.informacoes-retirada.float p { margin-bottom: 5px; }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo section#informacoes-entrega.secao {
+        /*padding-bottom: 30px;*/
+        margin-bottom: 40px;
+        /*border-bottom: 1px #ccc dotted;*/
+    }
+    section#conteudo section#informacoes-entrega-destaque.secao {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px #999 dashed;
+    }
+        section#conteudo section.formulario.secao table thead tr th { width: auto; }
+        section#conteudo section.formulario.secao table thead tr th.data { width: 100px; }
+        section#conteudo section.formulario.secao table thead tr th.hora { width: 100px; }
+        section#conteudo section.formulario.secao table thead tr th.nome { width: 260px; }
+
+        section#conteudo section.formulario.secao p.assinatura {
+            border-top: 1px #000 solid;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 11px;
+            line-height: 1em;
+            padding-top: 10px;
+            margin-top: 60px;
+        }
+
+    /*----------------------------------------------------------------*/
+
+    section#conteudo footer {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-align: center;
+    }
+        section#conteudo footer p { margin-bottom: 5px; }
+
+/*----------------------------------------------------------------*/
+
+    body.entrega section#conteudo header#topo {
+        position: relative;
+        padding: 30px 30px 10px 180px;
+        /*margin-bottom: 15px;*/
+        height: 80px;
+
+        font-size: 11px;
+        line-height: 1.8em;
+    }
+    body.entrega section#conteudo header#topo img.logo {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        display: block;
+        width: 135px;
+        height: 100px;
+    }
+    
+        /*----------------------------------------------------------------*/
+
+        body.entrega section#conteudo section#detalhes-compra {
+            position: relative;
+            height: 30px;
+            margin-bottom: 10px;
+        }
+            body.entrega section#conteudo section#detalhes-compra h1 {
+                font-size: 20px;
+                font-weight: 600;
+                line-height: 30px;
+                text-transform: uppercase;
+            }
+            body.entrega section#conteudo section#detalhes-compra h2 {
+                position: absolute;
+                right: 0;
+                top: 0;
+                font-size: 20px;
+                font-weight: 900;
+                line-height: 30px;
+                text-transform: uppercase;
+            }
+            body.entrega section#conteudo section#detalhes-compra h2 span { font-size: 30px; }
+
+
+        /*----------------------------------------------------------------*/
+
+        body.entrega section#conteudo section.secao { margin-bottom: 20px; }
+        body.entrega section#conteudo section.secao h2 {
+            font-size: 10px;
+            line-height: 1em;
+            margin-bottom: 8px;
+        }
+        body.entrega section#conteudo section.secao table tr td,
+        body.entrega section#conteudo section.secao table tr th {
+            font-size: 10px;
+            line-height: 1.5em;
+            padding: 4px 10px;
+        }
+        body.entrega section#conteudo section.secao table tr th.voucher {
+            text-align: right;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 6px 0;
+        }
+
+        body.entrega section#conteudo section.formulario.secao table.form tr td {
+            vertical-align: top;
+            font-size: 8px;
+            line-height: 1em;
+            padding-top: 6px;
+            height: 20px;
+        }
+        body.entrega section#conteudo section.formulario.secao table.form tr td.data { width: 100px; }
+        body.entrega section#conteudo section.formulario.secao table.form tr td.hora { width: 100px; }
+        body.entrega section#conteudo section.formulario.secao table.form tr td.nome { width: 260px; }
+        body.entrega section#conteudo section.formulario.secao table.form tr td.cuidados { width: 100px; }
+        body.entrega section#conteudo section.formulario.secao table.form tr td.celular { width: 100px; }
+
+        body.entrega section#conteudo section.formulario.secao p.assinatura {
+            border-top: 1px #000 solid;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 10px;
+            line-height: 1em;
+            padding-top: 5px;
+            margin-top: 40px;
+        }
+
+    body.entrega section#conteudo h3.voucher {
+        text-transform: uppercase;
+        text-align: right;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    /*----------------------------------------------------------------*/
+
+    body.entrega.etiqueta {
+        padding-top: 25mm;
+        padding-left: 25mm;
+        text-align: left;
+    }
+    body.entrega.etiqueta section#conteudo {
+        /*width: 700px;*/
+        width: 190mm;
+        margin: 0;
+    }
+        body.entrega.etiqueta section#conteudo section#detalhes-compra {
+            position: relative;
+            height: 25px;
+            margin-bottom: 5px;
+        }
+            body.entrega.etiqueta section#conteudo section#detalhes-compra h1 {
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 25px;
+                text-transform: uppercase;
+            }
+            body.entrega.etiqueta section#conteudo section#detalhes-compra h2 {
+                position: absolute;
+                right: 0;
+                top: 0;
+                font-size: 16px;
+                font-weight: 900;
+                line-height: 25px;
+                text-transform: uppercase;
+            }
+            body.entrega.etiqueta section#conteudo section.secao table tr th { width: 120px; }
+            body.entrega.etiqueta section#conteudo section#informacoes-gerais table tr td.telefone { width: 150px; }
+            body.entrega.etiqueta section#conteudo section#informacoes-servicos table tr td.qtde { width: 110px; }
+            body.entrega.etiqueta section#conteudo section#informacoes-servicos table tr td.data { width: 180px; }
+        
+        body.entrega.etiqueta section#conteudo section#informacoes-entrega p {
+            font-size: 11px;
+            line-height: 2em;
+            text-transform: uppercase;
+        }
+
+        body.entrega.etiqueta section#conteudo section#informacoes-entrega .form { overflow: hidden; }
+            
+            body.entrega.etiqueta section#conteudo section#informacoes-entrega .form p {
+                float: left;
+                margin-right: 50px;
+            }
+            body.entrega.etiqueta section#conteudo section#informacoes-entrega .form p strong {
+                float: left;
+                margin-right: 5px;
+            }
+            /*body.entrega.etiqueta section#conteudo section#informacoes-entrega .form p span {
+                float: left;
+                margin-right: 15px;
+                line-height: 2em;
+            }
+            body.entrega.etiqueta section#conteudo section#informacoes-entrega .form p span img { margin-right: 2px; }*/
+
+            body.entrega.etiqueta section#conteudo section#informacoes-entrega .form p span.check {
+                float: left;
+                margin-right: 15px;
+                padding-left: 15px;
+                line-height: 2em;
+                position: relative;
+            }
+            body.entrega.etiqueta section#conteudo section#informacoes-entrega .form p span.check span {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 50%;
+                margin-top: -5px;
+                width: 8px;
+                height: 8px;
+                border: 1px #000 solid;
+                font: 1px/0px serif;
+            }
+                body.entrega.etiqueta section#conteudo section#informacoes-entrega .form p span.check span strong {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 20px;
+                    height: 20px;
+                    line-height: 20px;
+                    margin: -10px 0 0 -10px;
+                    font-size: 15px;
+                    font-weight: normal;
+                    text-align: center;
+                }
+
+/*------------------------- Caderno ---------------------------------------*/
+
+body.entrega.caderno section#conteudo header#topo { height: 70px; }
+body.entrega.caderno section#conteudo header#topo section.caderno {
+    padding-right: 160px;
+    text-align: center;
+}
+    body.entrega.caderno section#conteudo header#topo section.caderno h1 {
+        font-size: 20px;
+        font-weight: 800;
+        line-height: 1em;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+    }
+    body.entrega.caderno section#conteudo header#topo section.caderno p {
+        font-size: 11px;
+        line-height: 1em;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
+body.entrega.caderno section#conteudo header#topo section.vias {
+    position: absolute;
+    right: 0;
+    top: 35px;
+    text-align: right;
+}
+    body.entrega.caderno section#conteudo header#topo section.vias p {
+        font-size: 10px;
+        line-height: 1em;
+        text-transform: uppercase;
+        margin-top: 5px;
+    }
+
+    body.entrega.caderno section#conteudo section.secao table tr th {
+        width: auto;
+        background-color: #f1f1f1;
+    }
+
+    body.entrega.caderno section#conteudo section#informacoes-gerais.secao table tr th.email { width: 233px; }
+    body.entrega.caderno section#conteudo section#informacoes-gerais.secao table tr th.telefone { width: 100px; }
+    
+    /*----------------------------------------------------------------*/
+
+    body.entrega.caderno section#conteudo section#informacoes-servicos.secao table tr th.qtde { width: 40px; }
+    body.entrega.caderno section#conteudo section#informacoes-servicos.secao table tr th.setor { width: 30px; }
+    body.entrega.caderno section#conteudo section#informacoes-servicos.secao table tr th.data { width: 105px; }
+    body.entrega.caderno section#conteudo section#informacoes-servicos.secao table tr th.total { width: 50px; }
+
+    /*----------------------------------------------------------------*/
+
+    body.entrega.caderno section#conteudo section#informacoes-pagamento.secao table tr th.total { width: 50px; }
+
+/*----------------------------------------------------------------*/
+
+body.entrega.recibo section#conteudo { width: 550px; }
+body.entrega.recibo section#conteudo header#topo {
+    position: relative;
+    padding: 30px 30px;
+    height: auto;
+
+    font-size: 11px;
+    line-height: 1.8em;
+    text-align: center;
+}
+body.entrega.recibo section#conteudo header#topo img.logo {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: block;
+    width: 144px;
+    height: 120px;
+    margin: 0 auto 20px auto;
+}
+
+    body.entrega.caderno section#conteudo article#detalhes-recibo { text-align: center; }
+    body.entrega.caderno section#conteudo article#detalhes-recibo h1 {
+        font-size: 20px;
+        font-weight: 800;
+        line-height: 1em;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
+    body.entrega.caderno section#conteudo article#detalhes-recibo h2 {
+        font-size: 18px;
+        font-weight: 800;
+        line-height: 1em;
+        margin-bottom: 25px;
+        text-transform: uppercase;
+    }
+    body.entrega.caderno section#conteudo article#detalhes-recibo p {
+        font-size: 12px;
+        line-height: 2em;
+        text-transform: uppercase;
+    }
+    body.entrega.caderno section#conteudo article#detalhes-recibo p.assinatura {
+        margin-top: 100px;
+        border-top: 1px #333 solid;
+        padding-top: 5px;
+        font-weight: bold;
+    }
+
+    body.entrega.caderno section#conteudo article#detalhes-recibo ul {
+        font-size: 12px;
+        line-height: 2em;
+        text-transform: uppercase;
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
+
+
+/*----------------------------------------------------------------*/
+
+
+section#conteudo header#topo-procuracao {
+    position: relative;
+    padding: 30px 30px 10px 180px;
+    height: 80px;
+    font-size: 14px;
+    line-height: 1.8em;
+    margin-top: 100px;
+    border-top: 1px #ccc dashed;
+}
+    section#conteudo header#topo-procuracao img.logo {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        display: block;
+        
+        width: 135px;
+        height: 100px;
+    }
+
+    section#conteudo article#procuracao {
+        padding: 30px;
+    }    
+        section#conteudo article#procuracao h3 {
+            font-size: 10px;
+            font-weight: 400;
+            line-height: 1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        section#conteudo article#procuracao h2 {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1em;
+            text-transform: uppercase;
+            margin-bottom: 45px;
+        }
+        section#conteudo article#procuracao p {
+            font-size: 12px;
+            line-height: 2em;
+            margin-bottom: 1.5em;   
+        }
+        section#conteudo article#procuracao p.assinatura { margin-top: 35px; }
+
+        section#conteudo article#procuracao h4 {
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1em;
+            text-transform: uppercase;
+            margin-top: 40px;
+        }   
+
+
+@media print {
+    section#conteudo { padding-bottom: 0; }
+    section#conteudo header#topo-procuracao {
+        margin-top: 0;
+        border-top: none;
+        page-break-before: always;
+    }
+}
+
+/*----------------------------------------------------------------*/
+
+.clear  {
+    clear: both;
+    display: block;
+    font: 1px/0px serif;
+    content: ".";
+    height: 0;
+    visibility: hidden;
+}

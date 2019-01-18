@@ -1,0 +1,35 @@
+<?php
+
+//Incluir funções básicas
+include("include/includes.php");
+
+//Conexão com o banco de dados da Sankhya
+include("conn/conn-sankhya.php");
+
+$cod = $_POST['cod'];
+$pais = format($_POST['pais']);
+$cep = format($_POST['cep']);
+$zipcode = format($_POST['zipcode']);
+$endereco = format($_POST['endereco']);
+$numero = $_POST['numero'];
+$complemento = format($_POST['complemento']);
+$bairro = format($_POST['bairro']);
+$cidade = format($_POST['cidade']);
+$estado = format($_POST['estado']);
+
+
+
+$sql_cadastro = sqlsrv_query($conexao, "UPDATE loja SET LO_CLI_CEP='$cep', LO_CLI_ENDERECO='$endereco', LO_CLI_NUMERO='$numero', LO_CLI_COMPLEMENTO='$complemento', LO_CLI_BAIRRO='$bairro', LO_CLI_CIDADE='$cidade', LO_CLI_ESTADO='$estado', LO_CLI_PAIS='$pais' WHERE LO_COD=$cod", $conexao_params, $conexao_options);
+
+if ($sql_cadastro) 
+{
+	echo true;
+}
+else
+{
+	echo false;
+}
+ 
+
+
+?>

@@ -1,0 +1,795 @@
+// @import '_reset';
+@import '_colors';
+@import '_mixins';
+
+/* body {
+    font: normal 14px/1em $font-face;
+    background: #fff;
+    text-align: center;
+    overflow-x: hidden;
+    color: #000;
+} */
+
+
+%center {
+    position: relative;
+    max-width: $max-width;    
+    margin: 0 auto;        
+    
+    .wrapper {
+        position: relative;
+        width: $center-width;
+        margin: 0 auto;
+
+        header {
+            height: 90px;
+            position: relative;
+
+            h2 {
+                font-family: $font-face-titulos;
+                font-size: 50px;
+                font-weight: normal;
+                line-height: 60px;
+                text-transform: uppercase;
+            }
+
+            h3 {
+                font-family: $font-face-titulos;
+                font-size: 35px;
+                font-weight: normal;
+                line-height: 35px;
+                text-transform: uppercase;
+            }
+            
+            &.tab {
+                height: 60px;            
+                h2 {
+                    top: -30px;
+                }
+                &.nivel{
+                    margin-top: 100px;
+                }
+            }
+        }
+    }    
+}
+
+
+div#index {
+    font: normal 14px/1em $font-face;
+    background: #fff;
+    text-align: center;
+    overflow-x: hidden;
+    color: #000;
+
+    position: relative;
+    overflow: hidden;
+
+
+
+    header {
+
+        nav#ingresso{
+            min-width: 800px;
+            top: 0;
+            z-index: 800;
+            position: fixed;
+            left: 0;
+            
+            width: 100%;
+            height: auto;
+            text-transform: uppercase;
+            background-color: #8f4499;
+            text-align: center;
+            vertical-align: center;
+            color: #fff;
+            visibility: hidden;
+            
+            @include box-shadow(5px 2px 0 rgba(0,0,0,.15));
+            @include transition(.3s);
+
+            &.visivel{
+                visibility: visible;
+                top: 80px;
+            }
+            
+            h1{
+                font: 700 24px/1em 'Open Sans Condensed', sans-serif;
+                padding: 15px 50px;
+                height: auto;
+            }
+            h1,
+            ul{
+                display: inline-block;
+                vertical-align: middle;
+            }
+            ul li{
+                font: 600 16px 'Open Sans', sans-serif;
+                color: #f7d207;
+                display: inline-block;
+                padding: 10px 0 10px 0;
+                margin: 0 10px 0 10px;
+                
+                a{
+                    text-decoration: none;
+                }
+                button{
+                    margin-top: 5px;
+                    display: block;
+                    padding: 0 25px;
+                    font-size: 16px;
+                    font-weight: 700;
+                    height: 30px;
+                    font: 600 16px 'Open Sans', sans-serif;
+                    background: #46ae20 url(../img/bg-radio-label.png) no-repeat center center;
+                    color: #fff;
+                    text-transform: uppercase;
+                    overflow: hidden;
+                    cursor: pointer;
+                    border-radius: 1px;
+                    -moz-border-radius: 1px;
+                    -webkit-border-radius: 1px;
+                    box-shadow: 1.5px 2px 0 rgba(0,0,0,.15);
+                    -moz-box-shadow: 1.5px 2px 0 rgba(0,0,0,.15);
+                    -webkit-box-shadow: 1.5px 2px 0 rgba(0,0,0,.15);
+                    -webkit-transition: .3s;
+                    -moz-transition: .3s;
+                    -o-transition: .3s;
+                    transition: .3s;
+                    border: 0;
+                }
+            }
+        }
+    }
+
+    section#apresentacao {
+        @extend %center;
+        background: #ed6d34 url(../../img/index2017/bg-logo.jpg) no-repeat center center;
+        z-index: 2;
+
+        .wrapper {
+            height: 915px;
+
+            a.logo {
+                display: block;
+                margin: 0 auto;
+                width: 1124px;
+                height: 657px;
+                text-decoration: none;
+                background: url(../../img/index2017/logo.png) no-repeat center center;
+            }
+
+            footer {
+                display: block;
+                margin-top: 15px;
+
+                h1 {
+                    font-family: $font-face-titulos;
+                    font-size: 45px;
+                    line-height: 55px;
+                    letter-spacing: 5px;
+                    text-transform: uppercase;
+                    color: #FFF;
+                }
+            }
+        }
+    }
+
+    section#camarote-lounge {
+        @extend %center;
+        background: #FFF;
+
+        .wrapper {
+            padding: 50px 0;
+
+            header { 
+                text-align: center;
+
+                h2 {
+                    color: #f04450;
+                }
+
+                h3 {
+                    color: #188c8d;
+                }
+            }
+
+            .localizacao {
+                margin-top: 40px;
+
+                h2 {
+                    font-family: $font-face-titulos;
+                    font-size: 50px;
+                    font-weight: normal;
+                    line-height: 60px;
+                    text-transform: uppercase;
+                    color: #f04450;
+                }
+
+                h3 {
+                    font-family: $font-face-titulos;
+                    font-size: 35px;
+                    font-weight: normal;
+                    line-height: 35px;
+                    text-transform: uppercase;
+                    color: #188c8d;
+                }
+                h4 {
+                    font-family: $font-face-titulos;
+                    position: relative;
+                    font-size: 35px;
+                    font-weight: normal;
+                    line-height: 55px;
+                    text-transform: uppercase;
+                    color: #f04450;
+                    margin-top: -40px;
+                    z-index: 20;
+                    margin-bottom: 70px;
+                    background: url('../../img/index2017/coracao.png') no-repeat 770px center;
+                }
+                img {
+                    margin: 30px 0;
+                }
+            }
+            
+        }
+
+        figure {
+            margin-top: 0;
+            position: relative;
+
+            img {
+                width: 100%;
+            }
+        }
+
+    }
+
+    section#visao {
+        @extend %center;
+        background: #FFF;
+        padding: 70px 0;
+
+        header {
+            color: #fc6a08;
+        }
+
+        div.visao {
+            width: 70%;
+            margin: 50px auto 0 auto;
+            position: relative;
+
+            article {
+
+                h2 {
+                    color: #fc6a08;
+                    font-size: 34px;
+                    line-height: 1.3em;
+                }
+                h3 {
+                    color: #0572b9;
+                    font-size: 26px;
+                    line-height: 1em;
+                }
+
+                &.panoramica {
+                    position: absolute;
+                    top: 60px;
+                    left: 80px;
+                }
+
+                &.lounge {
+                    position: absolute;
+                    bottom: 60px;
+                    right: 80px;
+                }
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+
+    section#sinta-emocao {
+        @extend %center;
+        background: url(../../img/index2017/bg-video.jpg) no-repeat center center;
+        height: 966px;
+
+        .wrapper {
+
+            header {
+                padding-top: 90px;
+                margin-bottom: 20px;
+                color: #FFF;
+            }
+
+            .video {
+
+                .player {
+                    background: #ccc;
+                    height: 585px;
+                }
+
+            }
+        }
+    }
+
+    section#shows {
+        @extend %center;
+        background: url(../../img/index2017/bg-shows.jpg) no-repeat center center;
+        height: 1260px;
+
+        .atracoes {
+            width: 100%;
+            margin-top: 100px;
+
+            ul {
+                height: 385px;
+                width: 80%;
+                margin: 0 auto;
+                overflow: hidden;
+                
+                li {
+
+                    position: relative;
+                    float: left;
+                    width: 23%;
+                    padding: 0 10px;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .wrapper {            
+
+            header {
+                color: #FFF;
+                padding-top: 80px;
+
+                h2 {
+                    
+                }
+            }
+
+/*            .mpb-903 {
+                margin: 100px auto 0 auto;
+                width: 435px;
+                height: 195px;
+                background: url(../../img/index2017/camarote-oficial.png) no-repeat center center;
+            }   */ 
+
+            .ssc {
+                h3 {
+                    color: #FFF;
+                    font-size: 24px;
+                    margin: 20px 0 0 0;
+                    line-height: 24px;
+                }
+
+                img {
+                    display: block;
+                    width: 190px;
+                    margin: 15px auto 0 auto;
+                }
+            }
+            
+        }
+
+        .banda {
+            display: block;
+            width:70%;
+            margin: 0 auto;
+
+            img {
+                width: 100%;
+            }
+
+        }
+
+    }
+    
+    section#galeria {
+        @extend %center;
+        background: #FFF;
+
+        .wrapper {            
+            padding-bottom: 100px;
+
+            header {
+                color: #f41865;
+                margin-bottom: 50px;
+            }
+
+            section#galeria-slider {
+                @include slider(590px);
+            }
+        }
+    }
+
+    section#all-inclusive {
+        @extend %center;
+        background: #FFF;
+        padding: 60px 0 100px 0;
+
+        .wrapper {            
+
+            header {
+                color: #48a644;
+                margin-bottom: 50px;
+            }
+
+        }
+
+        figure {
+            width: 80%;
+            margin: 0 auto;
+
+            img {
+                width: 100%;
+                max-width: 1150px;
+            }
+        }
+    }
+
+    section#espacos {
+        @extend %center;
+        background: url(../../img/index2017/bg-espacos.jpg) no-repeat center center;
+        height: 920px;
+
+        .wrapper {            
+
+            header {
+                padding-top: 100px;
+                color: #FFF;
+                margin-bottom: 50px;
+            }
+        }
+
+        figure {
+            width: 80%;
+            margin: 0 auto;
+
+            img {
+                width: 100%;
+                max-width: 1150px;
+            }
+        }
+    }
+
+    section#video {
+        @extend %center;
+        background: #22998f url(../../img/index/bg-video.jpg) no-repeat center center;
+        height: auto !important;
+        z-index: initial;
+
+        .wrapper {
+            
+            padding-bottom: 150px;
+            height: auto !important;
+
+            header {
+                color: #22998f;
+                margin-bottom: 50px;
+            }
+
+            .video {
+
+                h3 {
+                    font-size: 24px;
+                    line-height: 30px;
+                    letter-spacing: 2px;
+                    margin-bottom: 20px;
+                    text-transform: uppercase;
+                    text-align: center;
+                    color: #fff;
+                }
+
+                .player {
+                    background: #ccc;
+                    height: 585px;
+                }
+
+            }
+        }
+    }
+
+    section#transporte {
+        @extend %center;
+        background: #FFF;
+        padding: 30px 0 80px 0;
+
+        .wrapper {
+
+            header {
+                color: #0888ab;
+                margin-bottom: 40px;
+            }
+        }
+
+        figure {
+            width: 80%;
+            margin: 0 auto;
+
+            img {
+                width: 100%;
+                max-width: 1150px;
+            }
+        }
+    }
+
+/*    section#credenciamento {
+        @extend %center;
+        background: #229e32 url(../../img/index/bg-credenciamento.jpg) no-repeat center center;
+
+        .wrapper {
+            
+            padding-bottom: 70px;
+
+            header {
+                color: #229e32;
+                margin-bottom: 50px;
+            }
+            h1{
+                font-family: $font-face-titulos;
+                font-size: 34px;
+                line-height: 40px;
+                color: #fcae01;
+            }
+            ul {
+                overflow: hidden;
+                background: url(../../img/index/bg-credenciamento-mais.png) no-repeat center center;
+
+                li {
+                    float: left;
+                    width: 50%;
+                    background-image: url(../../img/index/bg-credenciamento-imagens.png);
+                    background-repeat: no-repeat;
+
+                    p {
+                        font-size: 25px;
+                        font-family: $font-face-titulos;
+                        line-height: 70px;
+                        color: #fff;
+                    }
+
+                    img {
+                        height: 290px;
+                    }
+
+                    &.top {
+                        background-position: center 0;
+                        margin-bottom: 120px;
+                    }
+                    &.bottom {
+                        padding-top: 25px;
+                        background-position: center -25px;
+                    }
+
+                }
+            }
+        }
+    }*/
+
+    section#programacao {
+        @extend %center;
+        background: url(../../img/index2017/bg-programacao.jpg) no-repeat center center;
+        height: 770px;
+        padding-top: 150px;
+
+        .wrapper {
+
+            header {
+                color: #FFF;
+                margin-bottom: 50px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+
+                td, th {
+                    padding: 25px;
+                    border: 4px #fff dashed;
+                    color: #fff;
+                    font-family: $font-face-titulos;
+                }
+
+                th {
+                    font-size: 24px;
+                    line-height: 1em;
+                    text-align: center;
+
+                    h3 {
+                        font-size: 32px;
+                        line-height: 1em;
+                    }
+                    span {
+                        font-size: 24px;
+                        line-height: 1.5em;
+                        color: #e99518;
+                    }
+                }
+
+                td {
+                    font-size: 20px;
+                    line-height: 1.5em;
+                    text-align: left;
+
+                    span { color: #e99518; }
+                }
+            }
+        }
+
+        figure {
+            width: 80%;
+            margin: 0 auto;
+
+            img {
+                width: 100%;
+                max-width: 1150px;
+            }
+        }
+    }
+
+    section#conheca-tb {
+        @extend %center;
+        background: #FFF;
+        padding-bottom: 80px;
+
+        .wrapper {            
+            padding-bottom: 30px;
+
+            header {
+                color: #751f87;
+                margin-bottom: 30px;
+            }
+
+            a.saiba-mais {
+                display: block;
+                width: 818px;
+                height: 95px;
+                margin: 40px auto 0 auto;
+                background: url('../../img/index2017/saiba-mais.jpg') no-repeat center center;
+            }
+
+            span.titulo {
+                background: url('../../img/index2017/titulo-superfolia.jpg') no-repeat center center;
+                display: block;
+                width: 798px;
+                height: 112px;
+                margin: 0 auto;
+            }
+
+            span.titulo-mapa {
+                background: url('../../img/index2017/mapa-superfolia.jpg') no-repeat center center;
+                display: block;
+                width: 476px;
+                height: 106px;
+                margin: 0 auto;
+            }
+
+            span.titulo-servicos {
+                background: url('../../img/index2017/titulo-servicos.jpg') no-repeat center center;
+                display: block;
+                width: 528px;
+                height: 105px;
+                margin: 0 auto;
+            }
+
+            p {
+                color: #491c62;
+                font-size: 25px;
+                letter-spacing: 2px;
+                line-height: 38px;
+                text-transform: uppercase;
+                text-align: center;
+                margin-bottom: 40px;
+                margin-top: 40px;
+                padding: 0 70px;
+
+                span {
+                    color: #ff9820;
+                    font-size: 34px;
+                }
+            }
+
+        }
+
+        img.mapa {
+            width: 80%;
+            margin-bottom: 50px;
+            max-width: 1150px;
+        }
+    }
+
+   /* section#confira {
+        @extend %center;
+        background: #e9573f url(../../img/index/bg-confira.jpg) no-repeat center center;
+
+        .wrapper {
+            
+            padding-bottom: 65px;
+
+            header {
+                color: #e9573f;
+                margin-bottom: 50px;
+            }
+
+            figure {
+
+                h3 {
+                    font-size: 26px;
+                    line-height: 1em;
+                    letter-spacing: 3px;
+                    text-transform: uppercase;
+                    color: #fff;
+                    margin-bottom: 15px;
+                }
+
+                &.super-folia { 
+                    margin: 60px 0;
+                }
+
+                &.vista-panoramica,
+                &.open-bar {
+                    float: left;
+                    height: 505px;
+                }
+
+                &.vista-panoramica {
+                    width: 595px;
+                    margin-right: 20px;
+                }
+                &.open-bar {
+                    width: 370px;
+                }
+
+            }
+
+            article {
+                margin-top: 30px;
+                color: #fff;
+
+                ul {
+                    
+                    margin-bottom: 20px;
+
+                    li {
+                        font-size: 30px;
+                        line-height: 1.5em;
+                        letter-spacing: 1px;
+                    }
+                }
+
+                a.saiba-mais {
+                    display: block;
+                    width: 790px;
+                    height: 100px;
+                    margin: 50px auto 50px auto;
+                    font-size: 30px;
+                    line-height: 100px;
+                    letter-spacing: 1px;
+                    text-decoration: none;
+                    color: #fff;                    
+                    background: #faa004;
+
+                    box-shadow: inset 0 -4px 3px rgba(0, 0, 0, 0.3), inset 0 3px 4px rgba(255, 255, 255, 0.2);
+                    -moz-box-shadow: inset 0 -4px 3px rgba(0, 0, 0, 0.3), inset 0 3px 4px rgba(255, 255, 255, 0.2);
+                    -webkit-box-shadow: inset 0 -4px 3px rgba(0, 0, 0, 0.3), inset 0 3px 4px rgba(255, 255, 255, 0.2);
+                }
+
+                p {
+                    font-size: 18px;
+                    line-height: 1.5em;
+                    letter-spacing: 1px;
+                    color: #fff;
+                    margin-bottom: 30px;
+                }
+            }
+        }
+    }*/
+}

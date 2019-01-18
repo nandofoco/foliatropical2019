@@ -1,0 +1,75 @@
+<div class="language">
+	<ul>
+		<?
+		$server_name = $_SERVER['SERVER_NAME'];
+		$server_uri = $_SERVER ['REQUEST_URI'];
+		$server_site = str_replace('http://', '', SITE);
+		$server_site = str_replace('https://', '', $server_site);
+		$server_site = str_replace('www.', '', $server_site);
+		$server_site = str_replace($server_name, '', $server_site);
+
+		$server_uri = str_replace($server_site, '', $server_uri);
+		$server_uri = str_replace('br/', '', $server_uri);
+		$server_uri = str_replace('us/', '', $server_uri);
+
+		$total_lang = count($lang) - 1;
+		$ilang = 1;
+
+		foreach ($lang as $lang_key => $v) {
+			
+		?>		
+		<li><a href="<? echo SITE.strtolower($lang_key); ?>/<? echo $server_uri; ?>" class="<? echo strtolower($lang_key); ?>"><img src="<? echo SITE ?>img/flag-<? echo strtolower($lang_key); ?>.png"></a></li>					
+		<?
+				$ilang++;
+		}
+		?>
+	</ul>
+</div>
+
+
+<header id="topo">
+
+	<nav>
+		<div>
+			<a href="<? echo RAIZ; ?>" id="logo"><span>Folia Tropical</span></a>
+			<ul class="menu">
+				<!-- <li><a href="<? echo RAIZ; ?>">Home</a></li>
+				<li><a href="<? echo RAIZ; ?>#o-camarote">Camarote</a></li>
+				<li><a href="<? echo RAIZ; ?>galeria-2/">Galeria</a></li>
+				<li><a href="<? echo RAIZ; ?>faq/">Dúvidas</a></li>
+				<li><a href="<? echo RAIZ; ?>contato/">Contato</a></li>
+				<li><a href="<? echo SITE; ?>" class="comprar">Comprar</a></li> -->
+				<li><a href="http://www.foliatropical.com.br/">Home</a></li>
+				<li class="drop">
+					<a href="#">Camarote</a>
+					<ul class="submenu">
+						<li><a href="http://www.foliatropical.com.br/folia/">Folia Tropical</a></li>
+						<li><a href="http://www.foliatropical.com.br/super/">Super Folia (VIP)</a></li>
+					</ul>
+				</li>
+				<li><a href="http://www.foliatropical.com.br/galeria/">Galeria</a></li>
+				<li><a href="http://www.foliatropical.com.br/duvidas/">Dúvidas</a></li>
+				<li><a href="http://www.foliatropical.com.br/contato/">Contato</a></li>
+				<li><a href="<? echo SITE.$link_lang; ?>" class="comprar">Comprar</a></li>
+
+				<?
+				if(checklogado()) {
+					$usuario_nome = explode(" ", $_SESSION['usuario-nome']);
+					$usuario_nome = $usuario_nome[0];
+				?>
+				<li><a href="<? echo RAIZ; ?>minhas-compras/" class="info">Minhas compras</a></li>
+				<li><a href="<? echo RAIZ; ?>meus-dados/" class="info">Meus dados</a></li>
+				<li class="carrinho"><a href="<? echo SITE.$link_lang; ?>ingressos/" class="carrinho"><? echo count($_SESSION['compra-site']); ?></a></li>
+				<li><a href="<? echo SITE.$link_lang; ?>logout/" class="info">Sair</a></li>
+				<li class="nome">Olá, <? echo utf8_encode($usuario_nome); ?></li>
+				<?
+				} else {
+				?>
+				<li class="login"><a href="<? echo SITE.$link_lang; ?>#login" >Login/Cadastro</a></li>
+				<? 
+				}
+				?>
+			</ul>
+		</div>
+	</nav>
+</header>

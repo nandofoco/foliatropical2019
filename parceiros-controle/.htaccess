@@ -1,0 +1,19 @@
+	<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^vendas/?$ vendas.php [NC]
+	RewriteRule  ^vendas2/?$ vendas2.php [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+
+	RewriteRule  ^bloqueado/?$ acesso-bloqueado.php [NC]
+	
+	RewriteRule  ^acessa/?$ acessa.php [NC]
+	RewriteRule  ^logout/?$ acessa.php?c=logout [NC]
+
+	#------------------------------------------------------------------------------------------------------#
+	
+</IfModule>
+

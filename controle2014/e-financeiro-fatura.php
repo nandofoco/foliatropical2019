@@ -1,0 +1,156 @@
+<?
+
+header('Content-Type: text/html; charset=utf-8');
+
+//Verificamos o dominio
+include("include/includes.php");
+
+//-----------------------------------------------------------------------------//
+
+$cod = (int) $_GET['c'];
+$compra = (int) $_GET['l'];
+$acao = $_GET['a'];
+$tipo = format($_GET['t']);
+
+if(!empty($cod) && !empty($compra)) {
+
+	//Buscar informações
+
+	switch ($acao) {
+		case 'confirmar':
+			
+			$sql_update = sqlsrv_query($conexao, "UPDATE TOP (1) loja_faturadas SET LF_PAGO=1, LF_DATA_PAGAMENTO=GETDATE() WHERE LF_COD='$cod' AND LF_COMPRA='$compra'", $conexao_params, $conexao_options);
+			$mensagem = 'Pagamento confirmado';
+
+		break;
+
+		case 'cancelar':
+
+			$sql_update = sqlsrv_query($conexao, "UPDATE TOP (1) loja_faturadas SET LF_PAGO=0, LF_DATA_PAGAMENTO=NULL WHERE LF_COD='$cod' AND LF_COMPRA='$compra'", $conexao_params, $conexao_options);
+			$mensagem = 'Pagamento cancelado';
+			
+		break;
+
+		case 'reativar':
+
+			$sql_update = sqlsrv_query($conexao, "UPDATE TOP (1) loja_faturadas SET D_E_L_E_T_=0 WHERE LF_COD='$cod' AND LF_COMPRA='$compra'", $conexao_params, $conexao_options);
+			$mensagem = 'Boleto reativado';
+			
+		break;
+		
+	}
+	
+	//Verificar pagos
+	$sql_faturas = sqlsrv_query($conexao, "SELECT COUNT(LF_COD) AS TOTAL, SUM(LF_PAGO) AS PAGAS FROM loja_faturadas WHERE LF_COMPRA='$compra' AND D_E_L_E_T_='0'", $conexao_params, $conexao_options);
+	
+	if(sqlsrv_num_rows($sql_faturas) > 0) {
+		$faturas = sqlsrv_fetch_array($sql_faturas);
+		$faturas_total = (int) $faturas['TOTAL'];
+		$faturas_pagas = (int) $faturas['PAGAS'];
+
+
+		$compra_pago = ($faturas_pagas < $faturas_total) ? 0 : 1;
+		$compra_data = ($compra_pago) ? "'".date('Y-m-d H:i:s')."'" : 'NULL';
+
+
+		$sql_compra = sqlsrv_query($conexao, "UPDATE TOP (1) loja SET LO_PAGO='$compra_pago', LO_DATA_PAGAMENTO=$compra_data WHERE LO_COD='$compra'", $conexao_params, $conexao_options);
+
+
+		$sql_exist =  sqlsrv_query($conexao, "SELECT LG_COD FROM log WHERE LG_VOUCHER = '$compra' AND LG_ACAO=N'Pagamento liberado' AND D_E_L_E_T_='0'", $conexao_params, $conexao_options);
+		
+
+		if(sqlsrv_num_rows($sql_exist) == 0)
+		{
+			$sql_log = sqlsrv_query($conexao, "INSERT INTO log (LG_VOUCHER, LG_USUARIO, LG_NOME, LG_ACAO, LG_DATA) VALUES ('$compra', '".$_SESSION['us-cod']."', '".$_SESSION['us-nome']."', 'Pagamento liberado', GETDATE())", $conexao_params, $conexao_options);
+		}
+		else 
+		{
+			$sql_log_update =  sqlsrv_query($conexao, "UPDATE log SET LG_DATA=GETDATE() WHERE LG_VOUCHER = '$compra' AND LG_ACAO=N'Pagamento liberado' AND D_E_L_E_T_='0'", $conexao_params, $conexao_options);
+		}
+	}
+
+	
+	?>
+	<script type="text/javascript">
+		alert('<? echo $mensagem; ?>');
+		location.href='<? echo SITE; ?>financeiro/faturado/<? echo $compra; ?>/';
+	</script>
+	<?
+
+
+	//Fechar conexoes
+	include("conn/close.php");
+
+	exit();
+}
+
+//-----------------------------------------------------------------------------//
+
+if(!empty($compra) && ($tipo == 'todas')) {
+
+	//Verificar pagos
+	$sql_faturas = sqlsrv_query($conexao, "UPDATE loja_faturadas SET D_E_L_E_T_=1 WHERE LF_COMPRA='$compra' AND D_E_L_E_T_='0' AND LF_PAGO='0'", $conexao_params, $conexao_options);
+	
+	?>
+	<script type="text/javascript">
+		alert('Boletos excluídos');
+		location.href='<? echo SITE; ?>financeiro/faturado/<? echo $compra; ?>/';
+	</script>
+	<?
+
+	//Fechar conexoes
+	include("conn/close.php");
+
+	exit();
+}
+
+
+//-----------------------------------------------------------------------------//
+
+$compra = (int) $_POST['compra'];
+$quantidade = (int) $_POST['quantidade'];
+$valor = (float) $_POST['valor'];
+$data = todate(format($_POST['data']), 'ddmmaaaa');
+
+if(!empty($compra) && ($quantidade > 0) && !empty($data) && ($valor > 0)) {
+
+	$loja_valor = $valor;
+
+	$loja_valor_parcela = $loja_valor / $quantidade;
+	$loja_valor_parcela = number_format($loja_valor_parcela, 2, '.', '');
+	$loja_data_vencimento = $data;
+	
+	//Buscar ids que ja existem
+	$sql_max = sqlsrv_query($conexao, "SELECT MAX(LF_PARCELA) AS PARCELA FROM loja_faturadas WHERE LF_COMPRA='$compra' AND D_E_L_E_T_=0", $conexao_params, $conexao_options);
+	if(sqlsrv_num_rows($sql_max) > 0) {
+		$armax = sqlsrv_fetch_array($sql_max);
+		$max = $armax['PARCELA'];
+	}
+
+	for ($i=1; $i <= $quantidade ; $i++) {
+
+		$id = ($max > 0) ? ($max+$i) : $i ;
+
+		$loja_data_vencimento = ($i == 1) ? date('Y-m-d', strtotime($loja_data_vencimento)) : date('Y-m-d', strtotime($loja_data_vencimento.'+1 month'));
+		//Inserir no banco
+		$sql_compra = sqlsrv_query($conexao, "INSERT INTO loja_faturadas (LF_COMPRA ,LF_PARCELA ,LF_VALOR ,LF_PAGO ,LF_DATA_CADASTRO ,LF_DATA_VENCIMENTO) VALUES ('$compra' ,'$id' ,'$loja_valor_parcela' ,0 ,GETDATE() ,'$loja_data_vencimento')", $conexao_params, $conexao_options);
+
+	}
+
+	?>
+	<script type="text/javascript">
+		alert('Boletos gerados.');
+		location.href='<? echo SITE; ?>financeiro/faturado/<? echo $compra; ?>/';
+	</script>
+	<?
+
+	//Fechar conexoes
+	include("conn/close.php");
+
+	exit();
+}
+
+?>
+<script type="text/javascript">
+	history.go(-1);
+</script>

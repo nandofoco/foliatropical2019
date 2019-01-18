@@ -1,0 +1,745 @@
+<?
+
+include 'conn/conn.php';
+include 'conn/conn-sankhya.php';
+include 'inc/funcoes.php';
+include 'inc/checklogado.php';
+include 'inc/checkwww.php';
+include 'inc/language.php';
+
+$evento = setcarnaval();
+$logado = checklogado();
+
+/* if(!$logado){
+?>
+<script type="text/javascript">
+	location.href='<? echo SITE; ?>';
+</script>
+<?
+	exit();
+} */
+
+$forma = 1;
+$quantidade = $_POST['quantidade'];
+$adicionaiscod = $_POST['adicionaiscod'];
+$exclusividade = $_POST['exclusividade'];
+$exclusividadeval = $_POST['exclusividadeval'];
+$transferqtde = $_POST['transferqtde'];
+$comentarios = $_POST['comentarios'];
+#$delivery = ($_POST['delivery']) ? 1 : 0;
+$delivery = 0;
+
+$retirada = format($_POST['retirada']);
+$periodo = format($_POST['periodo']);
+$data_retirada = format($_POST['data-retirada']);
+
+$n_itens = count($_SESSION['compra-site']);
+
+$retorno = false;
+
+//-----------------------------------------------------------------------------//
+
+if($n_itens > 0) {
+	foreach ($_SESSION['compra-site'] as $key => $carrinho) {
+
+		//Atualizamos a quantidade
+		$_SESSION['compra-site'][$key]['qtde'] = $carrinho['qtde'] = (int) $quantidade[$key];
+
+		//Buscando se há disponibilidade
+		$sql_ingressos = sqlsrv_query($conexao, "
+			DECLARE @ingresso INT='".$carrinho['item']."';
+			DECLARE @vendas TABLE (VE_COD INT, VE_TIPO INT, VE_ESTOQUE INT, VE_SETOR INT, VE_DIA INT, VE_FILA VARCHAR(255), VE_VAGAS INT, VE_TIPO_ESPECIFICO VARCHAR(255));
+			DECLARE @qtde TABLE (COD INT, QTDE INT DEFAULT 0);
+
+			INSERT INTO @vendas (VE_COD, VE_TIPO, VE_ESTOQUE, VE_SETOR, VE_DIA, VE_FILA, VE_VAGAS, VE_TIPO_ESPECIFICO)
+			SELECT VE_COD, VE_TIPO, VE_ESTOQUE, VE_SETOR, VE_DIA, VE_FILA, VE_VAGAS, VE_TIPO_ESPECIFICO FROM vendas WHERE VE_COD=@ingresso AND VE_BLOCK=0 AND D_E_L_E_T_=0 /*AND ((VE_LOTE IS NOT NULL AND VE_LOTE_ATIVO = 1) OR VE_LOTE IS NULL)*/;
+
+			INSERT INTO @qtde (COD, QTDE)
+			SELECT li.LI_INGRESSO, COUNT(li.LI_COD) FROM loja_itens li, loja l WHERE li.LI_INGRESSO=@ingresso AND l.LO_COD=li.LI_COMPRA AND l.D_E_L_E_T_=0 AND li.D_E_L_E_T_=0 GROUP BY li.LI_INGRESSO;
+
+			SELECT TOP 1 * FROM (SELECT ISNULL(q.QTDE, 0) AS QTDE, v.*, CAST((v.VE_ESTOQUE - ISNULL(q.QTDE, 0)) AS INT) AS TOTAL, t.TI_NOME, d.ED_NOME, s.ES_NOME FROM @vendas v 
+			LEFT JOIN @qtde q ON v.VE_COD = q.COD
+			LEFT JOIN tipos t ON t.TI_COD=v.VE_TIPO
+			LEFT JOIN eventos_dias d ON d.ED_COD=v.VE_DIA
+			LEFT JOIN eventos_setores s ON s.ES_COD=v.VE_SETOR
+			WHERE d.D_E_L_E_T_=0 AND t.D_E_L_E_T_=0 AND s.D_E_L_E_T_=0) S", $conexao_params, $conexao_options);
+		
+		if(sqlsrv_next_result($sql_ingressos) && sqlsrv_next_result($sql_ingressos))
+		if(sqlsrv_num_rows($sql_ingressos) !== false) {
+			$ar_ingresso = sqlsrv_fetch_array($sql_ingressos);
+			$ingresso_estoque = $ar_ingresso['TOTAL'];
+
+			//Se o estoque for 0 nao deixamos realizar a venda
+			if($ingresso_estoque < $carrinho['qtde']) $retorno = true;
+		}
+	}
+}
+
+if($retorno) {
+
+	?>
+	<script type="text/javascript">
+		location.href='<? echo SITE.$link_lang; ?>ingressos/';
+	</script>
+	<?
+	exit();
+}
+
+//-----------------------------------------------------------------------------//
+
+$link_retorno = SITE.$link_lang.'ingressos/';
+$cliente = $_SESSION['usuario-cod'];
+
+
+if(is_numeric($cliente) && !empty($forma) && !empty($evento) && ($n_itens > 0)) {
+	
+	//Buscar nome do cliente
+	$nome_cliente = $_SESSION['usuario-nome'];
+
+
+	//Busca a comissão do cupom -------------------------
+	if (!empty($_SESSION['compra-cupom']['comissao']))
+	{
+		$comissão = $_SESSION['compra-cupom']['comissao'];
+	}
+	else 
+	{
+		$comissão = 0;
+	}
+	//----------------------------------------------------
+
+	//Busca o código do parceiro -------------------------
+	if (!empty($_SESSION['compra-cupom']['parceiro_cod']))
+	{
+		$cod_parceiro = $_SESSION['compra-cupom']['parceiro_cod'];
+	}
+	else 
+	{
+		$cod_parceiro = 54;
+	}
+	//----------------------------------------------------
+
+
+
+
+	$sql_ins_compra = sqlsrv_query($conexao, "INSERT INTO 
+		loja
+		(
+			LO_EVENTO,
+			LO_CLIENTE,
+			LO_PARCEIRO,
+			LO_DATA_COMPRA,
+			LO_DELIVERY,
+			LO_FORMA_PAGAMENTO,
+			LO_CLI_NOME,
+			LO_NUM_ITENS,
+			LO_ORIGEM,
+			LO_COMISSAO
+
+		) VALUES (
+			$evento,
+			$cliente,
+			$cod_parceiro,
+			GETDATE(),
+			$delivery,
+			$forma,
+			'$nome_cliente',
+			$n_itens,
+			'site',
+			$comissão
+		)",
+	$conexao_params, $conexao_options);
+
+	$compra = getLastId();
+
+	$valor = 0.00;
+	$valor_ingressos = 0.00;
+	$valor_ingressos_base = 0.00;
+	$valor_adicionais = 0.00;
+	$valor_desconto = 0.00;
+	$valor_transfer = 0.00;
+
+	$loja_qtde_folia = 0;
+	$loja_qtde_frisa = 0;
+
+	//Novos combos
+	$loja_qtde_combo = array();
+
+	//-----------------------------------------------------------------------------//
+
+	//Buscar o código do folia, frisa e camarote
+	$sql_tipo_cod = sqlsrv_query($conexao, "SELECT 
+			TI_COD,
+			TI_TAG
+		FROM
+			tipos
+		WHERE
+			TI_TAG IN('lounge', 'frisa', 'camarote')",
+		$conexao_params, $conexao_options);
+
+	if(sqlsrv_num_rows($sql_tipo_cod) > 0) {
+		while($loja_cod_tipo_ar = sqlsrv_fetch_array($sql_tipo_cod)) {
+			switch ($loja_cod_tipo_ar['TI_TAG']) {
+				case 'lounge': $loja_cod_folia = $loja_cod_tipo_ar['TI_COD']; break;
+				case 'frisa': $loja_cod_frisa = $loja_cod_tipo_ar['TI_COD']; break;
+				case 'camarote': $loja_cod_camarote = $loja_cod_tipo_ar['TI_COD']; break;
+			}
+		}
+	}
+
+	//-----------------------------------------------------------------------------//
+	
+	if($compra > 0) {
+
+		$link_retorno = SITE.$link_lang.'pagamento/'.$compra.'/';
+
+		$loja_frisas_carrinho = $loja_tracking = $_SESSION['compra-site'];
+
+		$del_ar = array();
+
+		foreach ($_SESSION['compra-site'] as $key => $carrinho) {
+
+			$_SESSION['compra-site'][$key]['qtde'] = $carrinho['qtde'] = (int) $quantidade[$key];
+
+			//Valores dos ingressos
+			$item_valores = $carrinho['valor'] * $carrinho['qtde'];
+			$valor_ingressos += $item_valores;
+
+			for ($iitem=1; $iitem <=$carrinho['qtde'] ; $iitem++) {
+				
+				//-----------------------------------------------------------------------------//
+				
+				//Procurar o overpricing
+				$item_valor_tabela = 0.00;
+				$item_valor_adicionais = 0.00;
+				$item_vagas = 1;
+
+				$sql_item_infos = sqlsrv_query($conexao, "SELECT TOP 1
+						VE_VALOR,
+						VE_VAGAS,
+						VE_TIPO_ESPECIFICO,
+						VE_VALOR_EXCLUSIVIDADE,
+						VE_DIA,
+						VE_TIPO
+					FROM
+						vendas
+					WHERE
+						VE_COD='".$carrinho['item']."'
+						/*AND ((VE_LOTE IS NOT NULL AND VE_LOTE_ATIVO = 1) OR VE_LOTE IS NULL)*/",
+				$conexao_params, $conexao_options);
+
+				if(sqlsrv_num_rows($sql_item_infos) !== false) {
+					$ar_item_infos = sqlsrv_fetch_array($sql_item_infos);
+					$item_dia = $ar_item_infos['VE_DIA'];
+					$item_tipo = $ar_item_infos['VE_TIPO'];
+					$item_valor_tabela = $ar_item_infos['VE_VALOR'];
+					$item_valor_exclusividade = $ar_item_infos['VE_VALOR_EXCLUSIVIDADE'];
+					$item_tipo_especifico = utf8_encode($ar_item_infos['VE_TIPO_ESPECIFICO']);
+					if(($ar_item_infos['VE_VAGAS'] > 0) && ($item_tipo_especifico == 'fechado')) $item_vagas = utf8_encode($ar_item_infos['VE_VAGAS']);
+
+					//Buscar informações de dia
+					$sql_item_dia = sqlsrv_query($conexao, "SELECT TOP 1 ED_DATA FROM eventos_dias WHERE ED_COD='$item_dia'", $conexao_params, $conexao_options);
+					if(sqlsrv_num_rows($sql_item_dia) > 0) {
+
+						$item_dia_ar = sqlsrv_fetch_array($sql_item_dia);
+						$item_data = $item_dia_ar['ED_DATA'];
+						$item_data = (string) date('Y-m-d', strtotime($item_data->format('Y-m-d')));
+
+						if($item_tipo == $loja_cod_folia) {
+
+							//loja_qtde_combo
+							if(count($combo_dias) > 0) {
+
+								// Limite
+								$loja_data_limite = (string) date('Y-m-d');
+
+								foreach ($combo_dias as $k => $c) {
+									//Verificar cada ocorrencia
+									// if(in_array($item_data_n, $c['dias'])) {
+									// Modificacao por causa da data de compra
+
+									if(in_array($item_data, $c['dias']) && ($loja_data_limite >= $c['limite'][0]) && ($loja_data_limite <= $c['limite'][1])) {
+
+										$loja_qtde_combo[$k] = 1 + ((int) $loja_qtde_combo[$k]);
+
+										//Retiramos do combo o valor encontrado
+										foreach ($c['dias'] as $kd => $ingressos_dia_atual) {
+											if ($ingressos_dia_atual == $item_data) unset($combo_dias[$k]['dias'][$kd]);
+										}
+									}									
+								}
+							}
+
+						}
+
+						if($item_tipo == $loja_cod_camarote) {
+							array_push($del_ar, $carrinho['item']);
+						}
+
+						if($evento > 1) {
+							if(($item_tipo == $loja_cod_frisa) && array_key_exists($key, $loja_frisas_carrinho)){
+												
+								$loja_frisa_fechadas = floor($carrinho['qtde'] / 6);
+								if($loja_frisa_fechadas > 0) $loja_qtde_frisa = $loja_qtde_frisa + $loja_frisa_fechadas;
+								unset($loja_frisas_carrinho[$key]);
+							}
+						}
+
+					} // Item Dia
+				}
+
+				$excl = ($exclusividade[$key] == true) ? true : false;
+
+				for ($iitemvaga=1; $iitemvaga <= $item_vagas; $iitemvaga++) { 
+
+					$item_id = ($item_vagas > 1) ? $iitemvaga : $iitem;
+				
+					//Cadastrar item
+					$sql_ins_item = sqlsrv_query($conexao, "INSERT INTO
+							loja_itens
+						(
+							LI_COMPRA,
+							LI_INGRESSO,
+							LI_NOME,
+							LI_ID,
+							LI_VALOR_TABELA,
+							LI_VALOR,
+							LI_EXCLUSIVIDADE,
+							LI_EXCLUSIVIDADE_VAL
+						) VALUES (
+							$compra,
+							".$carrinho['item'].",
+							'$nome_cliente',
+							$item_id,
+							'$item_valor_tabela',
+							'".$carrinho['valor']."',
+							'$excl',
+							'".$exclusividadeval[$key]."'
+						)",
+					$conexao_params, $conexao_options);
+
+					$item = getLastId();
+
+					// fazer o calculos dos lotes criando a possibilidade de alterar o lote ativo para o proximo
+					//Adicionar valor exclusividade
+					if(($iitemvaga == 1) && $excl) {
+						$valor_adicionais += $item_valor_exclusividade;
+						$item_valor_adicionais += $item_valor_exclusividade;
+					}		
+
+					// Cadastrar comentarios
+					#$item_comentario = format($comentarios[$key]);
+					$item_comentario = format($comentarios);
+					if(!empty($item_comentario)) {
+						$sql_ins_comentarios = sqlsrv_query($conexao, "INSERT INTO 
+								loja_comentarios
+							(
+								LC_COMPRA,
+								LC_ITEM,
+								LC_COMENTARIO
+							) VALUES (
+								$compra,
+								$item,
+								'$item_comentario'
+							)",
+						$conexao_params, $conexao_options);
+					}
+
+					//-----------------------------------------------------------------------------//
+					
+					if(count($adicionaiscod[$key]) > 0){
+
+						$cod_adicionais = implode(",", $adicionaiscod[$key]);
+
+						//Valores adicionais
+						$sql_vendas_adicionais = sqlsrv_query($conexao, "SELECT
+								v.*,
+								vv.*
+							FROM
+								vendas_adicionais v,
+								vendas_adicionais_valores vv
+							WHERE
+								v.VA_COD IN ($cod_adicionais)
+								AND vv.VAV_VENDA='".$carrinho['item']."'
+								AND vv.VAV_ADICIONAL=v.VA_COD
+								AND vv.VAV_BLOCK=0
+								AND vv.D_E_L_E_T_=0
+								AND v.VA_BLOCK=0
+								AND v.D_E_L_E_T_=0
+							ORDER BY
+								v.VA_COD ASC",
+						$conexao_params, $conexao_options);
+
+						if(sqlsrv_num_rows($sql_vendas_adicionais) !== false) {
+
+							while ($vendas_adicionais = sqlsrv_fetch_array($sql_vendas_adicionais)) {
+								$vendas_adicionais_cod = $vendas_adicionais['VA_COD'];
+								$vendas_adicionais_label = utf8_encode($vendas_adicionais['VA_LABEL']);
+								$vendas_adicionais_nome_exibicao = $vendas_adicionais['VA_NOME_EXIBICAO'];
+								$vendas_adicionais_nome_insercao = $vendas_adicionais['VA_NOME_INSERCAO'];
+								$vendas_adicionais_multi = (bool) $vendas_adicionais['VA_VALOR_MULTI'];
+
+								$vendas_adicionais_opcoes_cod = $vendas_adicionais['VAV_COD'];
+								$vendas_adicionais_opcoes_valor = $vendas_adicionais['VAV_VALOR'];
+								$vendas_adicionais_opcoes_incluso = (bool) $vendas_adicionais['VAV_INCLUSO'];
+								$vendas_adicionais_opcoes_incluso_int = $vendas_adicionais_opcoes_incluso ? 1 : 0;
+
+								if($vendas_adicionais_nome_exibicao == 'delivery'){
+
+								} else {
+									
+									$adicional_enable = true;
+
+									//Limitamos o transfer
+									if(!$vendas_adicionais_multi && ($carrinho['item'] == $item_anterior)) $adicional_enable = false;
+									
+									if($adicional_enable) {
+
+										if($vendas_adicionais_nome_exibicao == 'transfer') $item_valor_transfer = $vendas_adicionais_opcoes_valor;
+										else $item_valor_adicionais += $vendas_adicionais_opcoes_valor;
+										
+										$valor_adicionais += $vendas_adicionais_opcoes_valor;
+
+										//Inserir no banco
+										$sql_ins_adicionais = sqlsrv_query($conexao, "INSERT INTO
+                                                loja_itens_adicionais
+                                            (
+                                                LIA_COMPRA,
+                                                LIA_ITEM,
+                                                LIA_ADICIONAL,
+                                                LIA_VALOR,
+                                                LIA_INCLUSO
+                                            ) VALUES (
+                                                $compra,
+                                                $item,
+                                                $vendas_adicionais_cod,
+                                                '$vendas_adicionais_opcoes_valor',
+                                                $vendas_adicionais_opcoes_incluso_int
+                                            )",
+                                        $conexao_params, $conexao_options);
+										
+									}
+									
+									/* if($item_tipo != $loja_cod_camarote) {
+
+										if(($vendas_adicionais_nome_exibicao == 'transfer') || ($vendas_adicionais_opcoes_incluso)) {
+											$transfer_redirect = true;
+											$link_retorno = SITE.'ingressos/agendamento/'.$compra.'/';
+										}								
+									} */
+
+								}
+
+							}
+						}
+
+						$valor_transfer += $item_valor_transfer;
+
+					}
+
+					//Atualizar
+					if(($item_valor_transfer > 0) || ($item_valor_adicionais > 0)) {
+                        $sql_up_item = sqlsrv_query($conexao, "UPDATE TOP (1) 
+                                loja_itens
+                            SET
+                                LI_VALOR_TRANSFER='$item_valor_transfer',
+                                LI_VALOR_ADICIONAIS='$item_valor_adicionais'
+                            WHERE
+                                LI_COD='$item'",
+                        $conexao_params, $conexao_options);
+                    }
+				
+					$item_anterior = $carrinho['item'];
+
+				} //for iitemvaga
+			}
+		}
+		
+		$valor = $valor_parcial = $valor_ingressos + $valor_adicionais;
+
+		$desconto = $desconto_folia = $desconto_frisa = 0;
+
+
+		// Busca o desconto Folia Tropical da sessão e aplica ao valor total
+		$desconto_ft = $_SESSION['desconto_ft'];		
+
+		if (isset($desconto_ft) && $desconto_ft> 0) {
+			$valor = $valor - $desconto_ft;
+		}
+		else
+		{
+			$desconto_ft=0;
+		}
+
+		
+		//Desconto
+		/*$loja_combo_desconto = 0;
+		foreach ($loja_qtde_combo as $k => $r) {
+			if(($r == $combo_dias[$k]['total']) && ($combo_dias[$k]['desconto'] > $loja_combo_desconto)) {
+				$loja_combo_desconto = $combo_dias[$k]['desconto'];
+				$loja_combo_nome = $combo_dias[$k]['nome'];
+			}
+		}
+
+		if($loja_combo_desconto > 0) {
+			$desconto = $desconto_folia = 1;
+			$desconto_especial_folia = ($loja_combo_desconto * $valor) / 100;
+			$valor = $valor - $desconto_especial_folia;
+		}
+
+		if($loja_qtde_frisa > 0) {
+			$desconto = $desconto_frisa = 1;
+			// $valor = $valor - ($loja_qtde_frisa * 50);
+			$desconto_especial_frisa = $loja_qtde_frisa * 50;
+			$valor = $valor - $desconto_especial_frisa;
+		}
+
+		if($desconto) $valor_desconto = $valor_desconto + $desconto_especial_folia + $desconto_especial_frisa;*/
+
+		if(!empty($data_retirada)) $update_data = ", LO_CLI_DATA_ENTREGA='$data_retirada' ";
+		if(!empty($periodo)) $update_periodo = ", LO_CLI_PERIODO='$periodo' ";
+		if(!empty($retirada)) $update_retirada = ", LO_RETIRADA='$retirada' ";
+
+		//Atualizar valores	 
+		$sql_update_compra = sqlsrv_query($conexao, "UPDATE TOP (1) loja SET 
+			LO_VALOR_PARCIAL='$valor_parcial',
+			LO_VALOR_TOTAL='$valor',
+			LO_VALOR_INGRESSOS='$valor_ingressos',
+			LO_VALOR_ADICIONAIS='$valor_adicionais',
+			LO_DESCONTO='$desconto',
+			LO_VALOR_DESCONTO_FT='$desconto_ft',
+			LO_DESCONTO_FRISA='$desconto_frisa',
+			LO_DESCONTO_FOLIA='$desconto_folia',
+
+			LO_VALOR_TRANSFER='$valor_transfer', 
+			LO_VALOR_DESCONTO='$valor_desconto'
+			
+			$update_data
+			$update_periodo
+ 			$update_retirada
+			
+            WHERE LO_COD='$compra'", $conexao_params, $conexao_options);
+            
+
+        // Cupom
+
+        if($_SESSION['compra-cupom']['usuario'] == $cliente) {
+            
+            $cupom_cod = $_SESSION['compra-cupom']['cod'];
+            $sql_cupom = sqlsrv_query($conexao, "UPDATE cupom
+                SET 
+                    CP_UTILIZADO='1',
+                    CP_COMPRA='$compra'
+                WHERE
+                    CP_COD='$cupom_cod'
+                    AND CP_BLOCK='0'
+                    AND D_E_L_E_T_='0'
+                    AND CP_UTILIZADO='0' ",
+            $conexao_params, $conexao_options);
+        }
+        
+		unset($_SESSION['compra-site'], $_SESSION['compra-cupom']);
+
+		//-----------------------------------------------------------------//
+		
+		if(!($_SERVER['SERVER_NAME'] == "server")){
+			//Buscar e-mail
+			$email = $_SESSION['usuario-email'];
+			$nome = $_SESSION['usuario-nome'];
+			$telefone = $_SESSION['usuario-telefone'];
+
+			//Envio de SMS
+			$sms = "Recebemos seu pedido n. $compra e estamos aguardando confirmacao do pagamento. Central de Atendimento Folia Tropical: 21 3202 6000";
+
+			#require("include/directcall-envio-sms.php");
+			#directcall($telefone, $sms);
+
+			//-----------------------------------------------------------------//
+
+			// Enviar email
+			require "inc/class.phpmailer.php";
+
+			if($session_language == 'US') {
+				$resposta_titulo = "Dear Guest,";
+				$resposta_texto = "<td align='left' valign='top'><font face='Arial, Helvetica, sans-serif' color='#666666' size='2'>
+						We have received your request (#".$compra.") and are awaiting payment confirmation.<br/>
+						Thanks for choosing our company, we wish a carnival 2018 of much revelry!<br /><br />
+						Call Center: 21 3202 6000</font></td>";
+			} else {
+				$resposta_titulo = "Prezado (a),";
+				$resposta_texto = "<td align='left' valign='top'><font face='Arial, Helvetica, sans-serif' color='#666666' size='2'>
+						Recebemos seu pedido (nº ".$compra.") e estamos aguardando confirmação de pagamento.<br />
+						Obrigado por escolher nossa empresa, desejamos um carnaval 2018 de muita folia!<br /><br />
+						Central de Atendimento: 21 3202 6000</font></td>";
+			}
+			
+			$msg = "<body>
+					<table width='350' border='0' align='center' cellpadding='0' cellspacing='0'>
+					  <tr>
+						<td height='150' align='center' valign='top'><img src='".SITE."img/logo-email.png' width='200'height='150'></td>
+					  </tr>
+					  <tr>
+						<td align='left' valign='top'>&nbsp;</td>
+					  </tr>
+					  <tr>
+						<td align='left' valign='top'><font face='Arial, Helvetica, sans-serif' color='#666666' size='2'>$resposta_titulo</font></td>
+					  </tr>
+					  <tr>
+						<td align='left' valign='top'>&nbsp;</td>
+					  </tr>
+					  <tr>
+						$resposta_texto
+					  </tr>
+					  <tr>
+						<td align='left' valign='top'>&nbsp;</td>
+					  </tr>
+					  <tr>
+						<td align='center' height='30'><a href='".SITE."' target='_blank' style='text-decoration: none; color: #999;'><font face='Arial, Helvetica, sans-serif' color='#999' size='1'><strong>www.foliatropical.com.br</strong></font></a></td>
+					  </tr>
+					</table>
+					</body>";
+			
+			//-----------------------------------------------------------//
+
+			$remetente_nome = utf8_decode("Folia Tropical");
+			$remetente_email = 'central@foliatropical.com.br';
+			$destinatario_nome = utf8_decode($nome);
+			$destinatario_email = $email;
+			$assunto = utf8_decode("Recebemos seu pedido $compra");
+			$mensagem = utf8_decode($msg);
+
+			enviarEmail($remetente_nome, $remetente_email, $destinatario_nome, $destinatario_email, $assunto, $mensagem);
+		}
+
+		?>
+		<script type="text/javascript">
+
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-46488019-1']);
+			_gaq.push(['_trackPageview']);
+			_gaq.push(['_set', 'currencyCode', 'BRL']);
+			_gaq.push(['_addTrans',
+			  '<? echo $compra; ?>',           	// transaction ID - required
+			  'Folia Tropical',  				// affiliation or store name
+			  '<? echo $valor; ?>',          	// total - required
+			  '0',           					// tax
+			  '0',              				// shipping
+			  'Rio de Janeiro',       			// city
+			  'Rio de Janeiro',     				// state or province
+			  'Brasil'             				// country
+			]);
+
+			 // add item might be called for every item in the shopping cart
+			 // where your ecommerce engine loops through each item in the cart and
+			 // prints out _addItem for each
+			<?
+			foreach ($loja_tracking as $k => $r) {
+
+
+				$sql_ingressos = sqlsrv_query($conexao, "
+					DECLARE @ingresso INT='".$r['item']."';
+					DECLARE @vendas TABLE (VE_COD INT, VE_TIPO INT, VE_ESTOQUE INT, VE_SETOR INT, VE_DIA INT, VE_FILA VARCHAR(255), VE_VAGAS INT, VE_TIPO_ESPECIFICO VARCHAR(255), VE_VALOR_EXCLUSIVIDADE DECIMAL(10,2));
+					
+					INSERT INTO @vendas (VE_COD, VE_TIPO, VE_ESTOQUE, VE_SETOR, VE_DIA, VE_FILA, VE_VAGAS, VE_TIPO_ESPECIFICO, VE_VALOR_EXCLUSIVIDADE)
+					SELECT VE_COD, VE_TIPO, VE_ESTOQUE, VE_SETOR, VE_DIA, VE_FILA, VE_VAGAS, VE_TIPO_ESPECIFICO, VE_VALOR_EXCLUSIVIDADE FROM vendas WHERE VE_COD=@ingresso AND VE_BLOCK=0 AND D_E_L_E_T_=0;
+
+					SELECT TOP 1 * FROM (SELECT t.TI_TAG, t.TI_NOME, d.ED_NOME, d.ED_DATA, s.ES_NOME FROM @vendas v 
+					LEFT JOIN tipos t ON t.TI_COD=v.VE_TIPO
+					LEFT JOIN eventos_dias d ON d.ED_COD=v.VE_DIA
+					LEFT JOIN eventos_setores s ON s.ES_COD=v.VE_SETOR
+					WHERE d.D_E_L_E_T_=0 AND t.D_E_L_E_T_=0 AND s.D_E_L_E_T_=0) S", $conexao_params, $conexao_options);
+				
+				
+				if(sqlsrv_next_result($sql_ingressos) && sqlsrv_next_result($sql_ingressos))
+				if(sqlsrv_num_rows($sql_ingressos) !== false) {
+
+					$ingressos = sqlsrv_fetch_array($sql_ingressos);
+
+					$ingressos_vaga = utf8_encode($ingressos['VE_VAGAS']);
+					$ingressos_tipo_especifico = utf8_encode($ingressos['VE_TIPO_ESPECIFICO']);
+
+					//Calculo de estoque
+					if(($ingressos_tipo_especifico == 'fechado') && ($ingressos_vaga > 0)) {
+						$ingressos_estoque = $ingressos['VE_ESTOQUE'] / $ingressos_vaga;
+						$ingressos_estoque = $ingressos_estoque - ($ingressos['QTDE'] / $ingressos_vaga);
+					}
+
+					$ingressos_cod = $ingressos['VE_COD'];
+					$ingressos_setor = utf8_encode($ingressos['ES_NOME']);
+					$ingressos_dia = utf8_encode($ingressos['ED_NOME']);
+					$ingressos_data = $ingressos['ED_DATA'];
+					$ingressos_tipo = ($ingressos['TI_NOME'] == 'Lounge') ? 'Folia Tropical' : utf8_encode($ingressos['TI_NOME']);
+					$ingressos_tipo_tag = $ingressos['TI_TAG'];
+					$ingressos_valor = $carrinho['valor'] * $carrinho['qtde'];
+					$ingressos_valor = number_format($ingressos_valor,2,",",".");
+					$ingressos_valor_exclusividade = $ingressos['VE_VALOR_EXCLUSIVIDADE'];
+					
+					$ingressos_fila = utf8_encode($ingressos['VE_FILA']);
+
+			?>
+			_gaq.push(['_addItem',
+			  '<? echo $compra; ?>',           		// transaction ID - required
+			  '',		           					// SKU/code - required
+			  '<? echo $ingressos_tipo;
+				if(!empty($ingressos_fila)) { echo " ".$ingressos_fila; }
+				if(!empty($ingressos_tipo_especifico)) { echo " ".$ingressos_tipo_especifico; }
+				if(($ingressos_vaga > 0) && ($ingressos_tipo_especifico == 'fechado')) { echo " (".$ingressos_vaga." vagas)"; } ?>', // product name
+			  '<? echo $ingressos_dia.' dia - Setor '.$ingressos_setor; ?>', // category or variation
+			  '<? echo $r['valor']; ?>',			// unit price - required
+			  '<? echo $r['qtde']; ?>'				// quantity - required
+			]);
+			<?
+				}
+			}
+			?>
+			_gaq.push(['_trackTrans']); //submits transaction to the Analytics servers
+
+			(function() {
+			   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+
+			(function (a, b, c, d, e, f, g) {
+			 a['CsdmObject'] = e; a[e] = a[e] || function () {
+			 (a[e].q = a[e].q || []).push(arguments)
+			 }, a[e].l = 1 * new Date(); f = b.createElement(c),
+			 g = b.getElementsByTagName(c)[0]; f.async = 0; f.src = d; g.parentNode.insertBefore(f, g)
+			})(window, document, 'script', '//device.clearsale.com.br/m/cs.js', 'csdm');
+			csdm('app', '<?php echo CLEARSALE_APP; ?>');
+			csdm('mode', 'manual');
+			csdm('send', 'purchase-confirmation','code=<?php echo $compra; ?>,payment-type=credit-card');
+
+			alert("<?=$lg['compre_adicionais_extra_reserva_confirmada'];?>");
+			location.href='<? echo $link_retorno; ?>';
+		</script>
+		<?
+		exit();
+	}
+
+}
+
+// Inserir Canal de venda
+
+//fechar conexao com o banco
+include 'conn/close.php';
+include 'conn/close-sankhya.php';
+
+?>
+<script type="text/javascript">
+	(function (a, b, c, d, e, f, g) {
+	 a['CsdmObject'] = e; a[e] = a[e] || function () {
+	 (a[e].q = a[e].q || []).push(arguments)
+	 }, a[e].l = 1 * new Date(); f = b.createElement(c),
+	 g = b.getElementsByTagName(c)[0]; f.async = 0; f.src = d; g.parentNode.insertBefore(f, g)
+	})(window, document, 'script', '//device.clearsale.com.br/m/cs.js', 'csdm');
+	csdm('app', '<?php echo CLEARSALE_APP; ?>');
+	csdm('mode', 'manual');
+	csdm('send', 'purchase-confirmation');
+
+	setTimeout(function () {
+		alert('Ocorreu um erro, tente novamente!');
+		history.go(-1);
+	}, 200);
+	
+</script>
