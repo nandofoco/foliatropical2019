@@ -119,8 +119,9 @@ if(sqlsrv_num_rows($sql_cod_cliente) > 0) {
 
 						<p class="numero form-group">
 							<label for="numero" class="control-label">Número</label>
-							<input type="text" name="numero" class="input" id="numero" required>
+							<input type="number" name="numero" class="input" id="numero">
 						</p>
+
 						<p class="complemento form-group">
 							<label for="complemento">Complemento</label>
 							<input type="text" name="complemento" class="input complemento" id="complemento" />
@@ -1498,13 +1499,13 @@ $sql_enderecos = sqlsrv_query($conexao, "SELECT LO_CLIENTE, LO_CLI_ENDERECO, LO_
             	
             }
 
-            if (numero == "" && checado != true) {
-            	erro = true;
-            	//alert("Por gentileza, insira o número!");
-            	swal('','Por gentileza, insira o número!','error');
+            // if (numero == "" && checado != true) {
+            // 	erro = true;
+            // 	//alert("Por gentileza, insira o número!");
+            // 	swal('','Por gentileza, insira o número!','error');
 
             	
-            } 
+            // } 
 
 
 

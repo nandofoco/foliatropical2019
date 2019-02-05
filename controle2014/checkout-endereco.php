@@ -20,6 +20,7 @@ switch ($tipo) {
 		$cep = format($_POST['cep']);
 		$endereco = format($_POST['endereco']);
 		$numero = $_POST['numero'];
+		if(empty($numero)) $numero = 0;
 		$complemento = format($_POST['complemento']);
 		$bairro = format($_POST['bairro']);
 		$cidade = format($_POST['cidade']);

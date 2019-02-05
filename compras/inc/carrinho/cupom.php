@@ -26,7 +26,7 @@ header("Expires: Fri, 1 Jan 2010 08:00:00 GMT"); // Date in the past
 
 
 $cod = (int) $_POST['cod'];
-$cupom = format($_POST['cupom']);
+$cupom = strtoupper(format($_POST['cupom']));
 $financeiro = (bool) $_POST['financeiro'];
 $cliente = $_SESSION['usuario-cod'];
 $v2 = (isset($_POST['paypal'])) ? 'paypal/' : 'v2/' ;
@@ -38,6 +38,8 @@ if(!empty($cupom)) {
 	//Definir se o cupom é de Parceiro ou de Usuário
 	switch (true) {
 		case strpos($cupom, 'FOLIA') === 0:
+		case strpos($cupom, 'PARADIZO') === 0:
+		case strpos($cupom, 'PARADISO') === 0:
 
 			$sql_parceiro = sqlsrv_query($conexao_sankhya, "SELECT * FROM TGFPAR WHERE CUPOM='$cupom' AND VENDEDOR='S'", $conexao_params, $conexao_options);
 

@@ -272,6 +272,9 @@ if($permitir && ($evento > 0)) {
 	if($vendedor) $relatorio_sql = str_replace('/*vendedor*/', " AND l.LO_VENDEDOR='$usuario' ", $relatorio_sql);
 
 	$sql_relatorio = sqlsrv_query($conexao, $relatorio_sql, $conexao_params, $conexao_options);
+
+	// print_r(sqlsrv_errors());
+	// exit();
 	
 	$rows = array();
 	while(sqlsrv_next_result($sql_relatorio)) {

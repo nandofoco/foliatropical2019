@@ -21,7 +21,7 @@ $tipo = $_POST['tipo'];
 $dia = $_POST['dia'];
 
 if(!empty($tipo)) $search_tipos = "AND".$tipo;
-if(!empty($dia)) $search_dias = "AND ve.VE_DIA=".$dia;
+if(!empty($dia)) $search_dias = "AND v.VE_DIA=".$dia;
 
 // $query_dias .= "SUM(CASE WHEN data='".$dia_atual."' THEN valor_dia ELSE 0 END) AS valor_dia_atual,";
 // $query_dias .= "SUM(CASE WHEN data='".$dia_atual."' THEN qtde_dia ELSE 0 END) AS qtde_dia_atual,";
@@ -214,15 +214,12 @@ $sql_loja = sqlsrv_query($conexao, "DECLARE @vendas TABLE (VE_COD INT, VE_TIPO I
 				LEFT JOIN [$dbprefix].[dbo].[eventos_setores] s ON s.ES_COD=v.VE_SETOR
 				LEFT JOIN [$dbprefix].[dbo].[formas_pagamento] f ON f.FP_COD=l.LO_FORMA_PAGAMENTO
 				LEFT JOIN [$dbprefix].[dbo].[cupom] cp ON cp.CP_COMPRA=l.LO_COD AND cp.CP_UTILIZADO=1 AND cp.CP_BLOCK=0 AND cp.D_E_L_E_T_=0
-
 				
-				WHERE d.D_E_L_E_T_=0 AND t.D_E_L_E_T_=0 AND s.D_E_L_E_T_=0
+				WHERE d.D_E_L_E_T_=0 AND t.D_E_L_E_T_=0 AND s.D_E_L_E_T_=0 $search_tipos $search_dias
 
 			) S
 		) S 
 	) S ORDER BY TIPO ASC, ED_DATA ASC;
-
-
 
 	DECLARE @PageNumber INT;
 	DECLARE @PageSize INT;

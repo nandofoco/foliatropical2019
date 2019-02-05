@@ -212,7 +212,7 @@ if(!$nosearch) {
 					<th><strong>Forma Pgto</strong><span></span></th>
 					<th class="right"><span></span><strong>Valor (R$)</strong></th>
 					<th class="th-left" title="AntiFraude"><strong>AF</strong></th>
-					<th>&nbsp;</th>
+					<th><strong>Status</strong><span></span></th>
 					<th>&nbsp;</th>
 				</tr>
 				<tr class="spacer"><td colspan="9">&nbsp;</td></tr>
@@ -236,7 +236,7 @@ if(!$nosearch) {
 					$loja_parceiro_cod = $loja['LO_PARCEIRO'];
 					$loja_tipo_pagamento = $loja['LO_FORMA_PAGAMENTO'];
 					$loja_status_transacao = $loja['LO_STATUS_TRANSACAO'];
-					$loja_diferenca_dias = (5 - $loja['DIFERENCA']);
+					$loja_diferenca_dias = (15 - $loja['DIFERENCA']);
 					$loja_antifraude_status = $loja['LO_ANTIFRAUDE_STATUS'];
 					$loja_antifraude_score = $loja['LO_ANTIFRAUDE_SCORE'];
 					$loja_antifraude_quiz_url = $loja['LO_ANTIFRAUDE_QUIZ_URL'];

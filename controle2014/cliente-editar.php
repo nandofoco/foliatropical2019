@@ -85,7 +85,7 @@ $sql_cliente = sqlsrv_query($conexao_sankhya, "SELECT *, CONVERT(CHAR, DTNASC, 1
 
 						<p class="numero form-group">
 							<label for="numero" class="control-label">Número</label>
-							<input type="text" name="numero" class="input" id="numero" required>
+							<input type="number" name="numero" class="input" id="numero">
 						</p>
 						<p class="complemento form-group">
 							<label for="complemento">Complemento</label>
