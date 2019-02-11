@@ -23,6 +23,9 @@ $evento_nome = $ar_evento['EV_NOME'];
 
 $tipo = format($_GET['tipo']);
 
+if($tipo == "folia") $tipo_cod = 4;
+if($tipo == "super") $tipo_cod = 6;
+
 $nome_tipo = $conf['tipos'][$tipo]['titulo'];
 $nome_tipo_tag = $tipo;
 
@@ -496,6 +499,89 @@ $n_dias = sqlsrv_num_rows($sql_dias);
 
 		?>
 		<div class="clear"></div>
+	</section>
+
+	<section class="secao graficos completo lote" style="margin-top: 0;">
+
+	<?
+
+	$sql_compras = sqlsrv_query($conexao, "
+		SELECT SUM(v.VE_ESTOQUE) AS TOTAL, v.VE_TIPO, v.VE_DIA, v.VE_VALOR FROM vendas v, tipos t, eventos_dias d, eventos_setores s 
+		WHERE v.VE_EVENTO='$evento' AND VE_TIPO='$tipo_cod' AND v.D_E_L_E_T_=0 AND d.ED_COD=v.VE_DIA AND t.TI_COD=v.VE_TIPO AND s.ES_COD=v.VE_SETOR AND d.D_E_L_E_T_=0 AND t.D_E_L_E_T_=0 AND s.D_E_L_E_T_=0 
+		GROUP BY v.VE_TIPO, v.VE_VALOR, v.VE_DIA", $conexao_params, $conexao_options);
+
+		$n_compras = sqlsrv_num_rows($sql_compras);
+
+		if($n_compras > 0) {
+
+			?>
+			<table>
+				<thead>
+					<tr>
+						<th>Dia</th>
+						<th>Lote/Valor</th>
+						<th>Vendidos</th>
+						<th>Reservas</th>
+						<th>Estoque</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+
+				<tbody>
+				<?
+					$i = 1;
+
+					while($ar_compras = sqlsrv_fetch_array($sql_compras)) {
+
+						$compra_valor = $ar_compras['VE_VALOR'];
+						$compra_valor_f = number_format($ar_compras['VE_VALOR'], 2, ',','.');
+						$compra_dia = $ar_compras['VE_DIA'];
+
+						//buscar nome do dia
+						$sql_dia = sqlsrv_query($conexao, "SELECT ED_NOME FROM eventos_dias WHERE ED_COD='$compra_dia'", $conexao_params, $conexao_options);
+
+						if(sqlsrv_num_rows($sql_dia) > 0) $ar_dia = sqlsrv_fetch_array($sql_dia);
+
+						$dia_nome = utf8_encode($ar_dia['ED_NOME']);
+
+						$total = $ar_compras['TOTAL'];
+
+						$sql_comprados = sqlsrv_query($conexao, "SELECT 
+						SUM(CASE WHEN lo.LO_PAGO='1' AND lo.LO_FORMA_PAGAMENTO NOT IN (5,8,9,14,2013) THEN 1 ELSE 0 END) AS qtde_pagos,
+						SUM(CASE WHEN lo.LO_FORMA_PAGAMENTO='5' THEN 1 ELSE 0 END) AS qtde_reservas, 
+						SUM(CASE WHEN lo.LO_PAGO='0' AND lo.LO_FORMA_PAGAMENTO NOT IN (5,6,8,9,14,2013) THEN 1 ELSE 0 END) AS qtde_aguardando
+ 						FROM loja_itens li, vendas ve, loja lo 
+ 						WHERE lo.LO_COD=li.LI_COMPRA AND li.D_E_L_E_T_='0' AND lo.LO_BLOCK='0' AND lo.D_E_L_E_T_='0' AND li.LI_INGRESSO=ve.VE_COD 
+						AND li.LI_VALOR_TABELA='$compra_valor' AND ve.VE_EVENTO='$evento' AND ve.VE_BLOCK='0' AND ve.D_E_L_E_T_='0' AND lo.LO_EVENTO='$evento' AND ( VE_TIPO='$tipo_cod' )", $conexao_params, $conexao_options);
+
+						if(sqlsrv_num_rows($sql_comprados) > 0) $ar_comprados = sqlsrv_fetch_array($sql_comprados);
+
+						$qtde_comprado = $ar_comprados['qtde_pagos'];
+						$qtde_reserva = $ar_comprados['qtde_reservas']+$ar_comprados['qtde_aguardando'];
+
+						$ve_dia = $ar_comprados['VE_DIA'];
+					
+					?>
+						<tr>
+							<td class="first <? if($i == $n_compras) echo 'last'; ?>"><? echo $dia_nome; ?></td>
+							<td class="<? if($i == $n_compras) echo 'last'; ?>">R$ <? echo $compra_valor_f; ?></td>
+							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo $qtde_comprado; ?></td>
+							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo $qtde_reserva; ?></td>
+							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo ($total-$qtde_comprado-$qtde_reserva); ?></td>
+							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo $total; ?></td>
+							
+						</tr>
+					<?
+						$i++;
+					}
+				?>
+				</tbody>
+
+			</table>
+			<?
+		} 
+	?>
+
 	</section>
 	
 	<footer class="controle">

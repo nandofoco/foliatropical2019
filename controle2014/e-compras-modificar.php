@@ -29,13 +29,25 @@ if(!$delivery) $data_retirada = todate(format($_POST['data-retirada']), 'ddmmaaa
 $origem = format($_POST['origem']);
 $deadline = ($forma == 5) ? "'".todate(format($_POST['deadline']), 'ddmmaaaa')."'" : 'NULL';
 $vendedor_externo = ((int) $_POST['vendedor-externo'] > 0) ? "'".(int) $_POST['vendedor-externo']."'" : 'NULL';
+
+// echo 'Página em manutenção<br/><br/>';
+
 if(is_numeric($compra)) {
 	$n_itens = count($_SESSION['compra-modificar'][$compra]);
 	$evento = (int) $_SESSION['usuario-carnaval'];
 	$retorno = false;
+
 	//-----------------------------------------------------------------------------//
+
+	echo 'Código da compra OK<br/><br/>';
+
 	if($n_itens > 0) {
+		// echo 'Número de Itens OK<br/><br/>';
+
 		foreach ($_SESSION['compra-modificar'][$compra] as $key => $carrinho) {
+
+			echo 'Sessão OK<br/><br/>';		
+
 			//Atualizamos a quantidade
 			$_SESSION['compra-modificar'][$compra][$key]['qtde'] = $carrinho['qtde'] = (int) $quantidade[$key];
 			/*"SELECT v.*, t.TI_NOME, d.ED_NOME, s.ES_NOME,
@@ -69,17 +81,24 @@ if(is_numeric($compra)) {
 			}
 		}
 	}
+
 	if($retorno) {
 		?>
 		<script type="text/javascript">
+			alert('Ingresso esgotado em estoque');
 			location.href='<? echo SITE; ?>compras/modificar/<? echo $compra; ?>/';
 		</script>
 		<?
 		exit();
 	}
+
 	//-----------------------------------------------------------------------------//
+	
 	$link_retorno = SITE.'financeiro/detalhes/'.$compra.'/';
+
 	if(!empty($evento) && ($n_itens > 0)) {
+
+		// echo 'Evento e Itens OK<br/><br/>';
 		// Excluir itens referentes a compra atual
 		// $sql_ins_item = sqlsrv_query($conexao, "DELETE FROM loja_itens WHERE LI_COMPRA='$compra'", $conexao_params, $conexao_options);
 		// $sql_ins_comentarios = sqlsrv_query($conexao, "DELETE FROM loja_comentarios WHERE LC_COMPRA='$compra'", $conexao_params, $conexao_options);
@@ -128,6 +147,8 @@ if(is_numeric($compra)) {
 		foreach ($_SESSION['compra-modificar'][$compra] as $key => $carrinho) {
 			// $_SESSION['compra-modificar'][$compra][$key]['qtde'] = $carrinho['qtde'] = (int) $quantidade[$key];
 			
+			// echo 'Sessão modificar carrinho OK<br/><br/>';
+
 			//Valores dos ingressos
 			$item_valores = $carrinho['valor'] * $carrinho['qtde'];
 			$item_valores_base = $carrinho['valorbase'] * $carrinho['qtde'];
@@ -196,7 +217,11 @@ if(is_numeric($compra)) {
 					} // Item Dia
 				}
 				$excl = ($exclusividade[$key] == true) ? true : false;
+				
 				for ($iitemvaga=1; $iitemvaga <= $item_vagas; $iitemvaga++) { 
+
+					// echo 'Insert OK<br/><br/>';
+
 					$item_id = ($item_vagas > 1) ? $iitemvaga : $iitem;
 					$valor_desconto += $carrinho['desconto'];
 					$valor_over_interno += $carrinho['overinterno'];
