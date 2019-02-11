@@ -1439,6 +1439,9 @@ $lang['US']['endereco_preencha_todos'] = "Complete all required fields";
 
 	$lang['BR']['codigo_desconto'] = "Código Desconto/Parceiro";
 	$lang['US']['codigo_desconto'] = "Discount Coupon";
+
+	$lang['BR']['validar_cupom'] = "Validar Cupom";
+	$lang['US']['validar_cupom'] = "Validate Coupon";
 	//$lang['US']['codigo_desconto'] = "Discount Coupon/Partner Discount Code";
 
 	$lang['BR']['concorda_termos_1'] = "Concordo com os";

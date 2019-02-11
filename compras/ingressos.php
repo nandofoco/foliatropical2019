@@ -418,7 +418,7 @@ if(count($_SESSION['compra-site']) > 0) {
 							<p>
 								<label for="compra-parceiro"><? echo $lg['codigo_desconto']; ?></label>
 								<input type="text" name="cupom" class="input" id="compra-parceiro" />
-								<a href="#" class="adicionar-cupom">Validar Cupom</i></a>
+								<a href="#" class="adicionar-cupom"><? echo $lg['validar_cupom']; ?></i></a>
 								<!-- <input type="submit" class="submit adicionar" value="Ok" /> -->
 							</p>							
 						</td>
