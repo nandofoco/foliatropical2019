@@ -61,7 +61,17 @@ if(!empty($q)) {
 	}
 }
 
-$search = " SELECT l.LI_COMPRA FROM loja_itens l, vendas v WHERE v.VE_COD=l.LI_INGRESSO AND l.D_E_L_E_T_='0' " ;
+$search_cods = " SELECT l.LI_COMPRA FROM loja_itens l, vendas v WHERE v.VE_COD=l.LI_INGRESSO AND l.D_E_L_E_T_='0' " ;
+
+$search = "SELECT (v.VE_TIPO_ESPECIFICO) AS ESPECIFICO, (v.VE_VAGAS) AS VAGAS, (li.LI_COMPRA), 
+((li.LI_VALOR_TABELA - li.LI_DESCONTO + li.LI_OVER_INTERNO) - ((li.LI_VALOR_TABELA - li.LI_DESCONTO + li.LI_OVER_INTERNO) * lo.LO_COMISSAO / 100) - ISNULL(CASE WHEN tx.TX_TAXA IS NOT NULL THEN li.LI_VALOR * (tx.TX_TAXA / 100) ELSE 0 END,0)) AS valor_dia 
+FROM loja_itens li, vendas v, loja lo
+LEFT JOIN taxa_cartao tx
+			ON (lo.LO_FORMA_PAGAMENTO=1 AND lo.LO_CARTAO=tx.TX_CARTAO AND lo.LO_PARCELAS >= tx.TX_PARCELAS_INICIO AND lo.LO_PARCELAS <= tx.TX_PARCELAS_FIM)
+			OR (lo.LO_FORMA_PAGAMENTO=6 AND tx.TX_CARTAO='pos')
+			OR (lo.LO_FORMA_PAGAMENTO=2014 AND tx.TX_CARTAO='pos')
+WHERE lo.LO_COD=li.LI_COMPRA AND v.VE_COD=li.LI_INGRESSO AND li.D_E_L_E_T_='0' ";
+
 /*if(!empty($tipo)) $search .= " AND v.VE_TIPO='$tipo' ";
 if(!empty($dia)) $search .= " AND v.VE_DIA='$dia' ";
 if(!empty($setor)) $search .= " AND v.VE_SETOR='$setor' ";
@@ -84,8 +94,8 @@ switch ($acao) {
 
 include("include/relatorios-parametros.php");
 
-if(!empty($filtros['tipos'][$tipo])) $search .= " AND ".$filtros['tipos'][$tipo];
-if(!empty($dia)) $search .= " AND VE_DIA=".$dia;
+if(!empty($filtros['tipos'][$tipo])) $search_cods .= " AND ".$filtros['tipos'][$tipo];
+if(!empty($dia)) $search_cods .= " AND VE_DIA=".$dia;
 if(!empty($filtros['status'][$acao])) $search_acao .= " AND ".$filtros['status'][$acao];
 
 $search_acao = str_replace('lo.', '', $search_acao);
@@ -125,7 +135,7 @@ $sql_loja = sqlsrv_query($conexao, "
 	END;
 
 	SET @TotalPages = CEILING(CONVERT(NUMERIC(20,10), ISNULL((SELECT COUNT(*) FROM loja (NOLOCK) WHERE 
-	LO_EVENTO='$evento' AND LO_BLOCK='0' AND D_E_L_E_T_='0' AND LO_COD IN ($search) $search_acao), 0)) / @PageSize);
+	LO_EVENTO='$evento' AND LO_BLOCK='0' AND D_E_L_E_T_='0' AND LO_COD IN ($search_cods) $search_acao), 0)) / @PageSize);
 
 	WITH cadastro(NumeroLinha, LO_COD, LO_VENDEDOR, LO_CLIENTE, LO_PARCEIRO, LO_FORMA_PAGAMENTO, LO_STATUS_TRANSACAO, LO_VALOR_TOTAL, LO_ENVIADO, LO_DATA_COMPRA, DATA_ENTREGA, DEADLINE, DATA, DATA_PAGAMENTO, DATA_MINI, DATA_PAGAMENTO_MINI, DIFERENCA, LO_ENTREGUE, LO_RETIRADA, LO_ENTREGUE_NOME)
 	AS (
@@ -150,7 +160,7 @@ $sql_loja = sqlsrv_query($conexao, "
 	LO_ENTREGUE,
 	LO_RETIRADA,
 	LO_ENTREGUE_NOME
-	FROM loja WHERE LO_EVENTO='$evento' AND LO_BLOCK='0' AND D_E_L_E_T_='0' AND LO_COD IN ($search) $search_acao $busca
+	FROM loja WHERE LO_EVENTO='$evento' AND LO_BLOCK='0' AND D_E_L_E_T_='0' AND LO_COD IN ($search_cods) $search_acao $busca
 	)
 
 	SELECT @TotalPages AS TOTAL, @PageNumber AS PAGINA, NumeroLinha, LO_COD, LO_VENDEDOR, LO_CLIENTE, LO_PARCEIRO, LO_FORMA_PAGAMENTO, LO_STATUS_TRANSACAO, LO_VALOR_TOTAL, LO_ENVIADO, LO_DATA_COMPRA, DATA_ENTREGA, DEADLINE, DATA, DATA_PAGAMENTO, DATA_MINI, DATA_PAGAMENTO_MINI, DIFERENCA, LO_ENTREGUE, LO_RETIRADA, LO_ENTREGUE_NOME
@@ -288,12 +298,11 @@ if(sqlsrv_num_rows($sql_formas_pagamento)){
 					$loja_parceiro_cod = $loja['LO_PARCEIRO'];
 					$loja_vendedor_cod = $loja['LO_VENDEDOR'];
 					$loja_tipo_pagamento = $loja['LO_FORMA_PAGAMENTO'];
-					$loja_valor = number_format($loja['LO_VALOR_TOTAL'], 2, ",", ".");
+					// $loja_valor = number_format($loja['LO_VALOR_TOTAL'], 2, ",", ".");
 					$loja_entrega = (bool) $loja['LO_ENVIADO'];
 					$loja_block = (bool) $loja['LO_BLOCK'];
 					$entrega = ($loja_entrega) ? 'ativo' : 'ativar';			
 					$acao_entrega = ($loja_entrega) ? 'cancelar' : 'confirmar';
-
 
 					$loja_entregue = (bool) $loja['LO_ENTREGUE'] ? 'Sim' : '';
 					$loja_encaminhado_local = $loja['LO_ENCAMINHADO_LOCAL'];
@@ -335,10 +344,33 @@ if(sqlsrv_num_rows($sql_formas_pagamento)){
 					}
 
 					//buscar itens
-					$sql_itens = sqlsrv_query($conexao, "$search AND l.LI_COMPRA='$loja_cod'", $conexao_params, $conexao_options);
-					$n_itens = sqlsrv_num_rows($sql_itens);
+					$sql_itens = sqlsrv_query($conexao, "$search AND li.LI_COMPRA='$loja_cod'", $conexao_params, $conexao_options);
+
+					$loja_valor_total = 0;
+					$n_itens_total = 0;
+
+					while($itens = sqlsrv_fetch_array($sql_itens)) {
+
+						$loja_valor = $itens['valor_dia'];
+
+						$item_vaga = utf8_encode($itens['VAGAS']);
+						$item_tipo_especifico = utf8_encode($itens['ESPECIFICO']);
 
 
+						$n_itens = 1;
+						$item_fechado = (($item_vaga > 0) && ($item_tipo_especifico == 'fechado')) ? true : false;			
+						
+						if($item_fechado) { 
+							$n_itens = $n_itens/$item_vaga;
+							$loja_valor = $loja_valor/$item_vaga;
+						} 
+
+						$n_itens_total += $n_itens;
+						$loja_valor_total += $loja_valor;
+
+					}							
+
+					$loja_valor = number_format($loja_valor_total, 2, ",", ".");
 
 					$loja_deadline_vencido = false;					
 					if(!empty($loja_deadline) && $exibe_deadline) {
@@ -363,7 +395,7 @@ if(sqlsrv_num_rows($sql_formas_pagamento)){
 							<td <? if($loja_parceiro != $loja_parceiro_exibir) { echo 'title="'.utf8_encode($loja_parceiro).'"'; } ?>>
 								<? echo utf8_encode($loja_parceiro_exibir); ?>
 							</td>
-							<td><? echo $n_itens; ?></td>
+							<td><? echo $n_itens_total; ?></td>
 							<? if($adm && $exibe_valor) { ?><td class="valor"><? echo $loja_valor; ?></td><? } ?>
 							<? if($exibe_forma_pagamento) { ?><td><? echo $loja_forma_pagamento; ?></td><? } ?>
 							<td title="<? echo $loja_data; ?>"><? echo $loja_data_mini; ?></td>

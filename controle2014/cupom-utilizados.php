@@ -23,7 +23,7 @@ FROM cupom cp, loja lo WHERE cp.CP_COMPRA=lo.LO_COD AND cp.D_E_L_E_T_='0' AND cp
 $n_cupons = sqlsrv_num_rows($sql_cupons);
 
 ?>
-<section id="conteudo">
+<section id="conteudo" style="width: 1330px;">
 	<header class="titulo">
 		<h1>Cupons <span>Utilizados</span></h1>
 		<form id="busca-lista" class="busca-lista" method="get" action="<? echo SITE; ?>cupons/utilizados/">
@@ -42,11 +42,12 @@ $n_cupons = sqlsrv_num_rows($sql_cupons);
 				<tr>
 					<th>&nbsp;</th>
 					<th><strong>Nome</strong><span></span></th>
+					<th><strong>Voucher</strong><span></span></th>
 					<th><strong>Cupom</strong><span></span></th>
 					<th><strong>Desconto</strong> <span></span></th>
-					<th><strong>Data de Utilização</strong> <span></span></th>
+					<th><strong>Data Utilização</strong> <span></span></th>
 					<th><strong>Valor Parcial</strong> <span></span></th>
-					<th><strong>Valor com Desconto</strong> <span></span></th>
+					<th><strong>Valor c/ Desconto</strong> <span></span></th>
 				</tr>
 				<tr class="spacer"><td colspan="6">&nbsp;</td></tr>
 			</thead>
@@ -58,6 +59,7 @@ $n_cupons = sqlsrv_num_rows($sql_cupons);
 				$i=1;
 				while($cupom = sqlsrv_fetch_array($sql_cupons)) {
 
+					$voucher = $cupom['LO_COD'];
 					$cupom_cod = $cupom['CP_COD'];
 					$cupom_compra = $cupom['CP_COMPRA'];
 					$cupom_nome = utf8_encode($cupom['CP_NOME']);
@@ -79,6 +81,7 @@ $n_cupons = sqlsrv_num_rows($sql_cupons);
 					<tr>
 						<td class="first"></td>
 						<td><? echo $cupom_nome; ?></td>
+						<td><? echo $voucher; ?></td>
 						<td><? echo $cupom_codigo; ?></td>
 						<td><? echo $valor; ?></td>
 						<td><? echo $cupom_utilizacao; ?></td>
@@ -99,16 +102,6 @@ $n_cupons = sqlsrv_num_rows($sql_cupons);
 			</tbody>
 		</table>
 
-		<? if ($n_cupons > 0) { ?>
-        <div class="pager-tablesorter">
-	        <a href="#" class="first"></a>
-	        <a href="#" class="prev"></a>
-	        <span class="pagedisplay"></span>
-	        <a href="#" class="next"></a>
-	        <a href="#" class="last"></a>
-	        <input type="hidden" class="pagesize" value="30" />
-        </div>
-        <? } ?>
 	</section>
 </section>
 <?

@@ -552,7 +552,7 @@ $n_dias = sqlsrv_num_rows($sql_dias);
 						SUM(CASE WHEN lo.LO_PAGO='0' AND lo.LO_FORMA_PAGAMENTO NOT IN (5,6,8,9,14,2013) THEN 1 ELSE 0 END) AS qtde_aguardando
  						FROM loja_itens li, vendas ve, loja lo 
  						WHERE lo.LO_COD=li.LI_COMPRA AND li.D_E_L_E_T_='0' AND lo.LO_BLOCK='0' AND lo.D_E_L_E_T_='0' AND li.LI_INGRESSO=ve.VE_COD 
-						AND li.LI_VALOR_TABELA='$compra_valor' AND ve.VE_EVENTO='$evento' AND ve.VE_BLOCK='0' AND ve.D_E_L_E_T_='0' AND lo.LO_EVENTO='$evento' AND ( VE_TIPO='$tipo_cod' )", $conexao_params, $conexao_options);
+						AND li.LI_VALOR_TABELA='$compra_valor' AND ve.VE_DIA='$compra_dia' AND ve.VE_EVENTO='$evento' AND ve.VE_BLOCK='0' AND ve.D_E_L_E_T_='0' AND lo.LO_EVENTO='$evento' AND ( VE_TIPO='$tipo_cod' )", $conexao_params, $conexao_options);
 
 						if(sqlsrv_num_rows($sql_comprados) > 0) $ar_comprados = sqlsrv_fetch_array($sql_comprados);
 

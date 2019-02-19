@@ -415,12 +415,26 @@ utf8_encode_deep($paises);
 		<p>22/02 - 23/02 - 03/03: das 14:00 às 22:00</p>
 		<p>24/02 - 25/02 - 26/02 - 27/02 - 04/03: das 14:00 às 23:00</p>-->
 
-		<h3>Retirada ingressos + Kit Folião | Folia Tropical (utilização da camisa passaporte é obrigatória):</h3>
+		<!-- <h3>Retirada ingressos + Kit Folião | Folia Tropical (utilização da camisa passaporte é obrigatória):</h3>
 		<p>Candybox (01/03) • Sábado de Acesso (02/03) • Folia tropical (03/03 – 04/03 – 09/03) - Abertura do camarote ocorrerá as 21:00 e o inicio dos desfiles as 22:00.</p>
 		<p><strong>Credenciamento:</strong> CLUBE MONTE LÍBANO - (AV. BORGES DE MEDEIROS, 701 -LEBLON) ENTRADA PELO JARDIM ALAH</p>
 		<p><strong>Datas e Horários:</strong></p>
 		<p>27/02 - 28/02 - 08/03 DAS 14:00 ÀS 22:00</p>
-		<p>01/03 - 02/03 - 03/02 - 04/03 - 09/03: DAS 14:00 ÀS 23:00</p>
+		<p>01/03 - 02/03 - 03/02 - 04/03 - 09/03: DAS 14:00 ÀS 23:00</p> -->
+
+		<h3>Retirada ingressos + Kit Folião | Folia Tropical (utilização da camisa passaporte é obrigatória):</h3>
+		<p><strong>GRUPO DE ACESSO:</strong><br/>
+		01/03 – CANDYBOX – SEXTA | 02/03 – SÁBADO<br/>
+		ABERTURA DOS CAMAROTES OCORRERÁ ÀS 21h30min E O INÍCIO DOS DESFILES ÀS 22h30min</p>
+
+		<p><strong>GRUPO ESPECIAL:</strong><br/>
+		03/03 – DOMINGO | 04/03 – SEGUNDA | 09/03 – CAMPEÃS<br/>
+		ABERTURA DOS CAMAROTES OCORRERÁ ÀS 20h15min E O INÍCIO DOS DESFILES ÀS 21h15min</p>
+
+		<p><strong>CREDENCIAMENTO:</strong> CLUBE MONTE LÍBANO – (AV. BORGES DE MEDEREIROS, 701– LEBLON) ENTRADA PELO JARDIM ALAH.<br/>
+		<strong>DATAS E HORÁRIOS:</strong><br/>
+		27/02 – 28/02 – 08/03 das 14h00 ÀS 22h00<br/>
+		01/03 – 02/03 -03/02 – 04/03 – 09/03: das 14h00 ÀS 23h00</p>
 
 	</section>
 

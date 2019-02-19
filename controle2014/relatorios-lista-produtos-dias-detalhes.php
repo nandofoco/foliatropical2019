@@ -55,13 +55,13 @@ $relatorio_exel = array();
 foreach ($filtros['tipos'] as $t => $tipos) {
 
 	foreach ($filtros['modalidade'] as $m => $modalidade) {
-		$query_itens_tipos .= " SUM(CASE WHEN $tipos THEN $modalidade ELSE 0 END) AS ".$m."_".$t.", ";
+		$query_itens_tipos .= " SUM(CASE WHEN $tipos THEN $modalidade ELSE 0 END) / (CASE WHEN MAX(ve.VE_TIPO_ESPECIFICO)='fechado' AND MAX(ve.VE_VAGAS) = 6 THEN 6 ELSE 1 END) AS ".$m."_".$t.", ";
 	}
 
 	// Busca pelos valores por tipo
 	foreach ($filtros['dias'] as $d => $dias) {
 		foreach ($filtros['modalidade'] as $m => $modalidade) {
-			$query_itens_dias .= " SUM(CASE WHEN $tipos AND $dias THEN $modalidade ELSE 0 END) AS ".$m."_".$t."_".$d.", ";
+			$query_itens_dias .= " SUM(CASE WHEN $tipos AND $dias THEN $modalidade ELSE 0 END) / (CASE WHEN MAX(ve.VE_TIPO_ESPECIFICO)='fechado' AND MAX(ve.VE_VAGAS) = 6 THEN 6 ELSE 1 END) AS ".$m."_".$t."_".$d.", ";
 		}
 	}
 }

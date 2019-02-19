@@ -161,7 +161,7 @@ if(!$erro && !$editar) {
 			<td align='left' valign='top'>&nbsp;</td>
 		  </tr>
 		  <tr>
-			<td align='center' height='30'><a href='".SITE."' target='_blank' style='text-decoration: none; color: #000;'><font face='Arial, Helvetica, sans-serif' color='#000' size='3'><strong>www.foliatropical.com.br</strong></font></a></td>
+			<td align='center' height='30'><a href='http://ingressos.foliatropical.com.br/' target='_blank' style='text-decoration: none; color: #000;'><font face='Arial, Helvetica, sans-serif' color='#000' size='3'><strong>www.foliatropical.com.br</strong></font></a></td>
 		  </tr>
 		</table>
 		</body>";

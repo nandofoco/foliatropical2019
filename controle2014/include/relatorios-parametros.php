@@ -55,7 +55,7 @@ $filtros['status']['aguardando'] 	= " lo.LO_PAGO='0' AND lo.LO_FORMA_PAGAMENTO N
 // $filtros['status']['saida'] 		= " ((lo.LO_PAGO='1' OR lo.LO_FORMA_PAGAMENTO IN (5,6,8,9)) OR (lo.LO_PAGO='0' AND lo.LO_FORMA_PAGAMENTO NOT IN (5,6,8,9))) ";
 $filtros['status']['saida'] 		= " (((lo.LO_PAGO='1' AND lo.LO_FORMA_PAGAMENTO NOT IN (8,9,2013)) OR lo.LO_FORMA_PAGAMENTO IN (5,14)) OR (lo.LO_PAGO='0' AND lo.LO_FORMA_PAGAMENTO NOT IN (5,6,8,9,2013))) ";
 
-$filtros['modalidade']['valor'] 	= " (li.LI_VALOR_TABELA - li.LI_DESCONTO + li.LI_OVER_INTERNO) - ((li.LI_VALOR_TABELA - li.LI_DESCONTO + li.LI_OVER_INTERNO) * lo.LO_COMISSAO / 100) - ISNULL(CASE WHEN tx.TX_TAXA IS NOT NULL THEN li.LI_VALOR * (tx.TX_TAXA / 100) ELSE 0 END, 0) ";
+$filtros['modalidade']['valor'] 	= " (li.LI_VALOR_TABELA - li.LI_DESCONTO + li.LI_OVER_INTERNO) - ((li.LI_VALOR_TABELA - li.LI_DESCONTO + li.LI_OVER_INTERNO) * lo.LO_COMISSAO / 100) - ISNULL(CASE WHEN tx.TX_TAXA IS NOT NULL THEN li.LI_VALOR * (tx.TX_TAXA / 100) ELSE 0 END, 0)  ";
 $filtros['modalidade']['qtde'] 		= " 1 ";
 
 //busca dias do carnaval
