@@ -488,7 +488,7 @@
 
         <form name="cadastro" class="infield padrao" data-toggle="validator" method="post" action="<? echo SITE.$link_lang; ?>cadastro/">
             <input type="hidden" id="SessionID" name="SessionID">
-            
+            <p style="color: #f3901e;"><strong><? echo $lg['compre_cadastro_titular']; ?></strong></p>
             <section id="cadastro-pessoa" class="radio">
                 <ul>
                     <li>

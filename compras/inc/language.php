@@ -689,6 +689,9 @@ $lang['BR']['compre_agendamento_pagamento'] = "Pagamento";
 $lang['BR']['compre_agendamento_roteiro'] = "Roteiro";
 $lang['BR']['compre_agendamento_horario'] = "Horário";
 
+$lang['BR']['compre_cadastro_titular'] = "O titular do cadastro deve ser o mesmo do cartão que será utilizado na compra";
+$lang['BR']['compre_pagamento_titular'] = "O titular do cartão deve ser o mesmo do cadastro";
+
 $lang['US']['compre_titulo'] = "Buy your tickets for Rio’s Carnaval 2019";
 $lang['US']['compre_preco_consulta'] = "Price on request";
 $lang['US']['compre_camiseta'] = "It is compulsory to wear the shirt of the event";
@@ -750,6 +753,10 @@ $lang['US']['compre_agendamento_nao_utilizar'] = "I will not use";
 $lang['US']['compre_agendamento_pagamento'] = "Payment";
 $lang['US']['compre_agendamento_roteiro'] = "Itensinerary";
 $lang['US']['compre_agendamento_horario'] = "Schedule";
+
+$lang['US']['compre_cadastro_titular'] = "The account holder must be the same as the card that will be used in the purchase";
+$lang['US']['compre_pagamento_titular'] = "The card holder must be the same as te account holder";
+
 
 //------------------------------------------------------------//
 

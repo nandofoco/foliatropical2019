@@ -249,12 +249,7 @@ if(sqlsrv_num_rows($sql_loja) > 0) {
             $item_exclusividade = (bool) $item['EXCLUSIVIDADE'];
             $item_exclusividade_val = $item['EXCLUSIVIDADE_VAL'];
             //for ($iitem=1; $iitem <=$carrinho['qtde'] ; $iitem++) {
-            
-            //-----------------------------------------------------------------------------//
-            $item_valores = $item_valor * $item_qtde;
-            $valor_ingressos += $item_valores;
-            
-            //-----------------------------------------------------------------------------//
+        
             
             //Procurar o overpricing
             $item_valor_tabela = 0.00;
@@ -280,7 +275,18 @@ if(sqlsrv_num_rows($sql_loja) > 0) {
                 $item_tipo_especifico = utf8_encode($info_item['VE_TIPO_ESPECIFICO']);
                 $item_valor_exclusividade = $info_item['VE_VALOR_EXCLUSIVIDADE'];
                 $item_fechado = (($item_vaga > 0) && ($item_tipo_especifico == 'fechado')) ? true : false;
-                if($item_fechado) $item_vagas = utf8_encode($ar_item_infos['VE_VAGAS']);
+				if($item_fechado) {
+					$item_vagas = utf8_encode($info_item['VE_VAGAS']);
+					$item_valor = $item_valor/$item_vagas;
+				}
+				
+				//-----------------------------------------------------------------------------//
+			
+            	$item_valores = $item_valor * $item_qtde;
+            	$valor_ingressos += $item_valores;
+            
+            //-----------------------------------------------------------------------------//
+
                 $item_data_n = (string) date('Y-m-d', strtotime($item_data_n->format('Y-m-d')));
                 if(($item_tipo_tag == 'lounge')) {
                     if($loja_cod <= $combo_dias_limite) {

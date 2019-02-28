@@ -153,7 +153,7 @@ $cliente_pais = trim($ar_cliente['PAIS_SIGLA']);
 					$loja_folia = false;
 					$loja_outros = false;
 
-					$sql_itens = sqlsrv_query($conexao, "SELECT li.*, v.VE_DIA, v.VE_SETOR, es.ES_NOME, ed.ED_DATA, SUBSTRING(CONVERT(VARCHAR, ed.ED_DATA, 103), 1, 5) AS dia, tp.TI_NOME, tp.TI_TAG FROM loja_itens li, vendas v, eventos_setores es, eventos_dias ed, tipos tp WHERE li.LI_COMPRA='$loja_cod' AND li.LI_INGRESSO=v.VE_COD AND es.ES_COD=v.VE_SETOR AND ed.ED_COD=v.VE_DIA AND v.VE_TIPO=tp.TI_COD AND li.D_E_L_E_T_='0' ORDER BY LI_COD ASC", $conexao_params, $conexao_options);
+					$sql_itens = sqlsrv_query($conexao, "SELECT li.*, v.VE_DIA, v.VE_SETOR, v.VE_TIPO_ESPECIFICO, v.VE_VAGAS, es.ES_NOME, ed.ED_DATA, SUBSTRING(CONVERT(VARCHAR, ed.ED_DATA, 103), 1, 5) AS dia, tp.TI_NOME, tp.TI_TAG FROM loja_itens li, vendas v, eventos_setores es, eventos_dias ed, tipos tp WHERE li.LI_COMPRA='$loja_cod' AND li.LI_INGRESSO=v.VE_COD AND es.ES_COD=v.VE_SETOR AND ed.ED_COD=v.VE_DIA AND v.VE_TIPO=tp.TI_COD AND li.D_E_L_E_T_='0' ORDER BY LI_COD ASC", $conexao_params, $conexao_options);
 					if(sqlsrv_num_rows($sql_itens) > 0) {
 						$i = 1;
 						while ($item = sqlsrv_fetch_array($sql_itens)) {
@@ -164,7 +164,17 @@ $cliente_pais = trim($ar_cliente['PAIS_SIGLA']);
 							$item_tag = $item['TI_TAG'];
 							$item_dia = utf8_encode($item['dia']);
 							$item_setor = $item['ES_NOME'];
-							$item_valor = number_format($item['LI_VALOR'], 2, ",", ".");
+							$item_vaga = $item['VE_VAGAS'];
+							$item_valor = $item['LI_VALOR'];
+
+							$item_tipo_especifico = utf8_encode($item['VE_TIPO_ESPECIFICO']);
+							$item_fechado = (($item_vaga > 0) && ($item_tipo_especifico == 'fechado')) ? true : false;
+
+							if($item_fechado) {
+								$item_valor = $item_valor/$item_vaga;
+							}
+
+							$item_valor = number_format($item_valor, 2, ",", ".");
 
 							$item_data_n = $item['ED_DATA'];
 							$item_data_n = (string) date('Y-m-d', strtotime($item_data_n->format('Y-m-d')));
@@ -456,10 +466,6 @@ $cliente_pais = trim($ar_cliente['PAIS_SIGLA']);
 
 	    				//for ($iitem=1; $iitem <=$carrinho['qtde'] ; $iitem++) {
 	    				
-	    				//-----------------------------------------------------------------------------//
-
-	    				$item_valores = $item_valor * $item_qtde;
-	    				$valor_ingressos += $item_valores;
 	    				
 	    				//-----------------------------------------------------------------------------//
 	    				
@@ -491,7 +497,15 @@ $cliente_pais = trim($ar_cliente['PAIS_SIGLA']);
 	    					$item_valor_exclusividade = $info_item['VE_VALOR_EXCLUSIVIDADE'];
 
 	    					$item_fechado = (($item_vaga > 0) && ($item_tipo_especifico == 'fechado')) ? true : false;
-	    					if($item_fechado) $item_vagas = utf8_encode($ar_item_infos['VE_VAGAS']);
+	    					if($item_fechado) {
+								$item_vagas = utf8_encode($info_item['VE_VAGAS']);
+								$item_valor = $item_valor/$item_vagas;
+							}
+
+							//-----------------------------------------------------------------------------//
+
+							$item_valores = $item_valor * $item_qtde;
+							$valor_ingressos += $item_valores;
 
 	    					$item_data_n = (string) date('Y-m-d', strtotime($item_data_n->format('Y-m-d')));
 

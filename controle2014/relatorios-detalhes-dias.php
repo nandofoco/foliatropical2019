@@ -286,6 +286,7 @@ if(sqlsrv_num_rows($sql_relatorio_dias) > 0) $ar_relatorio_dias = sqlsrv_fetch_a
 					<h3>Disponível Para Vendas</h3>
 					<p>
 						Disponível: <? echo $qtde_ingressos_venda - $qtde_vendidos; ?><br />
+						Vendidos: <? echo $qtde_vendidos; ?><br/>
 						Lançados: <? echo $qtde_ingressos_venda; ?><br />
 						Total Bruto: R$ <? echo number_format($ingressos_compra_valor, 2, ',', '.'); ?><br />
 					</p>
