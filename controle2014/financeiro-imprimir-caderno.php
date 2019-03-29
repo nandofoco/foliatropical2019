@@ -363,7 +363,8 @@ utf8_encode_deep($paises);
 						$item_valor_tabela_f = $item_valor_tabela_f*$item_qtde/$item_vaga;
 						$item_over_interno_f_soma = $item['LI_OVER_INTERNO']*$item_vaga;
 						// $item_over_interno = number_format($item_over_interno_f, 2, ",", "."); 
-						$item_adicionais_f_soma = $item_adicionais_f*$item_vaga; 
+						$item_adicionais_f_soma = $item_adicionais_f*$item_vaga;
+						$item_desconto_f = $item_desconto_f * $item_qtde/$item_vaga; 
 						// $item_adicionais = number_format($item_adicionais_f, 2, ",", ".");	
 					} else {
 						$item_valor_tabela_f = $item_valor_tabela_f*$item_qtde;

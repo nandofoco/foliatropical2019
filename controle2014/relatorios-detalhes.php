@@ -506,9 +506,9 @@ $n_dias = sqlsrv_num_rows($sql_dias);
 	<?
 
 	$sql_compras = sqlsrv_query($conexao, "
-		SELECT SUM(v.VE_ESTOQUE) AS TOTAL, v.VE_TIPO, v.VE_DIA, v.VE_VALOR FROM vendas v, tipos t, eventos_dias d, eventos_setores s 
+		SELECT SUM(v.VE_ESTOQUE) AS TOTAL, v.VE_TIPO, v.VE_DIA, v.VE_VALOR, CONVERT(VARCHAR(10), v.VE_DATA_CADASTRO, 103) AS DATA FROM vendas v, tipos t, eventos_dias d, eventos_setores s 
 		WHERE v.VE_EVENTO='$evento' AND VE_TIPO='$tipo_cod' AND v.D_E_L_E_T_=0 AND d.ED_COD=v.VE_DIA AND t.TI_COD=v.VE_TIPO AND s.ES_COD=v.VE_SETOR AND d.D_E_L_E_T_=0 AND t.D_E_L_E_T_=0 AND s.D_E_L_E_T_=0 
-		GROUP BY v.VE_TIPO, v.VE_VALOR, v.VE_DIA", $conexao_params, $conexao_options);
+		GROUP BY v.VE_TIPO, v.VE_VALOR, v.VE_DIA, v.VE_DATA_CADASTRO", $conexao_params, $conexao_options);
 
 		$n_compras = sqlsrv_num_rows($sql_compras);
 
@@ -519,7 +519,8 @@ $n_dias = sqlsrv_num_rows($sql_dias);
 				<thead>
 					<tr>
 						<th>Dia</th>
-						<th>Lote/Valor</th>
+						<th>Data Lançamento</th>
+						<th>Lote/Valor</th>						
 						<th>Vendidos</th>
 						<th>Reservas</th>
 						<th>Estoque</th>
@@ -536,6 +537,7 @@ $n_dias = sqlsrv_num_rows($sql_dias);
 						$compra_valor = $ar_compras['VE_VALOR'];
 						$compra_valor_f = number_format($ar_compras['VE_VALOR'], 2, ',','.');
 						$compra_dia = $ar_compras['VE_DIA'];
+						$compra_data = $ar_compras['DATA'];
 
 						//buscar nome do dia
 						$sql_dia = sqlsrv_query($conexao, "SELECT ED_NOME FROM eventos_dias WHERE ED_COD='$compra_dia'", $conexao_params, $conexao_options);
@@ -564,6 +566,7 @@ $n_dias = sqlsrv_num_rows($sql_dias);
 					?>
 						<tr>
 							<td class="first <? if($i == $n_compras) echo 'last'; ?>"><? echo $dia_nome; ?></td>
+							<td class="<? if ($i == $n_compras) echo 'last'; ?>"><? echo $compra_data; ?></td>
 							<td class="<? if($i == $n_compras) echo 'last'; ?>">R$ <? echo $compra_valor_f; ?></td>
 							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo $qtde_comprado; ?></td>
 							<td class="<? if($i == $n_compras) echo 'last'; ?>"><? echo $qtde_reserva; ?></td>
