@@ -508,7 +508,7 @@ $n_dias = sqlsrv_num_rows($sql_dias);
 	$sql_compras = sqlsrv_query($conexao, "
 		SELECT SUM(v.VE_ESTOQUE) AS TOTAL, v.VE_TIPO, v.VE_DIA, v.VE_VALOR, CONVERT(VARCHAR(10), v.VE_DATA_CADASTRO, 103) AS DATA FROM vendas v, tipos t, eventos_dias d, eventos_setores s 
 		WHERE v.VE_EVENTO='$evento' AND VE_TIPO='$tipo_cod' AND v.D_E_L_E_T_=0 AND d.ED_COD=v.VE_DIA AND t.TI_COD=v.VE_TIPO AND s.ES_COD=v.VE_SETOR AND d.D_E_L_E_T_=0 AND t.D_E_L_E_T_=0 AND s.D_E_L_E_T_=0 
-		GROUP BY v.VE_TIPO, v.VE_VALOR, v.VE_DIA, v.VE_DATA_CADASTRO", $conexao_params, $conexao_options);
+		GROUP BY v.VE_TIPO, v.VE_VALOR, v.VE_DIA, v.VE_DATA_CADASTRO ORDER BY v.VE_DIA ASC", $conexao_params, $conexao_options);
 
 		$n_compras = sqlsrv_num_rows($sql_compras);
 
